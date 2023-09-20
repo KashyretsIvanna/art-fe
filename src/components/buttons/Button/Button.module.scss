@@ -1,0 +1,18 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+
+.button {
+  width: 312px;
+  height: 62px;
+  border-radius: 8px;
+  background: $blue;
+  border: none;
+  box-shadow: none;
+  color: $white;
+  font-family: Oxygen;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}

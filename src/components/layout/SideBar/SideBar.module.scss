@@ -1,0 +1,49 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+
+.sidebar {
+  height: 100%;
+  display: flex;
+  align-items: left;
+  text-align: left;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 217px;
+  background: #1f263e;
+  box-sizing: border-box;
+
+  .header {
+    color: $white;
+    font-family: Oxygen;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-align: left;
+    width: max-content;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    padding-left: 22px;
+  }
+
+  .logo_container {
+    display: flex;
+    width: 175px;
+    padding: 12px 0px 0.5px 0px;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom: #f8f9fb30 1px solid;
+    box-sizing: border-box;
+    padding: 10.5px;
+    padding-top: 20px;
+    margin-left: 20px;
+
+    .logo {
+      width: 103px;
+      height: 28px;
+    }
+  }
+}

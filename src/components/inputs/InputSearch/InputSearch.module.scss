@@ -1,0 +1,35 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+
+.input_container {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  & img.search {
+    position: absolute;
+    margin-left: 13px;
+    width: 18px;
+    height: 18px;
+  }
+
+  & input {
+    padding-left: 35px;
+    width: 240px;
+    height: 30px;
+    background-color: #f8f9fb;
+    border: none;
+    border-radius: 30px;
+
+    &::placeholder {
+      color: #1f263e;
+      font-family: Oxygen;
+      font-size: 11px;
+      font-style: normal;
+      font-weight: 300;
+      line-height: normal;
+      opacity: 0.2478;
+    }
+  }
+}

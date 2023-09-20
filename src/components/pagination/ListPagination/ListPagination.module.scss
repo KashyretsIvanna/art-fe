@@ -1,0 +1,58 @@
+/** @format */
+@import '../../../configs/theme/theme-variables.scss';
+
+@mixin paginationDefault {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  color: #1f263e;
+  text-align: center;
+  font-family: Oxygen;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 9px; /* 81.818% */
+  margin-left: 5px;
+}
+
+.pagination_container {
+  margin-right: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 17px;
+}
+
+.pagination {
+  &__active_page {
+    @include paginationDefault;
+    background: #50b8e4;
+    border: none;
+    color: $white;
+    text-align: center;
+    font-family: Oxygen;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 9px;
+  }
+
+  &__page {
+    @include paginationDefault;
+    border: 0.7px solid rgba(48, 55, 80, 0.08);
+    background: $white;
+  }
+
+  &_disabled {
+    opacity: 0.2;
+  }
+
+  &__next {
+    @include paginationDefault;
+    border: 0.7px solid rgba(48, 55, 80, 0.08);
+    background: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

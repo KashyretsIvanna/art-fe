@@ -1,0 +1,64 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+
+.list_table {
+  border-top: 0.7px solid #dfe5f9;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  &__head {
+    width: 100%;
+    height: 35px;
+    background: #fafbff;
+
+    th {
+      color: #1f263e;
+      font-family: Oxygen;
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+    }
+  }
+
+  &__checkbox {
+    display: inline-flex;
+    border: var(
+      --system-grey-light-sgl-1,
+      #8e8e93
+    );
+
+    width: 15.338px;
+    height: 15.338px;
+    margin-left: 10px;
+    border-radius: 3.068px;
+
+    &:checked {
+      background: var(
+        --user-accent-color-uac-light,
+        $lightBlue
+      );
+      border: none;
+    }
+  }
+
+  &__row {
+    height: 46px;
+    width: 100%;
+
+    &:hover {
+      background: #e6ecfe;
+    }
+
+    td {
+      color: #1f263e;
+      font-family: Oxygen;
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+  }
+}

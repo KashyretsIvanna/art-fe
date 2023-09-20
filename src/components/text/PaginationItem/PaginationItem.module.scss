@@ -1,0 +1,37 @@
+/** @format */
+@import '../../../configs/theme/theme-variables.scss';
+
+.pagination_item {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  height: 30px;
+  width: max-content;
+  gap: 5px;
+
+  &__text {
+    color: #1f263e;
+    font-family: Oxygen;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 15px; /* 136.364% */
+  }
+
+  &:hover &__icon {
+    fill: linear-gradient(
+      122deg,
+      #0043ff -6.89%,
+      #a370f1 100%
+    );
+  }
+
+  &:hover &__text {
+    color: #1348fc;
+    font-family: Oxygen;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 15px; /* 136.364% */
+  }
+}

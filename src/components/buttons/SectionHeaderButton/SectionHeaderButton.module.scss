@@ -1,0 +1,27 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+
+.button {
+  display: flex;
+  width: 141px;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 6px;
+  background: #ff9700;
+  height: auto;
+  border: none;
+  padding: 13px 0;
+
+  &__text {
+    color: $white;
+    font-family: Oxygen;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 10px; /* 83.333% */
+    text-transform: uppercase;
+  }
+}

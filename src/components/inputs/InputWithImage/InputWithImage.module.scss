@@ -1,0 +1,38 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+
+.input_container {
+  position: relative;
+  & .input_icon {
+    position: absolute;
+    margin-top: 26px;
+    margin-left: 13px;
+    width: 12px;
+    height: 10px;
+    fill: #e6e6e6;
+  }
+
+  & input {
+    width: 341px;
+    height: 61px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid #e6e6e6;
+    background: $white;
+    margin-bottom: 17px;
+    padding-left: 34px;
+    box-sizing: border-box;
+
+    &:focus {
+      border: 1px solid #8ac0ff;
+    }
+
+    &:active {
+      border: 1px solid #8ac0ff;
+    }
+    &:hover {
+      border: 1px solid #8ac0ff;
+    }
+  }
+}

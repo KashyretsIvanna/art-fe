@@ -1,0 +1,63 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+
+@mixin CheckboxButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  outline: 0;
+  color: #9b9b9b;
+  cursor: 'pointer';
+  text-align: 'left';
+  border-radius: 3.068px;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  margin-left: 20px;
+}
+
+.checkbox {
+  &__button {
+    @include CheckboxButton;
+    background-color: $white;
+
+    border: var(
+        --system-grey-light-sgl-1,
+        #8e8e93
+      )
+      1.5px solid;
+
+    &_checked {
+      @include CheckboxButton;
+
+      padding-bottom: 2px;
+      border: var(
+          --user-accent-color-uac-light,
+          $lightBlue
+        )
+        1.5px solid;
+
+      background: var(
+        --user-accent-color-uac-light,
+        $lightBlue
+      );
+    }
+  }
+
+  &_icon {
+    width: max;
+  }
+
+  &__check {
+    margin-right: 1rem;
+  }
+
+  &__content {
+    padding: 5px;
+    font-size: 0.9rem;
+    font-weight: 100;
+    line-height: 1.25rem;
+  }
+}
