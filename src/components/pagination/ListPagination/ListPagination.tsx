@@ -29,7 +29,7 @@ export default function UsePagination({ items }: { items: UsePaginationItem[] })
 
                                 {...item}
                             >
-                                {page}
+                                <div>{page}</div>
                             </button>
                         );
                     } else {

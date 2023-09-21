@@ -1,11 +1,9 @@
 services:
   admin_front:
-    container_name: admin_api_${RUN_MODE}
-    depends_on:
-      - postgres
+    container_name: admin_${RUN_MODE}
     build:
       context: ..
-      dockerfile: ./apps/admin-api/Dockerfile
+      dockerfile: ./Dockerfile
     env_file:
       - .env
     ports:

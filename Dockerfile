@@ -1,5 +1,5 @@
 FROM  node:18-alpine as build-stage
-WORKDIR /app
+WORKDIR /admin
 COPY package*.json /admin/
 RUN npm install
 COPY ./ /admin/
