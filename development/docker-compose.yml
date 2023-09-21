@@ -1,0 +1,14 @@
+services:
+  admin_front:
+    container_name: admin_${RUN_MODE}
+    build:
+      context: ..
+      dockerfile: ./Dockerfile
+    env_file:
+      - .env
+    ports:
+      - ${ADMIN_PORT}:${ADMIN_PORT}
+    restart: on-failure
+
+volumes:
+  db:

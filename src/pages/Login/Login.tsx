@@ -16,7 +16,7 @@ function Login() {
     const [password, setPassword] = useState('')
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [loginUser, { data: loginData, isSuccess: isLoginSuccess, isError }] =
+    const [loginUser, { data: loginData, isSuccess: isLoginSuccess }] =
         useLoginUserMutation();
 
     const clickButton = async () => {

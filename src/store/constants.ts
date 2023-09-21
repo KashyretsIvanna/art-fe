@@ -1,8 +1,8 @@
 /** @format */
 
-export const baseUrl: string =
-  import.meta.env.API_URL ||
-  'http://[::1]:3005/api';
+export const baseUrl: string = import.meta.env
+  .ADMIN_API_URL||'http://[::1]:3005/api';
+console.log(baseUrl);
 
 export enum ApiRoutes {
   USER = '/user',
