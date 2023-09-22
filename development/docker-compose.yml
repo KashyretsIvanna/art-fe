@@ -7,7 +7,7 @@ services:
     env_file:
       - .env
     ports:
-      - ${ADMIN_PORT}:${ADMIN_PORT}
+      - ${ADMIN_FRONT_PORT}:${ADMIN_FRONT_PORT}
     restart: on-failure
 
 volumes:
