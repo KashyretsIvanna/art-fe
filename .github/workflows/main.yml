@@ -30,7 +30,6 @@ jobs:
         script: |
           cd ~
           cp .env ~/admin/development/.env
-          cd ~/art
           chmod +x redeploy-admin-front.sh
           bash ./redeploy-admin-front.sh
           
