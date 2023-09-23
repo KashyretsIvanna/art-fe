@@ -34,7 +34,7 @@ export default function UsePagination({ items }: { items: UsePaginationItem[] })
                         );
                     } else {
                         children = (
-                            <button className={styles.pagination__next} type="button" {...item}>
+                            <button disabled={disabled?true:false} className={styles.pagination__next} type="button" {...item}>
                                 <img className={disabled ? styles.pagination_disabled : styles.pagination__next_img} src={NextImage} alt='type' />
                             </button>
                         );

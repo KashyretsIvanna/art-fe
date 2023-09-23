@@ -1,14 +1,8 @@
 /** @format */
 
-declare let process: {
-  env: {
-    API_URL: string;
-  };
-};
-
 export const baseUrl: string =
-  (process.env.API_URL as string) ||
-  'http://[::1]:3006/api';
+  'http://[::1]:3005';
+console.log(baseUrl);
 
 export enum ApiRoutes {
   AUTH = '/auth',

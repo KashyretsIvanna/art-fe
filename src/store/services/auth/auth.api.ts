@@ -4,13 +4,14 @@ import {
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
-import { ApiRoutes, baseUrl } from '../../constants';
+import { ApiRoutes } from '../../constants';
 import { RootState } from '../../store';
+import { baseUrl } from '../../constants/api.constants';
 
 export const userAuthApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl:baseUrl + ApiRoutes.AUTH,
+    baseUrl: baseUrl + '/api' + ApiRoutes.AUTH,
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).user
         .access_token;

@@ -11,11 +11,12 @@ import {
 
 import { ApiError } from './types/error.types';
 import { getHeaders } from './utils/api';
-import { apiTags, baseUrl } from './constants';
+import { apiTags } from './constants';
+import { baseUrl } from './constants/api.constants';
 
 export const emptySplitApi = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl,
+    baseUrl: baseUrl + '/api',
     prepareHeaders: getHeaders(),
     paramsSerializer: (params) => {
       return queryString.stringify(params, {
