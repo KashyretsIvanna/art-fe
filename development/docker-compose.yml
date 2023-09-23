@@ -6,8 +6,10 @@ services:
       dockerfile: ./Dockerfile
     env_file:
       - .env
+    expose:
+      - ${ADMIN_FRONT_PORT}
     ports:
-      - ${ADMIN_FRONT_PORT}:${ADMIN_FRONT_PORT}
+      - ${ADMIN_FRONT_PORT}:${ADMIN_NGINX_PORT}
     restart: on-failure
 
 volumes:

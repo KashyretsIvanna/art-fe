@@ -8,7 +8,7 @@ declare let process: {
 
 export const baseUrl: string =
   (process.env.API_URL as string) ||
-  'http://[::1]:3005/api';
+  'http://[::1]:3006/api';
 
 export enum ApiRoutes {
   AUTH = '/auth',
