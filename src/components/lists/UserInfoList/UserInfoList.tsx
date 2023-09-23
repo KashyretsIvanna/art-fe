@@ -1,18 +1,26 @@
 
 import styles from './UserInfoList.module.scss'
-import icon from '../../../images/icons/next.svg'
+import MailImg from '../../../images/icons/mail.svg'
+import GlobImg from '../../../images/icons/glob.svg'
+import LocationImg from '../../../images/icons/location.svg'
+import PersonImg from '../../../images/icons/person.svg'
+import GenderImg from '../../../images/icons/gender.svg'
+import StatusImg from '../../../images/icons/status.svg'
+import PaintImg from '../../../images/icons/paint.svg'
+import AgeImg from '../../../images/icons/age.svg'
+
 
 function UserInfoList() {
 
     const Items = [
-        { icon, header: 'Email', description: 'kasirecivanna@gmail.com', },
-        { icon, header: 'Country', description: 'Ukraine', },
-        { icon, header: 'City', description: 'Kyiv', },
-        { icon, header: 'Age', description: '19', },
-        { icon, header: 'Gender', description: 'Male', },
-        { icon, header: 'Status', description: 'Free', },
-        { icon, header: 'About me', description: 'My name is Ivanna', },
-        { icon, header: "I'm looking for", description: 'Artist', }
+        { icon: MailImg, header: 'Email', description: 'kasirecivanna@gmail.com', },
+        { icon: GlobImg, header: 'Country', description: 'Ukraine', },
+        { icon: LocationImg, header: 'City', description: 'Kyiv', },
+        { icon: AgeImg, header: 'Age', description: '19', },
+        { icon: GenderImg, header: 'Gender', description: 'Male', },
+        { icon: StatusImg, header: 'Status', description: 'Free', },
+        { icon: PersonImg, header: 'About me', description: 'My name is Ivanna', },
+        { icon: PaintImg, header: "I'm looking for", description: 'Artist', }
 
 
 
