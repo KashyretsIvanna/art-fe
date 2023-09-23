@@ -18,7 +18,6 @@ function UserList() {
     });
 
     useEffect(() => {
-        console.log(items)
         const pageSelected = items.filter(el => el.selected === true)[0]
         if (pageSelected.page) {
             setPage(pageSelected.page)
@@ -26,7 +25,6 @@ function UserList() {
         }
     }, [items])
 
-    console.log(items)
 
 
     const { data } = useGetUsersQuery({ page, take: 10 })

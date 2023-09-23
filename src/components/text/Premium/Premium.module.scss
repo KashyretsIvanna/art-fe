@@ -6,10 +6,11 @@
   width: 76px;
   height: 19px;
   padding: 3px 11px;
+  box-sizing: border-box;
   justify-content: center;
   align-items: center;
-  gap: 10px;
   flex-shrink: 0;
+  gap:5px;
   border-radius: 14px;
   background: linear-gradient(
     93deg,

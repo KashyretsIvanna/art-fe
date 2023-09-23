@@ -13,6 +13,6 @@ export const apiTags = {
 };
 
 export const routes = {
-  login: '/login',
+  login: '/',
   users: '/users',
 };

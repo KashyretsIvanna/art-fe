@@ -31,8 +31,8 @@ function TableList({ data }: { data: UserListItemRes[] }) {
                 <td>{el.city}</td>
                 <td>{el.gender}</td>
                 <td>{el.aboutMe}</td>
-                <td>{el.plan === 'STANDARD' ? 'Standard' : 'Premium'}</td>
-                <td>{el.isLookingForArtist ? 'ARTIST' : 'GALLERY'}</td>
+                <td>{el.plan}</td>
+                <td>{el.isLookingForArtist ? 'Artist' : 'Gallery'}</td>
 
             </tr>)}
 

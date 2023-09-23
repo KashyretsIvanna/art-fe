@@ -1,7 +1,7 @@
 /** @format */
 
 export const baseUrl: string =
-  'http://[::1]:3005';
+  'http://artdate.ex2.team:3319';
 console.log(baseUrl);
 
 export enum ApiRoutes {
