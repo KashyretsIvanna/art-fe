@@ -10,7 +10,7 @@ import englishImg from '../../../images/icons/eng.svg'
 
 import WhiteBoard from '../../layout/WhiteBoard/WhiteBoard'
 
-function AdminLayout(props: { children: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) {
+function AdminLayout(props: { pageHeader: string; children: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) {
     const [search, setSearch] = useState('')
 
     return (
@@ -30,11 +30,11 @@ function AdminLayout(props: { children: string | number | boolean | React.ReactE
                     </div>
                 </div>
                 <div className={styles.layout_body}>
-                    <WhiteBoard>
+                    <WhiteBoard pageHeader={props.pageHeader}>
                         {props.children}
                     </WhiteBoard>
                 </div>
-            </div>
+            </div >
         </>
 
 

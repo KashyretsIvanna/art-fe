@@ -1,11 +1,8 @@
 
+import { UserListItemRes } from '../../../store/types/user/user-list.dto';
 import CheckBox from '../../inputs/Checkbox/Checkbox'
 import styles from './TableList.module.scss'
-function TableList() {
-
-    const items = [{ id: 1, name: 'Mark Zuckerberg ', email: 'Mark_Zuckerberg@gmail.com', country: 'USA', city: 'Kyiv', gender: 'Male', aboutMe: 'Hello I am', status: 'Gallery', looking: 'Gallery' },
-    { id: 2, name: 'Mark Zuckerberg ', email: 'Mark_Zuckerberg@gmail.com', country: 'USA', city: 'Kyiv', gender: 'Male', aboutMe: 'Hello I am', status: 'Gallery', looking: 'Gallery' },
-    { id: 3, name: 'Mark Zuckerberg ', email: 'Mark_Zuckerberg@gmail.com', country: 'USA', city: 'Kyiv', gender: 'Male', aboutMe: 'Hello I am', status: 'Gallery', looking: 'Gallery' }]
+function TableList({ data }: { data: UserListItemRes[] }) {
 
     return (
         <table className={styles.list_table}>
@@ -24,7 +21,7 @@ function TableList() {
             </tr>
 
 
-            {items.map(el => <tr key={el.id} className={styles.list_table__row}>
+            {data.map(el => <tr key={el.id} className={styles.list_table__row}>
                 <td >
                     <CheckBox />
                 </td>
@@ -34,8 +31,8 @@ function TableList() {
                 <td>{el.city}</td>
                 <td>{el.gender}</td>
                 <td>{el.aboutMe}</td>
-                <td>{el.status}</td>
-                <td>{el.looking}</td>
+                <td>{el.plan}</td>
+                <td>{el.isLookingForArtist ? 'Artist' : 'Gallery'}</td>
 
             </tr>)}
 

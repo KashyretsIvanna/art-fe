@@ -1,0 +1,33 @@
+/** @format */
+@import '../../../configs/theme/theme-variables.scss';
+
+.premium {
+  display: flex;
+  width: 76px;
+  height: 19px;
+  padding: 3px 11px;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  gap:5px;
+  border-radius: 14px;
+  background: linear-gradient(
+    93deg,
+    #ff8a00 0%,
+    #f81a6a 104.21%
+  );
+
+  &__icon {
+    width: 12px;
+    height: 12px;
+  }
+  &__text {
+    color: #fff;
+    font-family: Inter;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 8px;
+  }
+}

@@ -23,6 +23,10 @@ function AdminLayout() {
 
                 <div className={styles.header}>Admin Panel</div>
 
+
+
+
+
                 <MenuItem text='Dashboard' icon={homeImg} />
                 <MenuItem text='Analytics' icon={statsImg} />
                 <MenuItem text='Users' icon={usersImg} />

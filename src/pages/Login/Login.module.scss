@@ -2,13 +2,60 @@
 
 @import '../../configs/theme/theme-variables.scss';
 
+.login {
+  &__error_massage {
+    color: #f44848;
+    font-family: Oxygen;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    position: absolute;
+    bottom: -1;
+    text-align: center;
+    width: 100%;
+  }
+
+  &__header {
+    width: 100%;
+    height: 79.265px;
+    background: #033d50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &_logo {
+      width: 126.543px;
+      height: 34.462px;
+    }
+  }
+  &__footer {
+    width: 100%;
+    height: 22.227px;
+    background: #033d50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &_text {
+      color: #87a8b1;
+      font-family: Oxygen;
+      font-size: 10px;
+      font-style: normal;
+      font-weight: 400;
+      height: max-content;
+    }
+  }
+}
+
 .layout {
   height: 100%;
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  background: $darkBlue;
+  flex-direction: column;
+  background: #f3f6fe;
 
   .login_form {
     border-radius: 12px;
@@ -54,8 +101,9 @@
       }
     }
 
-    .inputs_container{
+    .inputs_container {
       margin-bottom: 20px;
+      position: relative;
     }
   }
 }

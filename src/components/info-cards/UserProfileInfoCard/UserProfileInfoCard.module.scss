@@ -1,0 +1,43 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+
+.profile_card {
+  width: 277px;
+  height: 365px;
+  border-radius: 12px;
+  border: 1px solid #e6ecfe;
+  background: #fbfcff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 7px;
+  &__avatar {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background-color: wheat;
+    margin-bottom: 10px;
+  }
+
+  &__name {
+    color: #000;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Oxygen, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: bolder;
+    line-height: normal;
+  }
+
+  &__role {
+    color: #979797;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Oxygen , sans-serif;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+  }
+}
