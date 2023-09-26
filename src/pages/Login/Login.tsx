@@ -54,12 +54,8 @@ function Login() {
                 </div>
 
                 <div className={styles.inputs_container}>
-                    <InputWithImage type='text' imgHEight='10px' imgWidth='12px' isError={isError} data={
-                        email
-                    } setData={setEmail} placeholder='Art@dating.com' img={emailIcon} />
-                    <InputWithImage type='password' isError={isError} imgHEight='16px' imgWidth='16px' data={
-                        password
-                    } setData={setPassword} placeholder='Password' img={passwordIcon} />
+                    <InputWithImage type='text' imgHEight='10px' imgWidth='12px' isError={isError} data={email} setData={setEmail} placeholder='Art@dating.com' img={emailIcon} marginTop={'26px'} marginLeft={'13px'} />
+                    <InputWithImage type='password' isError={isError} imgHEight='16px' imgWidth='16px' data={password} setData={setPassword} placeholder='Password' img={passwordIcon} marginTop={'22px'} marginLeft={'11px'} />
                     <div className={styles.login__error_massage}>{isError ? 'Wrong email or password' : ''}</div>
                 </div>
 

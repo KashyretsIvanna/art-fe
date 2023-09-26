@@ -22,21 +22,16 @@ function AdminLayout() {
                 </div>
 
                 <div className={styles.header}>Admin Panel</div>
-
-
-
-
-
-                <MenuItem text='Dashboard' icon={homeImg} />
-                <MenuItem text='Analytics' icon={statsImg} />
-                <MenuItem text='Users' icon={usersImg} />
-                <MenuItem text='List of users' icon={usersListImg} />
-                <MenuItem text='Manage admins' icon={suitcaseImg} />
-                <MenuItem text='Send letter' icon={letterImg} />
-                <MenuItem text='Promo code list' icon={promocodeImg} />
-                <MenuItem text='List of payments' icon={paymentImg} />
-                <MenuItem text='VIP Pricing' icon={vipImg} />
-                <MenuItem text='Settings' icon={settingsImg} />
+                <MenuItem to='/dashboard' text='Dashboard' icon={homeImg} />
+                <MenuItem to='/analytics' text='Analytics' icon={statsImg} />
+                <MenuItem to='/users' text='Users' icon={usersImg} />
+                <MenuItem to='/users' text='List of users' icon={usersListImg} />
+                <MenuItem to='/admins' text='Manage admins' icon={suitcaseImg} />
+                <MenuItem to='/letter' text='Send letter' icon={letterImg} />
+                <MenuItem to='/promo' text='Promo code list' icon={promocodeImg} />
+                <MenuItem to='/payments' text='List of payments' icon={paymentImg} />
+                <MenuItem to='/vip' text='VIP Pricing' icon={vipImg} />
+                <MenuItem to='/settings' text='Settings' icon={settingsImg} />
 
             </div>
         </>
