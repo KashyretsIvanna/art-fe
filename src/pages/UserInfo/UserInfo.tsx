@@ -16,7 +16,7 @@ function UserInfo() {
 
             </>
 
-        } pageHeader='User profile'  >
+        } navigationItems={['All clients','FirsNAme LastName']} pageHeader='User profile'  >
             <div className={styles.user_info}>
 
                 <UserProfileInfoCard avatar={logo} name={'My name'} role={'Collector'} />

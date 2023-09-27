@@ -1,7 +1,6 @@
 /** @format */
 
-export const baseUrl: string =
-  'http://artdate.ex2.team:3319';
+export const baseUrl: string = import.meta.env.VITE_ADMIN_API_URL
 console.log(baseUrl);
 
 export enum ApiRoutes {

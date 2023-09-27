@@ -25,7 +25,7 @@ function AdminLayout() {
                 <MenuItem to='/dashboard' text='Dashboard' icon={homeImg} />
                 <MenuItem to='/analytics' text='Analytics' icon={statsImg} />
                 <MenuItem to='/users' text='Users' icon={usersImg} />
-                <MenuItem to='/users' text='List of users' icon={usersListImg} />
+                <MenuItem to='/clients' text='List of users' icon={usersListImg} />
                 <MenuItem to='/admins' text='Manage admins' icon={suitcaseImg} />
                 <MenuItem to='/letter' text='Send letter' icon={letterImg} />
                 <MenuItem to='/promo' text='Promo code list' icon={promocodeImg} />

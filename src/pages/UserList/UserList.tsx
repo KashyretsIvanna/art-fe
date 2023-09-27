@@ -41,7 +41,7 @@ function UserList() {
 
     return (
         <div className={styles.layout}>
-            <AdminLayout pageHeader='User profile' headerRight={<>
+            <AdminLayout navigationItems={['All clients']} pageHeader='User profile' headerRight={<>
                 <SectionHeaderButton icon={DeleteIcon} text={'DELETE'} clickButton={() => { console.log('User added'); }} background={'#FF9700'} color={'#fffff'} />
                 <SectionHeaderButton icon={PlusImg} text={'ADD USER'} clickButton={() => { console.log('User deleted') }} background={'#EE3143'} color={'#ffff'} /></>}>
                 <TableList data={users} />
