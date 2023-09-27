@@ -15,6 +15,11 @@
   border: none;
   padding: 13px 0;
 
+  & img {
+    width: 16px;
+    height: 16px;
+  }
+
   &__text {
     color: #fff;
     font-family: Oxygen;

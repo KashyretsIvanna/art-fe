@@ -11,6 +11,15 @@
   justify-content: flex-start;
   flex-direction: column;
 
+  &__header_right {
+    width: max-content;
+    height: 100%;
+    gap: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+  }
+
   &__section_header {
     display: flex;
     align-items: flex-start;
@@ -19,6 +28,28 @@
     height: max-content;
     padding: 37px 24px 17px 20px;
     box-sizing: border-box;
+    position: relative;
+
+    &__header_back {
+      position: absolute;
+      top: 15px;
+      left: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 40px;
+      gap: 6px;
+      cursor: pointer;
+
+      & div {
+        color: #6583dd;
+        font-family: Oxygen;
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 10px; /* 76.923% */
+      }
+    }
   }
 
   &__navigation {
