@@ -3,8 +3,11 @@ import React from 'react';
 import styles from './WhiteBoard.module.scss'
 import PaginationItem from '../../text/PaginationItem/PaginationItem'
 import SectionHeader from '../SectionHeader/SectionHeader'
-import SectionHeaderButton from '../../buttons/SectionHeaderButton/SectionHeaderButton'
-function AdminLayout(props: { pageHeader: string, children: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) {
+import ArrowIcon from '../../../images/icons/arrow.svg'
+
+type ChildrenProp = string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined;
+
+function AdminLayout(props: { pageHeader: string, children: ChildrenProp, headerRight: ChildrenProp }) {
 
     return (
         <div className={styles.white_board}>
@@ -15,8 +18,14 @@ function AdminLayout(props: { pageHeader: string, children: string | number | bo
             <div className={styles.white_board__content}>
 
                 <div className={styles.white_board__section_header}>
+                    <div onClick={() => { console.log('Go back') }} className={styles.white_board__section_header__header_back}>
+                        <img src={ArrowIcon} alt='arrow' />
+                        <div>Back</div>
+                    </div>
                     <SectionHeader text={props.pageHeader} />
-                    <SectionHeaderButton text={'Add user'} clickButton={() => { console.log('User added') }} />
+                    <div className={styles.white_board__header_right} >
+                        {props.headerRight}
+                    </div>
                 </div>
                 {props.children}
 

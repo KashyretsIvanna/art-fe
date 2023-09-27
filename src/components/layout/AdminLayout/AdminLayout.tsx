@@ -9,8 +9,8 @@ import settingsImg from '../../../images/icons/settings.svg'
 import englishImg from '../../../images/icons/eng.svg'
 
 import WhiteBoard from '../../layout/WhiteBoard/WhiteBoard'
-
-function AdminLayout(props: { pageHeader: string; children: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) {
+type ChildrenProp = string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined;
+function AdminLayout(props: { pageHeader: string; children: ChildrenProp, headerRight: ChildrenProp }) {
     const [search, setSearch] = useState('')
 
     return (
@@ -30,7 +30,7 @@ function AdminLayout(props: { pageHeader: string; children: string | number | bo
                     </div>
                 </div>
                 <div className={styles.layout_body}>
-                    <WhiteBoard pageHeader={props.pageHeader}>
+                    <WhiteBoard headerRight={props.headerRight} pageHeader={props.pageHeader}>
                         {props.children}
                     </WhiteBoard>
                 </div>

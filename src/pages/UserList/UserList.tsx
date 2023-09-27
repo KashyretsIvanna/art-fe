@@ -6,6 +6,9 @@ import usePagination from '@mui/material/usePagination';
 import { useGetUsersQuery } from '../../store/services/userApi';
 import { useEffect, useState } from 'react';
 import { UserListItemRes } from '../../store/types/user/user-list.dto';
+import DeleteIcon from '../../images/icons/delete.svg'
+import PlusImg from '../../images/icons/plus.svg'
+import SectionHeaderButton from '../../components/buttons/SectionHeaderButton/SectionHeaderButton';
 
 function UserList() {
     const [page, setPage] = useState<number>(1)
@@ -38,13 +41,15 @@ function UserList() {
 
     return (
         <div className={styles.layout}>
-            <AdminLayout pageHeader='User profile'>
+            <AdminLayout pageHeader='User profile' headerRight={<>
+                <SectionHeaderButton icon={DeleteIcon} text={'DELETE'} clickButton={() => { console.log('User added'); }} background={'#FF9700'} color={'#fffff'} />
+                <SectionHeaderButton icon={PlusImg} text={'ADD USER'} clickButton={() => { console.log('User deleted') }} background={'#EE3143'} color={'#ffff'} /></>}>
                 <TableList data={users} />
                 <UsePagination items={items} />
 
             </AdminLayout>
 
-        </div>
+        </div >
 
     )
 }
