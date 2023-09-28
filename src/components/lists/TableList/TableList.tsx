@@ -1,8 +1,11 @@
 
+import { useNavigate } from 'react-router-dom';
 import { UserListItemRes } from '../../../store/types/user/user-list.dto';
 import CheckBox from '../../inputs/Checkbox/Checkbox'
 import styles from './TableList.module.scss'
 function TableList({ data }: { data: UserListItemRes[] }) {
+
+    const navigate = useNavigate()
 
     return (
         <table className={styles.list_table}>
@@ -21,7 +24,7 @@ function TableList({ data }: { data: UserListItemRes[] }) {
             </tr>
 
 
-            {data.map(el => <tr key={el.id} className={styles.list_table__row}>
+            {data.map(el => <tr onClick={() => { navigate(`/clients/${el.id}`) }} key={el.id} className={styles.list_table__row}>
                 <td >
                     <CheckBox />
                 </td>

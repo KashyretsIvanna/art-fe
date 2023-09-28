@@ -8,28 +8,38 @@ import GenderImg from '../../../images/icons/gender.svg'
 import StatusImg from '../../../images/icons/status.svg'
 import PaintImg from '../../../images/icons/paint.svg'
 import AgeImg from '../../../images/icons/age.svg'
+import { useEffect, useState } from 'react'
 
 
-function UserInfoList() {
-
-    const Items = [
-        { icon: MailImg, header: 'Email', description: 'kasirecivanna@gmail.com', },
-        { icon: GlobImg, header: 'Country', description: 'Ukraine', },
-        { icon: LocationImg, header: 'City', description: 'Kyiv', },
-        { icon: AgeImg, header: 'Age', description: '19', },
-        { icon: GenderImg, header: 'Gender', description: 'Male', },
-        { icon: StatusImg, header: 'Status', description: 'Free', },
-        { icon: PersonImg, header: 'About me', description: 'My name is Ivanna', },
-        { icon: PaintImg, header: "I'm looking for", description: 'Artist', }
+function UserInfoList({ email, country, city, age, gender, status, about, lookingFor }: { email: string, country: string, city: string, age: number, gender: string, status: string, about: string, lookingFor: string[] }) {
 
 
 
-    ]
+    const [items, setItems] = useState<{ icon: string, header: string, description: string | number }[]>([])
+
+    useEffect(() => {
+        setItems(
+            [{ icon: MailImg, header: 'Email', description: email, },
+            { icon: GlobImg, header: 'Country', description: country, },
+            { icon: LocationImg, header: 'City', description: city, },
+            { icon: AgeImg, header: 'Age', description: age, },
+            { icon: GenderImg, header: 'Gender', description: gender, },
+            { icon: StatusImg, header: 'Status', description: status, },
+            { icon: PersonImg, header: 'About me', description: about, },
+            { icon: PaintImg, header: "I'm looking for", description: lookingFor.join(', '), }
+            ]
+
+        )
+    }, [about, age, city, country, email, gender, lookingFor, status])
+
+
+
+
 
     return (
         <div className={styles.info_container}>
             {
-                Items.map(el => <div className={styles.info_container__row} key={el.header}>
+                items.map(el => <div className={styles.info_container__row} key={el.header}>
                     <div className={styles.info_container__header}>
                         <img src={el.icon} alt={el.header} /><div>{el.header}</div>
                     </div>

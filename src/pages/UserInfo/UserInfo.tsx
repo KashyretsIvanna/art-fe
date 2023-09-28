@@ -6,9 +6,34 @@ import styles from './UserInfo.module.scss'
 import EditIcon from '../../images/icons/edit.svg'
 
 import SectionHeaderButton from '../../components/buttons/SectionHeaderButton/SectionHeaderButton';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useGetUserByIdQuery } from '../../store/services/userApi';
 
 
 function UserInfo() {
+
+    const params = useParams()
+    const [lookingFor, setLookingFor] = useState<string[]>([])
+
+    const { data } = useGetUserByIdQuery({ userId: params.id ? +params.id : 1 })
+
+
+
+    useEffect(() => {
+        let arrayOfRoles: string[] = [];
+        if (data?.user.isLookingForArtist) {
+            arrayOfRoles.push('Artist')
+        }
+        if (data?.user.isLookingForGallery) {
+            arrayOfRoles.push('Gallery')
+        }
+        if (data?.user.isLookingForCollector) {
+            arrayOfRoles.push('Collector')
+        }
+        setLookingFor(arrayOfRoles)
+        arrayOfRoles = []
+    }, [data])
 
     return (
         <AdminLayout headerRight={
@@ -16,12 +41,12 @@ function UserInfo() {
 
             </>
 
-        } navigationItems={['All clients','FirsNAme LastName']} pageHeader='User profile'  >
-            <div className={styles.user_info}>
+        } navigationItems={['All clients', data?.user.name || 'Name']} pageHeader='User profile'  >
+            {data ? <div className={styles.user_info}>
 
-                <UserProfileInfoCard avatar={logo} name={'My name'} role={'Collector'} />
-                <UserInfoList />
-            </div>
+                <UserProfileInfoCard avatar={logo} name={data.user.name} role={'Collector'} />
+                <UserInfoList email={data.user.email} country={data.user.country || ''} city={data.user.city || ''} age={1234} gender={data.user.gender || ''} status={'unknown status'} about={data.user.profileDescription || ''} lookingFor={lookingFor} />
+            </div> : <>User not found</>}
 
         </AdminLayout>
 
