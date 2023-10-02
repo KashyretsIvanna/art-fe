@@ -3,7 +3,7 @@ import styles from './UserList.module.scss'
 import TableList from '../../components/lists/TableList/TableList'
 import UsePagination from '../../components/pagination/ListPagination/ListPagination';
 import usePagination from '@mui/material/usePagination';
-import { useGetUsersQuery } from '../../store/services/userApi';
+import { useDeleteUsersMutation, useGetUsersQuery } from '../../store/services/userApi';
 import { useEffect, useState } from 'react';
 import { UserListItemRes } from '../../store/types/user/user-list.dto';
 import DeleteIcon from '../../images/icons/delete.svg'
@@ -14,11 +14,14 @@ function UserList() {
     const [page, setPage] = useState<number>(1)
     const [totalPages, setTotalPages] = useState<number>(1)
     const [users, setUsers] = useState<UserListItemRes[]>([])
+    const [selectedUsers, setSelectedUsers] = useState<number[]>([])
 
     const { items } = usePagination({
         count: totalPages,
         defaultPage: 1
     });
+
+    const [deleteUser, { isLoading }] = useDeleteUsersMutation()
 
     useEffect(() => {
         const pageSelected = items.filter(el => el.selected === true)[0]
@@ -27,8 +30,6 @@ function UserList() {
 
         }
     }, [items])
-
-
 
     const { data } = useGetUsersQuery({ page, take: 10 })
     useEffect(() => {
@@ -39,12 +40,22 @@ function UserList() {
 
     }, [data])
 
+    const onDeleteButtonClick = () => {
+        selectedUsers.map(async el => {
+            await deleteUser({ userId: el })
+        })
+        setSelectedUsers([])
+    }
+
+
+
+
     return (
         <div className={styles.layout}>
             <AdminLayout navigationItems={['All clients']} pageHeader='User profile' headerRight={<>
-                <SectionHeaderButton icon={DeleteIcon} text={'DELETE'} clickButton={() => { console.log('User added'); }} background={'#FF9700'} color={'#fffff'} />
-                <SectionHeaderButton icon={PlusImg} text={'ADD USER'} clickButton={() => { console.log('User deleted') }} background={'#EE3143'} color={'#ffff'} /></>}>
-                <TableList data={users} />
+                {selectedUsers.length ? <SectionHeaderButton icon={DeleteIcon} text={'DELETE'} clickButton={() => { onDeleteButtonClick() }} background={'#EE3143'} color={'#fffff'} /> : <></>}
+                <SectionHeaderButton icon={PlusImg} text={'ADD USER'} clickButton={() => { console.log('User deleted') }} background={'#FF9700'} color={'#ffff'} /></>}>
+                <TableList setSelected={setSelectedUsers} selected={selectedUsers} data={users} />
                 <UsePagination items={items} />
 
             </AdminLayout>

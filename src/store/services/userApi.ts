@@ -58,6 +58,18 @@ export const userApi =
         keepUnusedDataFor: 0.0001,
         providesTags: [apiTags.user],
       }),
+      deleteUsers: builder.mutation<
+        void,
+        { userId: number }
+      >({
+        query: (body: { userId: number }) => ({
+          url:
+            EndpointsRoutes.getUsers +
+            `/${body.userId}`,
+          method: 'DELETE',
+        }),
+        invalidatesTags: [apiTags.user],
+      }),
     }),
   });
 
@@ -66,4 +78,5 @@ export const {
   useLazyGetUserInfoQuery,
   useGetUsersQuery,
   useGetUserByIdQuery,
+  useDeleteUsersMutation,
 } = userApi;

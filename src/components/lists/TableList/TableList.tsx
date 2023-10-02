@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { UserListItemRes } from '../../../store/types/user/user-list.dto';
 import CheckBox from '../../inputs/Checkbox/Checkbox'
 import styles from './TableList.module.scss'
-function TableList({ data }: { data: UserListItemRes[] }) {
+function TableList({ data, setSelected }: { setSelected: React.Dispatch<React.SetStateAction<number[]>>, selected: number[], data: UserListItemRes[] }) {
 
     const navigate = useNavigate()
+
+
+
 
     return (
         <table className={styles.list_table}>
@@ -24,18 +27,22 @@ function TableList({ data }: { data: UserListItemRes[] }) {
             </tr>
 
 
-            {data.map(el => <tr onClick={() => { navigate(`/clients/${el.id}`) }} key={el.id} className={styles.list_table__row}>
+
+
+            {data.map(el => <tr key={el.id} className={styles.list_table__row}>
                 <td >
-                    <CheckBox />
+                    <CheckBox onChange={(isChecked) => {
+                        setSelected(prev => isChecked ? [...prev, el.id] : prev.filter(ids => ids !== el.id))
+                    }} />
                 </td>
-                <td>{el.name}</td>
-                <td>{el.email}</td>
-                <td>{el.country}</td>
-                <td>{el.city}</td>
-                <td>{el.gender}</td>
-                <td>{el.aboutMe}</td>
-                <td>{el.plan}</td>
-                <td>{el.isLookingForArtist ? 'Artist' : 'Gallery'}</td>
+                <td onClick={() => { navigate(`/clients/${el.id}`) }}>{el.name}</td>
+                <td onClick={() => { navigate(`/clients/${el.id}`) }}>{el.email}</td>
+                <td onClick={() => { navigate(`/clients/${el.id}`) }}>{el.country}</td>
+                <td onClick={() => { navigate(`/clients/${el.id}`) }}>{el.city}</td>
+                <td onClick={() => { navigate(`/clients/${el.id}`) }}>{el.gender}</td>
+                <td onClick={() => { navigate(`/clients/${el.id}`) }}>{el.aboutMe}</td>
+                <td onClick={() => { navigate(`/clients/${el.id}`) }}>{el.plan}</td>
+                <td onClick={() => { navigate(`/clients/${el.id}`) }}>{el.isLookingForArtist ? 'Artist' : 'Gallery'}</td>
 
             </tr>)}
 
