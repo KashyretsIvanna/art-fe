@@ -21,7 +21,7 @@ function UserList() {
         defaultPage: 1
     });
 
-    const [deleteUser, { isLoading }] = useDeleteUsersMutation()
+    const [deleteUser] = useDeleteUsersMutation()
 
     useEffect(() => {
         const pageSelected = items.filter(el => el.selected === true)[0]

@@ -1,7 +1,11 @@
 /** @format */
 
-export const baseUrl: string = import.meta.env.VITE_ADMIN_API_URL
-console.log(baseUrl);
+export const baseAdminUrl: string = import.meta
+  .env.VITE_ADMIN_API_URL;
+
+export const baseApiUrl: string = import.meta.env
+  .VITE_API_URL;
+console.log(baseAdminUrl);
 
 export enum ApiRoutes {
   AUTH = '/auth',

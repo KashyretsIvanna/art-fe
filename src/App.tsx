@@ -13,16 +13,26 @@ import PromoCodeList from './pages/PromoCodeList/PromoCodeList'
 import ListOfPayments from './pages/ListOfPayments/ListOfPayments'
 import VipPricing from './pages/VipPricing/VipPricing'
 import Settings from './pages/Settings/Settings'
+import AddCollector from './pages/AddCollector/AddCollector'
+import AddArtist from './pages/AddArtist/AddArtist'
+import AddGallery from './pages/AddGallery/AddGallery'
 
 function App() {
 
   return (
     <div className="App">
       <Routes>
+        <Route path="/clients/collector" element={<AddCollector />
+        } />
+        <Route path="/clients/gallery" element={<AddGallery />
+        } />
+        <Route path="/clients/artist" element={<AddArtist />
+        } />
         <Route path="/login" element={<Login />} />
         <Route element={<PrivateRoute />}>
           <Route path="/clients" element={<UserList />
           } />
+
           <Route path="/clients/:id" element={<UserInfo />
           } />
 
