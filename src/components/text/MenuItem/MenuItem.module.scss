@@ -1,7 +1,8 @@
 /** @format */
 @import '../../../configs/theme/theme-variables.scss';
 
-.menu_item_container {
+.menu_item_container,
+.menu_item_container__active {
   width: 100%;
   height: 40px;
   display: flex;
@@ -54,4 +55,24 @@
     line-height: normal;
     opacity: 0.65;
   }
+}
+
+.menu_item_container__active {
+  background: #2b344f;
+  border-left: 4px solid #70bcfd;
+  padding-left: 18px;
+  cursor: pointer;
+
+  .bird {
+    display: block;
+  }
+}
+.menu_item_container__active .menu_text {
+  color: #fff;
+  font-family: Oxygen;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  opacity: 1;
 }

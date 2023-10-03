@@ -20,25 +20,15 @@ function Login() {
         useLoginUserMutation();
 
     const clickButton = async () => {
-        // if (email && password) {
         await loginUser({ email, password });
-        // }
-
-
     }
 
     useEffect(() => {
         if (isLoginSuccess) {
             dispatch(setUser({ access_token: loginData.accessToken }));
-            navigate(routes.users);
+            navigate(routes.listOfUsers);
         }
     })
-
-    useEffect(() => {
-        console.log(isError)
-
-
-    }, [isError])
 
     return (
         <div className={styles.layout}>

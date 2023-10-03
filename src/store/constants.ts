@@ -15,4 +15,5 @@ export const apiTags = {
 export const routes = {
   login: '/',
   users: '/users',
+  listOfUsers:'/clients'
 };
