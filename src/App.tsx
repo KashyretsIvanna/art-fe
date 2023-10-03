@@ -16,6 +16,7 @@ import Settings from './pages/Settings/Settings'
 import AddCollector from './pages/AddCollector/AddCollector'
 import AddArtist from './pages/AddArtist/AddArtist'
 import AddGallery from './pages/AddGallery/AddGallery'
+import AddUser from './pages/AddUser/AddUser'
 
 function App() {
 
@@ -23,6 +24,8 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/clients/collector" element={<AddCollector />
+        } />
+        <Route path="/clients/add" element={<AddUser />
         } />
         <Route path="/clients/gallery" element={<AddGallery />
         } />
