@@ -54,7 +54,7 @@ function UserList() {
         <div className={styles.layout}>
             <AdminLayout navigationItems={['All clients']} pageHeader='User profile' headerRight={<>
                 {selectedUsers.length ? <SectionHeaderButton icon={DeleteIcon} text={'DELETE'} clickButton={() => { onDeleteButtonClick() }} background={'#EE3143'} color={'#fffff'} /> : <></>}
-                <SectionHeaderButton icon={PlusImg} text={'ADD USER'} clickButton={() => { console.log('User deleted') }} background={'#FF9700'} color={'#ffff'} /></>}>
+                {!selectedUsers.length?<SectionHeaderButton icon={PlusImg} text={'ADD USER'} clickButton={() => { console.log('User deleted') }} background={'#FF9700'} color={'#ffff'} />:<></>}</> }>
                 <div className={styles.user_list__container}>
                     <TableList setSelected={setSelectedUsers} selected={selectedUsers} data={users} />
                     <UsePagination items={items} />
