@@ -13,8 +13,8 @@ import { ApiError } from './types/error.types';
 import { getHeaders } from './utils/api';
 import { apiTags } from './constants';
 import { baseAdminUrl } from './constants/api.constants';
-
-export const emptySplitApi = createApi({
+console.log(baseAdminUrl);
+export const emptySplitAdminApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: baseAdminUrl + '/api',
     prepareHeaders: getHeaders(),

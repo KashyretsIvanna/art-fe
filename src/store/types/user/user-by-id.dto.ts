@@ -13,5 +13,7 @@ export interface UserByIdRes {
     isLookingForArtist: boolean;
     isLookingForGallery: boolean;
     isLookingForCollector: boolean;
+    profilePhoto: number;
+    role: string;
   };
 }

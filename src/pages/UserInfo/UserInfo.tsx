@@ -44,7 +44,7 @@ function UserInfo() {
         } navigationItems={['All clients', data?.user.name || 'Name']} pageHeader='User profile'  >
             {data ? <div className={styles.user_info}>
 
-                <UserProfileInfoCard avatar={logo} name={data.user.name} role={'Collector'} />
+                <UserProfileInfoCard imgId={data.user.profilePhoto} plan={data.user.plan} avatar={logo} name={data.user.name} role={data.user.role} />
                 <UserInfoList email={data.user.email} country={data.user.country || ''} city={data.user.city || ''} age={1234} gender={data.user.gender || ''} status={'unknown status'} about={data.user.profileDescription || ''} lookingFor={lookingFor} />
             </div> : <>User not found</>}
 

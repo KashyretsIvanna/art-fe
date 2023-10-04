@@ -12,18 +12,20 @@ import {
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
-import { emptySplitApi } from './emptySpliyApi';
+import { emptySplitAdminApi } from './emptySplitAdminApi';
 import { userAuthApi } from './services/auth/auth.api';
 import { persistedAuthReducer } from './services/auth/auth.slice';
+import { filesApi } from './services/files/files.api';
 
 export const store = configureStore({
   reducer: {
     [userAuthApi.reducerPath]:
       userAuthApi.reducer,
+    [filesApi.reducerPath]: filesApi.reducer,
     user: persistedAuthReducer,
 
-    [emptySplitApi.reducerPath]:
-      emptySplitApi.reducer,
+    [emptySplitAdminApi.reducerPath]:
+      emptySplitAdminApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -39,7 +41,8 @@ export const store = configureStore({
       },
     }).concat(
       userAuthApi.middleware,
-      emptySplitApi.middleware,
+      filesApi.middleware,
+      emptySplitAdminApi.middleware,
     ),
 });
 
