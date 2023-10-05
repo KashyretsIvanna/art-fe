@@ -23,17 +23,18 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/clients/collector" element={<AddCollector />
-        } />
-        <Route path="/clients/add" element={<AddUser />
-        } />
-        <Route path="/clients/gallery" element={<AddGallery />
-        } />
-        <Route path="/clients/artist" element={<AddArtist />
-        } />
+
         <Route path="/login" element={<Login />} />
         <Route element={<PrivateRoute />}>
           <Route path="/clients" element={<UserList />
+          } />
+          <Route path="/clients/add" element={<AddUser />
+          } />
+          <Route path="/clients/collector" element={<AddCollector />
+          } />
+          <Route path="/clients/gallery" element={<AddGallery />
+          } />
+          <Route path="/clients/artist" element={<AddArtist />
           } />
 
           <Route path="/clients/:id" element={<UserInfo />

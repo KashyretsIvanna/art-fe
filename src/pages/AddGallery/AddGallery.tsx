@@ -1,12 +1,13 @@
 import AdminLayout from '../../components/layout/AdminLayout/AdminLayout'
 import styles from './AddGallery.module.scss'
 import InputPopup from '../../components/inputs/InputSelect/InputSelect';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReusableTextArea from '../../components/inputs/ReusableTextArea/ReusableTextArea';
 import { GenderType } from '../../contants/profile-info.constants';
 import ReusableTextInput from '../../components/inputs/ReusableTextInput/ReusableTextInput';
 import MultiSelect from '../../components/inputs/MultiSelect/MultiSelect';
 import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNavigation';
+import { useGetClassificationsQuery, useGetGalleryTypesQuery, useGetOrientationsQuery } from '../../store/services/classifications/classifications.api';
 
 const cities = [
     { value: 'city1', label: 'City 1' },
@@ -40,12 +41,68 @@ const genders = [
 function AddGallery() {
     const [selectedCountry, setSelectedCountry] = useState(countries[0]);
     const [selectedCity, setSelectedCity] = useState(cities[0]);
-    const [selectedGender, setSelectedGender] = useState({ value: 'option1', label: 'Option 1' });
-    const [age, setAge] = useState<number | undefined>()
     const [profileDescription, setProfileDescription] = useState<string | undefined>()
-
     const [galleryName, setGalleryName] = useState<string | undefined>('')
 
+    const [orientations, setOrientations] = useState<{
+        value: string;
+        label: string;
+    }[]>([])
+    const [classifications, setClassifications] = useState<{
+        value: string;
+        label: string;
+    }[]>([])
+    const [types, setGalleryTypes] = useState<{
+        value: string;
+        label: string;
+    }[]>([])
+
+    const [selectedOrientations, setSelectedOrientations] = useState<{
+        value: string;
+        label: string;
+    }[]>([]);
+    const [selectedGalleryTypes, setSelectedGalleryTypes] = useState<{
+        value: string;
+        label: string;
+    }[]>([]);
+    const [selectedClassifications, setSelectedClassifications] = useState<{
+        value: string;
+        label: string;
+    }[]>([]);
+
+
+
+
+    const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'GALLERY' })
+    const { data: artOrientations } = useGetOrientationsQuery()
+    const { data: galleryTypes } = useGetGalleryTypesQuery()
+
+
+    useEffect(() => {
+        if (galleryClassifications) {
+            setClassifications(galleryClassifications.map((el: { id: number; classificationName: string; }) => ({
+                value: el.id.toString(),
+                label: el.classificationName
+            })))
+        }
+    }, [galleryClassifications, setClassifications])
+
+    useEffect(() => {
+        if (galleryTypes) {
+            setGalleryTypes(galleryTypes.map((el: { id: number; typeName: string; }) => ({
+                value: el.id.toString(),
+                label: el.typeName
+            })))
+        }
+    }, [galleryTypes])
+    useEffect(() => {
+        if (artOrientations) {
+            setOrientations(artOrientations.map((el: { id: number; orientationName: string; }) => ({
+                value: el.id.toString(),
+                label: el.orientationName
+            })))
+        }
+    }, [artOrientations])
 
     return (
         <AdminLayout headerRight={
@@ -56,24 +113,24 @@ function AddGallery() {
                         <ReusableTextInput label={'Gallery Name'} data={galleryName} setData={setGalleryName} placeholder={'Gallery name'} />
                     </div>
                     <div className={styles.input_row_container}>
-                        <MultiSelect options={genders} onChange={setSelectedGender} label={'Gallery type'} />
+                        <MultiSelect options={types} selectedOption={selectedGalleryTypes} setSelectedOption={setSelectedGalleryTypes} label={'Gallery type'} />
                     </div>
                 </div>
                 <div className={styles.input_col_container}>
                     <div className={styles.input_row_container}>
-                        <InputPopup options={genders} onChange={setSelectedGender} label={'Select Country'} />
+                        <InputPopup options={genders} onChange={setSelectedCountry} label={'Select Country'} />
                     </div>
                     <div className={styles.input_row_container}>
-                        <MultiSelect options={genders} onChange={setSelectedGender} label={'Art Orientations'} />
+                        <MultiSelect options={orientations} selectedOption={selectedOrientations} setSelectedOption={setSelectedOrientations} label={'Art Orientations'} />
                     </div>
                 </div>
 
                 <div className={styles.input_col_container}>
                     <div className={styles.input_row_container}>
-                        <InputPopup options={genders} onChange={setSelectedGender} label={'Select City'} />
+                        <InputPopup options={genders} onChange={setSelectedCity} label={'Select City'} />
                     </div>
                     <div className={styles.input_row_container}>
-                        <MultiSelect options={genders} onChange={setSelectedGender} label={'Art Classification type'} />
+                        <MultiSelect options={classifications} selectedOption={selectedClassifications} setSelectedOption={setSelectedClassifications} label={'Art Classification type'} />
                     </div>
                 </div>
 

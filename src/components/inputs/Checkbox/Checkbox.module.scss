@@ -13,7 +13,7 @@
   width: 16px;
   height: 16px;
   margin-left: 20px;
-  padding: 0
+  padding: 0;
 }
 
 .checkbox {
@@ -29,6 +29,10 @@
 
     &_checked {
       @include CheckboxButton;
+      outline: none;
+      &:focus {
+        outline: none;
+      }
 
       border: var(
           --user-accent-color-uac-light,

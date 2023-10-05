@@ -2,20 +2,28 @@ import { useState } from 'react';
 import styles from './MultiSelect.module.scss'
 import BirdImg from '../../../images/icons/buird.svg'
 import RemoveIcon from '../../../images/icons/remove.svg'
-const MultiSelect = ({ options, onChange, label }: { label: string, options: { value: string, label: string }[], onChange: (value: { value: string, label: string }) => void }) => {
+const MultiSelect = ({ options, label, setSelectedOption, selectedOption }: {
+    label: string, options: { value: string, label: string }[], setSelectedOption: React.Dispatch<React.SetStateAction<{
+        value: string;
+        label: string;
+    }[]>>, selectedOption: {
+        value: string;
+        label: string;
+    }[]
+}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState<{ value: string, label: string }[]>([]);
 
-    const toggleDropdown = (e) => {
+    const toggleDropdown = (e: any) => {
         if (e.target.className.includes('icon') || e.target.children.length && e.target.children[0].localName === 'img') {
             setIsOpen(!isOpen);
 
         }
+
+        
     };
 
     const handleOptionClick = (option: { value: string, label: string }) => {
         setSelectedOption(prev => [...prev, option]);
-        onChange(option);
     };
 
     return (

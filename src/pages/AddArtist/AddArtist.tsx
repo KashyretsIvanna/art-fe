@@ -1,12 +1,13 @@
 import AdminLayout from '../../components/layout/AdminLayout/AdminLayout'
 import styles from './AddArtist.module.scss'
 import InputPopup from '../../components/inputs/InputSelect/InputSelect';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReusableTextArea from '../../components/inputs/ReusableTextArea/ReusableTextArea';
 import { GenderType } from '../../contants/profile-info.constants';
 import ReusableNumberInput from '../../components/inputs/ReusableNumberInput copy/ReusableTextInput';
 import MultiSelect from '../../components/inputs/MultiSelect/MultiSelect';
 import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNavigation';
+import { useGetClassificationsQuery } from '../../store/services/classifications/classifications.api';
 
 const cities = [
     { value: 'city1', label: 'City 1' },
@@ -41,8 +42,28 @@ function AddArtist() {
     const [selectedCountry, setSelectedCountry] = useState(countries[0]);
     const [selectedCity, setSelectedCity] = useState(cities[0]);
     const [selectedGender, setSelectedGender] = useState({ value: 'option1', label: 'Option 1' });
+    const [selectedClassifications, setSelectedClassifications] = useState<{
+        value: string;
+        label: string;
+    }[]>([]);
     const [age, setAge] = useState<number | undefined>()
     const [profileDescription, setProfileDescription] = useState<string | undefined>()
+    const [classifications, setClassifications] = useState<{
+        value: string;
+        label: string;
+    }[]>([])
+
+    const { data } = useGetClassificationsQuery({ role: 'ARTIST' })
+
+    useEffect(() => {
+        if (data) {
+            setClassifications(data.map((el) => ({
+                value: el.id.toString(),
+                label: el.classificationName
+            })))
+        }
+    }, [data])
+
 
     return (
         <AdminLayout headerRight={
@@ -58,7 +79,7 @@ function AddArtist() {
                         <div className={styles.input_row__gender}><InputPopup options={genders} onChange={setSelectedGender} label={'Gender'} /></div>
 
                     </div>
-                    <div className={styles.input_row_container}><MultiSelect options={genders} onChange={setSelectedGender} label={'Art classifications'} /></div>
+                    <div className={styles.input_row_container}><MultiSelect options={classifications} selectedOption={selectedClassifications} setSelectedOption={setSelectedClassifications} label={'Art classifications'} /></div>
                 </div>
                 <div className={styles.input_col_container}><ReusableTextArea label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} /></div>
             </div>

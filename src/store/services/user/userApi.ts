@@ -1,10 +1,13 @@
 /** @format */
 
-import { ApiRoutes, apiTags } from '../constants';
-import { WhoamiRes } from '../types/whoami.types';
-import { UserByIdRes } from '../types/user/user-by-id.dto';
-import { UserListRes } from '../types/user/user-list.dto';
-import { emptySplitAdminApi } from '../emptySplitAdminApi';
+import {
+  ApiRoutes,
+  apiTags,
+} from '../../constants';
+import { WhoamiRes } from '../../types/whoami.types';
+import { UserByIdRes } from '../../types/user/user-by-id.dto';
+import { UserListRes } from '../../types/user/user-list.dto';
+import { emptySplitAdminApi } from '../../emptySplitAdminApi';
 
 const serviceRoute = ApiRoutes.ADMIN;
 
@@ -58,7 +61,7 @@ export const userApi =
         keepUnusedDataFor: 0.0001,
         providesTags: [apiTags.user],
       }),
-      
+
       deleteUsers: builder.mutation<
         void,
         { userId: number }

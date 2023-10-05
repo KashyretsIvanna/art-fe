@@ -8,7 +8,7 @@ import EditIcon from '../../images/icons/edit.svg'
 import SectionHeaderButton from '../../components/buttons/SectionHeaderButton/SectionHeaderButton';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useGetUserByIdQuery } from '../../store/services/userApi';
+import { useGetUserByIdQuery } from '../../store/services/user/userApi';
 
 
 function UserInfo() {

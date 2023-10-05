@@ -27,16 +27,6 @@ export const filesApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    loginUser: builder.mutation({
-      query: (body: {
-        email: string;
-        password: string;
-      }) => ({
-        url: '/login',
-        method: 'POST',
-        body,
-      }),
-    }),
     getProfilePhotoById: builder.query<
       any,
       { profilePhotoId: number }
@@ -48,12 +38,6 @@ export const filesApi = createApi({
           'profile-photo' +
           `/${body.profilePhotoId}`,
         responseHandler: async (response) => {
-          // const blob = await response.blob();
-          // const url =
-          //   window.URL || window.webkitURL;
-          // const blobPDF =
-          //   url.createObjectURL(blob);
-          // console.log(blobPDF);
           return response.blob();
         },
         method: 'GET',
@@ -64,6 +48,5 @@ export const filesApi = createApi({
 });
 
 export const {
-  useLoginUserMutation,
   useGetProfilePhotoByIdQuery,
 } = filesApi;
