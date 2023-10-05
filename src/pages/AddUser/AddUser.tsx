@@ -5,6 +5,7 @@ import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNa
 import styles from './AddUser.module.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAddedUserData, setRole } from '../../store/services/user/user.slice';
+import { useNavigate } from 'react-router-dom';
 const roles = [
     { value: 'ARTIST', label: 'Artist' },
     { value: 'GALLERY', label: 'Gallery' },
@@ -13,34 +14,26 @@ const roles = [
 
 ];
 
-
-
 function AddUser() {
-    const addedUser = useSelector(selectAddedUserData);
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
+    const addedUserData = useSelector(selectAddedUserData)
     const [selectedRole, setSelectedRole] = useState<{
         value: string;
         label: string;
     }>(roles[0]);
-    const addedUserData = useSelector(selectAddedUserData)
-    const dispatch = useDispatch()
 
-    useEffect(() => {
-        console.log(addedUserData)
-    }, [addedUserData])
 
 
     const changeRole = (role: {
         value: string;
         label: string;
     }) => {
-        console.log(addedUserData)
         dispatch(setRole({
             role: role.value,
         }))
         setSelectedRole(role)
-
-
     }
 
     useEffect(() => {
@@ -52,9 +45,20 @@ function AddUser() {
             null} navigationItems={['All clients']} pageHeader='Add user'>
 
             <div className={styles.add_user__container}>
-                <InputPopup options={roles} onChange={changeRole} label={'Select user'} />
+                <InputPopup selectedOption={selectedRole} setSelectedOption={setSelectedRole} options={roles} onChange={changeRole} label={'Select user'} />
             </div>
-            <NavigationSteps stepNumber={1} totalAmountSteps={3} />
+            <NavigationSteps stepNumber={1} totalAmountSteps={3} onContinue={function (): void {
+                if (selectedRole.value === 'COLLECTOR') {
+                    navigate('/clients/collector')
+
+                } else if (selectedRole.value === 'GALLERY') {
+                    navigate('/clients/gallery')
+
+                } if (selectedRole.value === 'ARTIST') {
+                    navigate('/clients/artist')
+
+                }
+            }} />
 
 
         </AdminLayout >

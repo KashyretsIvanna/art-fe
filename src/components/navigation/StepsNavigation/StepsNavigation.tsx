@@ -1,10 +1,10 @@
 import styles from './StepsNavigation.module.scss'
 import ArrowIcon from '../../../images/icons/arrow2.svg'
-function NavigationSteps({ stepNumber, totalAmountSteps }: { stepNumber: number, totalAmountSteps: number }) {
+function NavigationSteps({ stepNumber, totalAmountSteps, onContinue }: { stepNumber: number, totalAmountSteps: number, onContinue: () => void }) {
 
     return (
         <div className={styles.navigation_steps__container}>
-            <button className={styles.navigation_steps__button}>
+            <button className={styles.navigation_steps__button} onClick={onContinue}>
                 CONTINUE
             </button>
             <div className={styles.navigation_steps__text_container}>

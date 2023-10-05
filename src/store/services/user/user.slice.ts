@@ -6,6 +6,8 @@ import {
 } from '@reduxjs/toolkit';
 
 import { RootState } from '../../store';
+import storage from 'redux-persist/es/storage';
+import { persistReducer } from 'redux-persist';
 
 export interface AddUserState {
   role: string | null;
@@ -127,6 +129,17 @@ export const {
   setGalleryInfo,
   setRole,
 } = userSlice.actions;
+
+const addUserPersistConfig = {
+  key: 'addUser',
+  storage,
+};
+
+export const persistedAddUserReducer =
+  persistReducer(
+    addUserPersistConfig,
+    userSlice.reducer,
+  );
 
 export const addUserReducer = userSlice.reducer;
 

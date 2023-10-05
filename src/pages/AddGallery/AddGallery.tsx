@@ -3,44 +3,13 @@ import styles from './AddGallery.module.scss'
 import InputPopup from '../../components/inputs/InputSelect/InputSelect';
 import { useEffect, useState } from 'react';
 import ReusableTextArea from '../../components/inputs/ReusableTextArea/ReusableTextArea';
-import { GenderType } from '../../contants/profile-info.constants';
 import ReusableTextInput from '../../components/inputs/ReusableTextInput/ReusableTextInput';
 import MultiSelect from '../../components/inputs/MultiSelect/MultiSelect';
 import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNavigation';
 import { useGetClassificationsQuery, useGetGalleryTypesQuery, useGetOrientationsQuery } from '../../store/services/classifications/classifications.api';
-
-const cities = [
-    { value: 'city1', label: 'City 1' },
-    { value: 'city2', label: 'City 2' },
-    { value: 'city3', label: 'City 3' },
-    { value: 'city4', label: 'City 4' },
-    { value: 'city5', label: 'City 5' },
-    { value: 'city6', label: 'City 6' },
-    { value: 'city7', label: 'City 7' },
-    { value: 'city8', label: 'City 8' },
-    { value: 'city9', label: 'City 9' },
-
-];
-
-const countries = [
-    { value: 'country1', label: 'Country 1' },
-    { value: 'country2', label: 'Country 2' },
-    { value: 'country3', label: 'Country 3' },
-    { value: 'country4', label: 'Country 4' },
-    { value: 'country5', label: 'Country 5' },
-];
-
-
-const genders = [
-    { value: GenderType.FEMALE, label: 'Female' },
-    { value: GenderType.MALE, label: 'Male' },
-    { value: GenderType.NOT_SPECIFIED, label: 'Not specified' },
-    { value: GenderType.OTHER, label: 'Other' },
-];
+import json from '../../shared-data/cities.json'
 
 function AddGallery() {
-    const [selectedCountry, setSelectedCountry] = useState(countries[0]);
-    const [selectedCity, setSelectedCity] = useState(cities[0]);
     const [profileDescription, setProfileDescription] = useState<string | undefined>()
     const [galleryName, setGalleryName] = useState<string | undefined>('')
 
@@ -56,6 +25,15 @@ function AddGallery() {
         value: string;
         label: string;
     }[]>([])
+    const [countries, setCountries] = useState<{
+        value: string;
+        label: string;
+    }[]>([])
+    const [cities, setCities] = useState<{
+        value: string;
+        label: string;
+    }[]>([])
+
 
     const [selectedOrientations, setSelectedOrientations] = useState<{
         value: string;
@@ -69,15 +47,38 @@ function AddGallery() {
         value: string;
         label: string;
     }[]>([]);
+    const [selectedCity, setSelectedCity] = useState<{
+        value: string;
+        label: string;
+    }>({ value: '0', label: 'Select city' });
 
-
-
+    const [selectedCountry, setSelectedCountry] = useState<{
+        value: string;
+        label: string;
+    }>({ value: '0', label: 'Select country' });
 
     const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'GALLERY' })
     const { data: artOrientations } = useGetOrientationsQuery()
     const { data: galleryTypes } = useGetGalleryTypesQuery()
 
+    const parseJson = async () => {
+        const regionNames = new Intl.DisplayNames(
+            ['en'], { type: 'region' }
+        );
+        setCountries(Object.keys(json).map(el => ({ label: regionNames.of(el), value: el })))
 
+    }
+
+
+    useEffect(() => { parseJson() }, [])
+    useEffect(() => {
+        if (selectedCountry.value !== '0') {
+            console.log(selectedCountry.value)
+            setCities(json[selectedCountry.value].map(el => ({ label: el.name, value: el.name })))
+        }
+
+        setSelectedCity({ value: '0', label: 'Select city' })
+    }, [selectedCountry])
     useEffect(() => {
         if (galleryClassifications) {
             setClassifications(galleryClassifications.map((el: { id: number; classificationName: string; }) => ({
@@ -86,7 +87,6 @@ function AddGallery() {
             })))
         }
     }, [galleryClassifications, setClassifications])
-
     useEffect(() => {
         if (galleryTypes) {
             setGalleryTypes(galleryTypes.map((el: { id: number; typeName: string; }) => ({
@@ -118,7 +118,7 @@ function AddGallery() {
                 </div>
                 <div className={styles.input_col_container}>
                     <div className={styles.input_row_container}>
-                        <InputPopup options={genders} onChange={setSelectedCountry} label={'Select Country'} />
+                        <InputPopup options={countries} onChange={setSelectedCountry} setSelectedOption={setSelectedCountry} selectedOption={selectedCountry} label={'Select Country'} />
                     </div>
                     <div className={styles.input_row_container}>
                         <MultiSelect options={orientations} selectedOption={selectedOrientations} setSelectedOption={setSelectedOrientations} label={'Art Orientations'} />
@@ -127,7 +127,7 @@ function AddGallery() {
 
                 <div className={styles.input_col_container}>
                     <div className={styles.input_row_container}>
-                        <InputPopup options={genders} onChange={setSelectedCity} label={'Select City'} />
+                        <InputPopup options={cities} onChange={setSelectedCity} selectedOption={selectedCity} setSelectedOption={setSelectedCity} label={'Select City'} />
                     </div>
                     <div className={styles.input_row_container}>
                         <MultiSelect options={classifications} selectedOption={selectedClassifications} setSelectedOption={setSelectedClassifications} label={'Art Classification type'} />
@@ -138,7 +138,7 @@ function AddGallery() {
             <div className={styles.inputs_container__textarea}>
                 <ReusableTextArea label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} />
             </div>
-            <NavigationSteps stepNumber={1} totalAmountSteps={3} />
+            <NavigationSteps onContinue={() => { console.log('cont') }} stepNumber={2} totalAmountSteps={3} />
         </AdminLayout>
 
 

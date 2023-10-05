@@ -17,7 +17,7 @@ import { userAuthApi } from './services/auth/auth.api';
 import { persistedAuthReducer } from './services/auth/auth.slice';
 import { filesApi } from './services/files/files.api';
 import { classificationsApi } from './services/classifications/classifications.api';
-import { addUserReducer } from './services/user/user.slice';
+import { persistedAddUserReducer } from './services/user/user.slice';
 
 export const store = configureStore({
   reducer: {
@@ -27,7 +27,7 @@ export const store = configureStore({
       classificationsApi.reducer,
     [filesApi.reducerPath]: filesApi.reducer,
     user: persistedAuthReducer,
-    addedUser: addUserReducer,
+    addedUser: persistedAddUserReducer,
     [emptySplitAdminApi.reducerPath]:
       emptySplitAdminApi.reducer,
   },

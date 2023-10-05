@@ -16,7 +16,7 @@ function AdminLayout(props: { pageHeader: string, children: ChildrenProp, header
         <div className={styles.white_board}>
             <div className={styles.white_board__navigation}>
                 {
-                    props.navigationItems.map(el => <PaginationItem text={el} />
+                    props.navigationItems.map(el => <PaginationItem key={el} text={el} />
                     )
                 }
 
