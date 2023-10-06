@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import PremiumItem from '../../text/Premium/Premium';
 import styles from './UserProfileInfoCard.module.scss'
-import { useGetProfilePhotoByIdQuery } from '../../../store/services/files/files.api';
+import { useGetProfilePhotoByIdQuery } from '../../../store/services/api/files/files.api';
 
 function UserProfileInfoCard({ avatar, name, role, plan, imgId }: { avatar: string, name: string, role: string, plan?: string, imgId: number }) {
 

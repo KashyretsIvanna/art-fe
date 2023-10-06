@@ -13,11 +13,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
 import { emptySplitAdminApi } from './emptySplitAdminApi';
-import { userAuthApi } from './services/auth/auth.api';
-import { persistedAuthReducer } from './services/auth/auth.slice';
-import { filesApi } from './services/files/files.api';
-import { classificationsApi } from './services/classifications/classifications.api';
-import { persistedAddUserReducer } from './services/user/user.slice';
+import { userAuthApi } from './services/admin-api/auth/auth.api';
+import { persistedAuthReducer } from './services/admin-api/auth/auth.slice';
+import { filesApi } from './services/api/files/files.api';
+import { classificationsApi } from './services/api/classifications/classifications.api';
+import { persistedAddUserReducer } from './services/admin-api/user/user.slice';
 
 export const store = configureStore({
   reducer: {

@@ -5,7 +5,7 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 
-import { RootState } from '../../store';
+import { RootState } from '../../../store';
 import storage from 'redux-persist/es/storage';
 import { persistReducer } from 'redux-persist';
 

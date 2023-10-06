@@ -28,8 +28,8 @@ function AddCollector() {
         label: string;
     }>({ value: '0', label: 'Select country' });
     const [selectedGender, setSelectedGender] = useState({ value: '0', label: 'Select gender' });
-    
-    
+
+
     const [age, setAge] = useState<number | undefined>()
     const navigate = useNavigate()
     const [profileDescription, setProfileDescription] = useState<string | undefined>()
@@ -42,7 +42,7 @@ function AddCollector() {
         label: string;
     }[]>([])
 
-    
+
     const parseJson = async () => {
         const regionNames = new Intl.DisplayNames(
             ['en'], { type: 'region' }
@@ -65,16 +65,18 @@ function AddCollector() {
             null} navigationItems={['Collector']} pageHeader='About me( Collector )'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>
-                    <div className={styles.input_row_container}><InputPopup options={cities} onChange={setSelectedCity} selectedOption={selectedCity} setSelectedOption={setSelectedCity} label={'Select city'} /></div>
                     <div className={styles.input_row_container}><InputPopup selectedOption={selectedCountry} setSelectedOption={setSelectedCountry} options={countries} onChange={setSelectedCountry} label={'Select country'} /></div>
+                    <div className={styles.input_row_container}>
+                        <InputPopup options={cities} onChange={setSelectedCity} selectedOption={selectedCity} setSelectedOption={setSelectedCity} label={'Select city'} />
+                    </div>
                 </div>
                 <div className={styles.input_col_container}>
-                    <div className={styles.input_col_container__age}> <div className={styles.input_row_container}><ReusableNumberInput data={age} setData={setAge} label={'Age'} placeholder={'Age'} /></div></div>
+                    <div className={styles.input_col_container__age}> <div className={styles.input_row_container}><ReusableNumberInput max={100} min={18} data={age} setData={setAge} label={'Age'} placeholder={'Age'} /></div></div>
                     <div className={styles.input_row_container}><InputPopup selectedOption={selectedGender} setSelectedOption={setSelectedGender} options={genders} onChange={setSelectedGender} label={'Gender'} /></div>
                 </div>
                 <div className={styles.input_col_container}><ReusableTextArea label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} /></div>
             </div>
-            <NavigationSteps onContinue={() => { navigate('lookFor') }} stepNumber={2} totalAmountSteps={3} />
+            <NavigationSteps onContinue={() => { navigate('lookFor') }} stepNumber={3} totalAmountSteps={4} />
         </AdminLayout>
 
 

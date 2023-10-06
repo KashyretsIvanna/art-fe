@@ -3,7 +3,7 @@ import styles from './UserList.module.scss'
 import TableList from '../../components/lists/TableList/TableList'
 import UsePagination from '../../components/pagination/ListPagination/ListPagination';
 import usePagination from '@mui/material/usePagination';
-import { useDeleteUsersMutation, useGetUsersQuery } from '../../store/services/user/userApi';
+import { useDeleteUsersMutation, useGetUsersQuery } from '../../store/services/admin-api/user/userApi';
 import { useEffect, useState } from 'react';
 import { UserListItemRes } from '../../store/types/user/user-list.dto';
 import DeleteIcon from '../../images/icons/delete.svg'
@@ -56,7 +56,7 @@ function UserList() {
         <div className={styles.layout}>
             <AdminLayout navigationItems={['All clients']} pageHeader='User profile' headerRight={<>
                 {selectedUsers.length ? <SectionHeaderButton icon={DeleteIcon} text={'DELETE'} clickButton={() => { onDeleteButtonClick() }} background={'#EE3143'} color={'#fffff'} /> : <></>}
-                {!selectedUsers.length ? <SectionHeaderButton icon={PlusImg} text={'ADD USER'} clickButton={() => { navigate('/clients/add') }} background={'#FF9700'} color={'#ffff'} /> : <></>}</>}>
+                {!selectedUsers.length ? <SectionHeaderButton icon={PlusImg} text={'ADD USER'} clickButton={() => { navigate('/clients/login') }} background={'#FF9700'} color={'#ffff'} /> : <></>}</>}>
                 <div className={styles.user_list__container}>
                     <TableList setSelected={setSelectedUsers} selected={selectedUsers} data={users} />
                     <UsePagination items={items} />

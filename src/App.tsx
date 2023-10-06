@@ -17,6 +17,8 @@ import AddCollector from './pages/AddCollector/AddCollector'
 import AddArtist from './pages/AddArtist/AddArtist'
 import AddGallery from './pages/AddGallery/AddGallery'
 import AddUser from './pages/AddUser/AddUser'
+import LookingFor from './pages/LookingFor/LookingFor'
+import LoginNewUser from './pages/LoginNewUser/LoginNewUser'
 
 function App() {
 
@@ -25,11 +27,15 @@ function App() {
       <Routes>
         <Route path="/clients/add" element={<AddUser />
         } />
+        <Route path="/clients/login" element={<LoginNewUser />
+        } />
         <Route path="/clients/collector" element={<AddCollector />
         } />
         <Route path="/clients/gallery" element={<AddGallery />
         } />
         <Route path="/clients/artist" element={<AddArtist />
+        } />
+        <Route path="/clients/look-for" element={<LookingFor />
         } />
 
 

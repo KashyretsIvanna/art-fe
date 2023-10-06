@@ -1,0 +1,24 @@
+/** @format */
+
+@import '../../configs/theme/theme-variables.scss';
+
+.login {
+  &__error_massage {
+    color: #f44848;
+    font-family: Oxygen;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    position: absolute;
+    bottom: -1;
+    text-align: center;
+    width: 341px;
+  }
+}
+
+.inputs_container {
+  width: max-content;
+  margin-left: 37px;
+  text-align: center;
+}

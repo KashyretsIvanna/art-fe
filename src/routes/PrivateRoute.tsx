@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useGetUserInfoQuery } from '../store/services/user/userApi';
+import { useGetUserInfoQuery } from '../store/services/admin-api/user/userApi';
 import { UserRole } from '../store/types/whoami.types';
 import { routes } from '../store/constants';
-import { selectAuthToken } from '../store/services/auth/auth.slice';
+import { selectAuthToken } from '../store/services/admin-api/auth/auth.slice';
 
 export default function PrivateRoute() {
 

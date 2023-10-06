@@ -4,15 +4,14 @@ import {
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
-import { ApiRoutes } from '../../constants';
-import { RootState } from '../../store';
-import { baseAdminUrl } from '../../constants/api.constants';
+import { ApiRoutes } from '../../../constants';
+import { RootState } from '../../../store';
+import { baseAdminUrl } from '../../../constants/api.constants';
 
 export const userAuthApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl:
-      baseAdminUrl + '/api' + ApiRoutes.AUTH,
+    baseUrl: baseAdminUrl + '/api',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).user
         .access_token;
@@ -32,7 +31,18 @@ export const userAuthApi = createApi({
         email: string;
         password: string;
       }) => ({
-        url: '/login',
+        url: ApiRoutes.AUTH + '/login',
+        method: 'POST',
+        body,
+      }),
+    }),
+    registerNewUser: builder.mutation({
+      query: (body: {
+        email: string;
+        password: string;
+        name: string;
+      }) => ({
+        url: ApiRoutes.USER,
         method: 'POST',
         body,
       }),
@@ -40,5 +50,7 @@ export const userAuthApi = createApi({
   }),
 });
 
-export const { useLoginUserMutation } =
-  userAuthApi;
+export const {
+  useLoginUserMutation,
+  useRegisterNewUserMutation,
+} = userAuthApi;

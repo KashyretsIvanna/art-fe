@@ -7,7 +7,7 @@ import { GenderType } from '../../contants/profile-info.constants';
 import ReusableNumberInput from '../../components/inputs/ReusableNumberInput copy/ReusableTextInput';
 import MultiSelect from '../../components/inputs/MultiSelect/MultiSelect';
 import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNavigation';
-import { useGetClassificationsQuery } from '../../store/services/classifications/classifications.api';
+import { useGetClassificationsQuery } from '../../store/services/api/classifications/classifications.api';
 import json from '../../shared-data/cities.json'
 
 const genders = [
@@ -32,7 +32,7 @@ function AddArtist() {
         value: string;
         label: string;
     }[]>([])
-    
+
 
     const [selectedCity, setSelectedCity] = useState<{
         value: string;
@@ -83,12 +83,13 @@ function AddArtist() {
             null} navigationItems={['Artist']} pageHeader='About me ( Artist )'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>
-                    <div className={styles.input_row_container}><InputPopup options={cities} selectedOption={selectedCity} setSelectedOption={setSelectedCity} onChange={setSelectedCity} label={'Select city'} /></div>
                     <div className={styles.input_row_container}><InputPopup options={countries} selectedOption={selectedCountry} setSelectedOption={setSelectedCountry} onChange={setSelectedCountry} label={'Select country'} /></div>
+                    <div className={styles.input_row_container}><InputPopup options={cities} selectedOption={selectedCity} setSelectedOption={setSelectedCity} onChange={setSelectedCity} label={'Select city'} />
+                    </div>
                 </div>
                 <div className={styles.input_col_container}>
                     <div className={styles.input_col_container__age}>
-                        <div className={styles.input_row_container}><ReusableNumberInput data={age} setData={setAge} label={'Age'} placeholder={'Age'} /></div>
+                        <div className={styles.input_row_container}><ReusableNumberInput max={100} min={18} data={age} setData={setAge} label={'Age'} placeholder={'Age'} /></div>
                         <div className={styles.input_row__gender}><InputPopup selectedOption={selectedGender} setSelectedOption={setSelectedGender} options={genders} onChange={setSelectedGender} label={'Gender'} /></div>
 
                     </div>
@@ -96,7 +97,7 @@ function AddArtist() {
                 </div>
                 <div className={styles.input_col_container}><ReusableTextArea label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} /></div>
             </div>
-            <NavigationSteps onContinue={() => { console.log('continue') }} stepNumber={2} totalAmountSteps={3} />
+            <NavigationSteps onContinue={() => { console.log('continue') }} stepNumber={3} totalAmountSteps={4} />
 
 
         </AdminLayout>

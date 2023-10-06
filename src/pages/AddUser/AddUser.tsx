@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNavigation';
 import styles from './AddUser.module.scss'
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAddedUserData, setRole } from '../../store/services/user/user.slice';
+import { selectAddedUserData, setRole } from '../../store/services/admin-api/user/user.slice';
 import { useNavigate } from 'react-router-dom';
 const roles = [
     { value: 'ARTIST', label: 'Artist' },
@@ -48,7 +48,7 @@ function AddUser() {
             <div className={styles.add_user__container}>
                 <InputPopup selectedOption={selectedRole} setSelectedOption={setSelectedRole} options={roles} onChange={changeRole} label={'Select user'} />
             </div>
-            <NavigationSteps stepNumber={1} totalAmountSteps={3} onContinue={function (): void {
+            <NavigationSteps stepNumber={2} totalAmountSteps={4} onContinue={function (): void {
                 if (selectedRole.value === 'COLLECTOR') {
                     navigate('/clients/collector')
 

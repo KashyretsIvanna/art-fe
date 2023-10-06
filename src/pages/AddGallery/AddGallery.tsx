@@ -6,7 +6,7 @@ import ReusableTextArea from '../../components/inputs/ReusableTextArea/ReusableT
 import ReusableTextInput from '../../components/inputs/ReusableTextInput/ReusableTextInput';
 import MultiSelect from '../../components/inputs/MultiSelect/MultiSelect';
 import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNavigation';
-import { useGetClassificationsQuery, useGetGalleryTypesQuery, useGetOrientationsQuery } from '../../store/services/classifications/classifications.api';
+import { useGetClassificationsQuery, useGetGalleryTypesQuery, useGetOrientationsQuery } from '../../store/services/api/classifications/classifications.api';
 import json from '../../shared-data/cities.json'
 
 function AddGallery() {
@@ -138,7 +138,7 @@ function AddGallery() {
             <div className={styles.inputs_container__textarea}>
                 <ReusableTextArea label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} />
             </div>
-            <NavigationSteps onContinue={() => { console.log('cont') }} stepNumber={2} totalAmountSteps={3} />
+            <NavigationSteps onContinue={() => { console.log('cont') }} stepNumber={3} totalAmountSteps={4} />
         </AdminLayout>
 
 

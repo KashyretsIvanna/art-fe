@@ -6,8 +6,8 @@ import passwordIcon from '../../images/password.svg'
 import BigButton from '../../components/buttons/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useLoginUserMutation } from '../../store/services/auth/auth.api';
-import { setUser } from '../../store/services/auth/auth.slice';
+import { useLoginUserMutation } from '../../store/services/admin-api/auth/auth.api';
+import { setUser } from '../../store/services/admin-api/auth/auth.slice';
 import { routes } from '../../store/constants';
 import logo from '../../images/logo_2.svg'
 function Login() {
