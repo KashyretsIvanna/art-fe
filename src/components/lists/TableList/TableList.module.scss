@@ -14,6 +14,9 @@
     background: #fafbff;
 
     th {
+      text-align: left;
+      width: max-content;
+
       color: #1f263e;
       font-family: Oxygen;
       font-size: 13px;
@@ -48,17 +51,16 @@
     height: 46px;
     width: 100%;
 
+    & td {
+      text-align: left;
+    }
+
     &:hover {
       background: #e6ecfe;
     }
 
-    div {
-      color: #1f263e;
-      font-family: Oxygen;
-      font-size: 13px;
-      font-style: normal;
-      font-weight: lighter;
-      line-height: normal;
+    td.admin:last-child {
+      width: 50%;
     }
   }
 }

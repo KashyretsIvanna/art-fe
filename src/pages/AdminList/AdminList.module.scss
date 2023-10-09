@@ -1,0 +1,18 @@
+/** @format */
+@import '../../configs/theme/theme-variables.scss';
+
+.layout {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user_list__container {
+  height: calc(100% - 125px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}

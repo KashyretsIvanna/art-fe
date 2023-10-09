@@ -19,6 +19,7 @@ import AddGallery from './pages/AddGallery/AddGallery'
 import AddUser from './pages/AddUser/AddUser'
 import LookingFor from './pages/LookingFor/LookingFor'
 import LoginNewUser from './pages/LoginNewUser/LoginNewUser'
+import AdminList from './pages/AdminList/AdminList'
 
 function App() {
 
@@ -50,7 +51,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/users" element={<Users />} />
-          <Route path="/admins" element={<ManageAdmins />} />
+          <Route path="/admins" element={<AdminList />} />
           <Route path="/letter" element={<SendLetter />} />
           <Route path="/promo" element={<PromoCodeList />} />
           <Route path="/payments" element={<ListOfPayments />} />

@@ -14,6 +14,7 @@ export const keepUnusedDataFor = 0.01;
 
 export const apiTags = {
   user: 'User',
+  admins: 'Admins',
   files: 'Files',
 };
 

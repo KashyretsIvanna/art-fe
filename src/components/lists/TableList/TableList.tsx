@@ -1,10 +1,13 @@
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import CheckBox from '../../inputs/Checkbox/Checkbox'
 import styles from './TableList.module.scss'
 function TableList({ data, setSelected, columns }: { setSelected: React.Dispatch<React.SetStateAction<number[]>>, selected: number[], data: { id: number, data: string[] }[], columns: string[] }) {
 
     const navigate = useNavigate()
+    const location = useLocation(
+    )
+    console.log(location)
 
     return (
         <table className={styles.list_table}>
@@ -23,7 +26,7 @@ function TableList({ data, setSelected, columns }: { setSelected: React.Dispatch
                     }} />
                 </td>
 
-                {el.data.map(infoItem => <td onClick={() => { navigate(`/clients/${el.id}`) }}>{infoItem}</td>
+                {el.data.map(infoItem => <td className={location.pathname.includes('admin') ? styles.admin : undefined} onClick={() => { navigate(`/clients/${el.id}`) }}>{infoItem}</td>
                 )}
             </tr>)}
 
