@@ -1,0 +1,135 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+
+@mixin CheckboxButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: 0;
+  color: #9b9b9b;
+  cursor: 'pointer';
+  width: 18px;
+  height: 18px;
+  margin-left: 20px;
+  padding: 0;
+  border-radius: 6px;
+}
+
+@mixin CheckboxContainer {
+  width: 272.546px;
+  height: 51.835px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 27.5px;
+  margin-bottom: 9.21px;
+}
+
+.checkbox {
+  @include CheckboxContainer;
+  border: 1px solid #c0c0c0;
+  background: #fff;
+
+  &_checked {
+    @include CheckboxContainer;
+    border: 1px solid #0691ff;
+    background: #0691ff;
+  }
+
+  &__label {
+    color: #000;
+    font-family: Roboto;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  &__label_checked {
+    color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  &__button {
+    @include CheckboxButton;
+    background-color: $white;
+    outline: none;
+
+    border: 1px solid #ced4da;
+
+    &:focus {
+      outline: none;
+      border: 1px solid #ced4da;
+    }
+    &:checked {
+      outline: none;
+    }
+    &:hover {
+      border: 1px solid #ced4da;
+
+      outline: none;
+    }
+
+    &_checked {
+      @include CheckboxButton;
+      outline: none;
+
+      border: var(
+          --user-accent-color-uac-light,
+          #39dc49
+        )
+        1.5px solid;
+
+      background: var(
+        --user-accent-color-uac-light,
+        #39dc49
+      );
+      &:focus {
+        outline: none;
+        border: var(
+            --user-accent-color-uac-light,
+            #39dc49
+          )
+          1.5px solid;
+      }
+      &:checked {
+        border: var(
+            --user-accent-color-uac-light,
+            #39dc49
+          )
+          1.5px solid;
+
+        outline: none;
+      }
+      &:hover {
+        outline: none;
+        border: var(
+            --user-accent-color-uac-light,
+            #39dc49
+          )
+          1.5px solid;
+      }
+    }
+  }
+
+  &_icon {
+    width: max;
+  }
+
+  &__check {
+    margin-right: 1rem;
+  }
+
+  &__content {
+    padding: 5px;
+    font-size: 0.9rem;
+    font-weight: 100;
+    line-height: 1.25rem;
+  }
+}

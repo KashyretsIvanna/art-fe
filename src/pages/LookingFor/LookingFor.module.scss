@@ -1,26 +1,21 @@
 /** @format */
 @import '../../configs/theme/theme-variables.scss';
+.looking {
+  &__header {
+    color: #000a12;
+    font-family: Roboto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-align: left;
+    margin-bottom: 25px;
+  }
 
-.inputs_container {
-  padding-left: 54px;
-  padding-right: 54px;
-  padding-bottom: 54px;
-  width: 100%;
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 34px;
-}
-
-.input_col_container {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-}
-
-.input_col_container__age {
-  width: 100%;
-  gap: 23px;
-  display: grid;
-  grid-template-columns: 1fr 2fr;
+  &__container {
+    padding: 40.26px;
+    box-sizing: border-box;
+    width: max-content;
+    height: max-content;
+  }
 }

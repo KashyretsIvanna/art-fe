@@ -3,7 +3,7 @@ import styles from './Checkbox.module.scss'
 import CheckImg from '../../../images/icons/check.svg'
 
 
-function CheckBox({ onChange }: { onChange: (isChecked: boolean) => void }) {
+function Checkbox({ onChange }: { onChange: (isChecked: boolean) => void }) {
 
 
     const [isChecked, setChecked] = useState<boolean>(false)
@@ -32,4 +32,4 @@ function CheckBox({ onChange }: { onChange: (isChecked: boolean) => void }) {
     )
 }
 
-export default CheckBox;
+export default Checkbox;
