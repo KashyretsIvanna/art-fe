@@ -48,6 +48,7 @@ function UserList() {
         })
         setSelectedUsers([])
     }
+    const columns = ["Name", "Email", "Country", "City", "Gender", "About me", "Status", "I'm looking for"]
 
 
 
@@ -58,7 +59,11 @@ function UserList() {
                 {selectedUsers.length ? <SectionHeaderButton icon={DeleteIcon} text={'DELETE'} clickButton={() => { onDeleteButtonClick() }} background={'#EE3143'} color={'#fffff'} /> : <></>}
                 {!selectedUsers.length ? <SectionHeaderButton icon={PlusImg} text={'ADD USER'} clickButton={() => { navigate('/clients/login') }} background={'#FF9700'} color={'#ffff'} /> : <></>}</>}>
                 <div className={styles.user_list__container}>
-                    <TableList setSelected={setSelectedUsers} selected={selectedUsers} data={users} />
+                    <TableList columns={columns}
+
+
+
+                        setSelected={setSelectedUsers} selected={selectedUsers} data={users.map(el => ({ id: el.id, data: [el.name, el.email, el.country, el.city, el.gender, el.aboutMe, el.plan, el.isLookingForArtist ? 'Artist' : 'Gallery'] }))} />
                     <UsePagination items={items} />
                 </div>
 
