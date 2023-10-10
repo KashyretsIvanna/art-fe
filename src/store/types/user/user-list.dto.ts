@@ -17,6 +17,5 @@ export interface UserListItemRes {
   isLookingForCollector: true;
   name: string;
   email: string;
+  role: string;
 }
-
-

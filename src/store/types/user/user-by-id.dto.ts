@@ -6,6 +6,7 @@ export interface UserByIdRes {
     name: string;
     email: string;
     city?: string;
+    age?: number;
     country?: string;
     gender?: string;
     profileDescription?: string;

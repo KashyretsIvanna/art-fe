@@ -45,7 +45,7 @@ function UserInfo() {
             {data ? <div className={styles.user_info}>
 
                 <UserProfileInfoCard imgId={data.user.profilePhoto} plan={data.user.plan} avatar={logo} name={data.user.name} role={data.user.role} />
-                <UserInfoList email={data.user.email} country={data.user.country || ''} city={data.user.city || ''} age={1234} gender={data.user.gender || ''} status={'unknown status'} about={data.user.profileDescription || ''} lookingFor={lookingFor} />
+                <UserInfoList email={data.user.email} country={data.user.country || ''} city={data.user.city || ''} age={data.user.age || ''} gender={data.user.gender || ''} status={data.user.plan || ''} about={data.user.profileDescription || ''} lookingFor={lookingFor} />
             </div> : <>User not found</>}
 
         </AdminLayout>

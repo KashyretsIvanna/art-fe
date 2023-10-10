@@ -11,7 +11,7 @@ import AgeImg from '../../../images/icons/age.svg'
 import { useEffect, useState } from 'react'
 
 
-function UserInfoList({ email, country, city, age, gender, status, about, lookingFor }: { email: string, country: string, city: string, age: number, gender: string, status: string, about: string, lookingFor: string[] }) {
+function UserInfoList({ email, country, city, age, gender, status, about, lookingFor }: { email: string, country: string, city: string, age: number | string, gender: string, status: string, about: string, lookingFor: string[] }) {
 
 
 
