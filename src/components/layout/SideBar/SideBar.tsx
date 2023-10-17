@@ -15,10 +15,10 @@ import usersListImg from '../../../images/icons/users-list.svg'
 // import vipImg from '../../../images/icons/vip.svg'
 
 
-function AdminLayout() {
+function AdminLayout({ isOpened }: { isOpened: boolean }) {
     return (
         <>
-            <div className={styles.sidebar}>
+            {isOpened && <div className={styles.sidebar}>
                 <div className={styles.logo_container}>
                     <img className={styles.logo} src={logoImg} alt='logo' />
                 </div>
@@ -36,6 +36,7 @@ function AdminLayout() {
                 <MenuItem to='/settings' text='Settings' icon={settingsImg} /> */}
 
             </div>
+            }
         </>
 
     )

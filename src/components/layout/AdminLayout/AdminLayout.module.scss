@@ -2,7 +2,7 @@
 
 @import '../../../configs/theme/theme-variables.scss';
 
-.right_side {
+.right_side, .right_side__full  {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -10,7 +10,15 @@
   height: 100vh;
   background: #f3f6fe;
 
-  
+  &__full {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background: #f3f6fe;
+  }
+
   .header {
     background: $white;
     box-shadow: 0px 8px 28px 0px
@@ -59,4 +67,8 @@
     width: 100%;
     height: calc(100% - 70px);
   }
+}
+
+.menu{
+  cursor: pointer;
 }
