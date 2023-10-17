@@ -2,14 +2,14 @@ import { useState } from 'react';
 import styles from './InputSelect.module.scss'
 import BirdImg from '../../../images/icons/buird.svg'
 
-const InputPopup = ({ options, onChange, label, setSelectedOption, selectedOption }: {
-    label: string, options: { value: string, label: string }[], setSelectedOption: React.Dispatch<React.SetStateAction<{
+const InputPopup = ({ options, onChange, label, setSelectedOption, selectedOption, error }: {
+    label: string, options: { value: string, label: string }[], error: string, setSelectedOption: React.Dispatch<React.SetStateAction<{
         value: string;
         label: string;
     }>>, selectedOption: {
         value: string;
         label: string;
-    }, onChange: (value: { value: string, label: string }) => void
+    }, onChange: (value: { value: string, label: string }) => void,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -27,12 +27,14 @@ const InputPopup = ({ options, onChange, label, setSelectedOption, selectedOptio
         <div className={styles.input_container} >
             <label className={styles.input_label} >{label}</label>
             <div className={isOpen ? styles.custom_select__active : styles.custom_select}>
-                <div className={styles.custom_select__header} onClick={toggleDropdown}>
+                <div className={error ? styles.custom_select__header__error : styles.custom_select__header} onClick={toggleDropdown}>
                     <img className={styles.custom_select__icon} src={BirdImg} alt='bird' />
                     {selectedOption ? selectedOption.label : 'Select an option'}
+                    <div className={styles.input__error_message}><p>{error}</p></div>
+
                 </div>
                 {isOpen && (
-                    <div className={styles.custom_select__option_container}>
+                    <div className={error ? styles.custom_select__option_container__error : styles.custom_select__option_container}>
                         <ul className={styles.custom_select__option}>
                             {options.map((option) => (
                                 <li className={styles.custom_select__option__text} key={option.value} onClick={() => handleOptionClick(option)}>
