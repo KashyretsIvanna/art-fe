@@ -2,7 +2,7 @@ import { useState } from 'react'
 import styles from './Photo.module.scss'
 import AddPhotoImg from '../../../images/icons/add-photo.svg'
 import CloseCross from '../../../images/icons/close-photo.svg'
-function Photo({ onChange, order }: { onChange: (isChecked: boolean) => void, order: number }) {
+function Photo({ onChange, order }: { onChange: (data: { file: (Blob | MediaSource) | null; order: number }) => void, order: number }) {
 
 
     const [image, setImage] = useState<string | null>(null);
@@ -10,12 +10,17 @@ function Photo({ onChange, order }: { onChange: (isChecked: boolean) => void, or
     const onImageChange = (event: { target: { files: (Blob | MediaSource)[]; } }) => {
         if (event.target.files && event.target.files[0]) {
             setImage(URL.createObjectURL(event.target.files[0]));
+            onChange({ file: event.target.files[0], order })
+
+
         }
     };
 
     const onCrossClick = () => {
         if (image) {
             setImage(null)
+            onChange({ file: null, order })
+
         }
 
     }

@@ -14,7 +14,8 @@
     flex-direction: column;
     gap: 9.74px;
   }
-  &__button {
+  &__button,
+  &__button_disabled {
     display: flex;
     width: 170px;
     padding: 13px 47px;
@@ -34,6 +35,11 @@
     &:active,
     &:focus {
       outline: none;
+    }
+    &_disabled {
+      border-radius: 6px;
+      background: rgba(255, 151, 0, 0.5);
+      cursor:initial;
     }
   }
   &__text {
@@ -68,7 +74,6 @@
       box-sizing: border-box;
       padding-left: 20px;
       padding-right: 20px;
-
     }
 
     &__button {
