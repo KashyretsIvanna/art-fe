@@ -7,7 +7,6 @@ function TableList({ data, setSelected, columns }: { setSelected: React.Dispatch
     const navigate = useNavigate()
     const location = useLocation(
     )
-    console.log(location)
 
     return (
         <table className={styles.list_table}>

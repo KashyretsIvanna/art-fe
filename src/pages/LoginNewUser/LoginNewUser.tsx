@@ -10,6 +10,7 @@ import { setNewUser } from '../../store/services/admin-api/auth/auth.slice';
 import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNavigation';
 import AdminLayout from '../../components/layout/AdminLayout/AdminLayout';
 import PersonImg from '../../images/icons/person.svg'
+import { useRegisterNewAdminMutation } from '../../store/services/admin-api/admins/adminApi';
 
 function LoginNewUser() {
     const [error, setError] = useState('')
@@ -28,14 +29,20 @@ function LoginNewUser() {
 
     const [registerNewUser, { data: registerData, isSuccess: isRegisterSuccess, error: registrationError }] =
         useRegisterNewUserMutation();
+    const [registerNewAdmin, { data: registerAdminData, isSuccess: isAdminRegSuccessful, error: adminRegistrationError }] =
+        useRegisterNewAdminMutation();
 
     const clickButton = async () => {
-        await registerNewUser({ email, password, name });
+        if (location.pathname.includes('admin')) {
+            await registerNewAdmin({ email, password, name })
+
+        } else {
+            await registerNewUser({ email, password, name });
+
+        }
 
     }
     useEffect(() => {
-
-
         if (registrationError) {
             setError(registrationError.data.message)
             setIsEmailError(true)
@@ -43,7 +50,14 @@ function LoginNewUser() {
             setIsPasswordError(true)
 
         }
-    }, [registrationError])
+        if (adminRegistrationError) {
+            setError(adminRegistrationError.data.message)
+            setIsEmailError(true)
+            setIsNameError(true)
+            setIsPasswordError(true)
+
+        }
+    }, [registrationError, adminRegistrationError])
 
 
     useEffect(() => {
@@ -51,13 +65,22 @@ function LoginNewUser() {
             dispatch(setNewUser({ added_user_access_token: registerData.accessToken }));
             navigate('/clients/add');
         }
+
     }, [isRegisterSuccess, registerData])
+
+    useEffect(() => {
+
+
+        if (isAdminRegSuccessful) {
+            navigate('/admins');
+        }
+    }, [isAdminRegSuccessful, registerAdminData])
 
 
 
     return (
         <AdminLayout headerRight={
-            null} navigationItems={['All Clients', 'Login']} pageHeader='Login' >
+            null} navigationItems={[`${location.pathname.includes('admin') ? 'All Admins' : 'All Clients'}`, 'Registration']} pageHeader='Registration' >
             <div className={styles.inputs_container}>
                 <InputWithImage maxLength={30} type='text' imgHEight='16px' imgWidth='16px' isError={isNameError} data={name} setData={setName} placeholder='Art Date' img={PersonImg} marginTop={'22px'} marginLeft={'11px'} />
                 <InputWithImage type='text' imgHEight='10px' imgWidth='12px' isError={isEmailError} data={email} setData={setEmail} placeholder='Art@dating.com' img={emailIcon} marginTop={'26px'} marginLeft={'13px'} />
@@ -67,7 +90,7 @@ function LoginNewUser() {
 
             <NavigationSteps onContinue={() => {
                 clickButton()
-            }} stepNumber={1} totalAmountSteps={4} />
+            }} stepNumber={1} totalAmountSteps={location.pathname.includes('admin') ? 1 : 4} />
         </AdminLayout >
     )
 }

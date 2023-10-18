@@ -5,7 +5,6 @@ import {
   apiTags,
 } from '../../../constants';
 import { UserByIdRes } from '../../../types/user/user-by-id.dto';
-import { UserListRes } from '../../../types/user/user-list.dto';
 import { emptySplitAdminApi } from '../../../emptySplitAdminApi';
 
 const serviceRoute = ApiRoutes.ADMIN;
@@ -14,7 +13,14 @@ export const userApi =
   emptySplitAdminApi.injectEndpoints({
     endpoints: (builder) => ({
       getAdmins: builder.query<
-        UserListRes,
+        {
+          admins: {
+            name: string;
+            email: string;
+            id: number;
+          }[];
+          pages: number;
+        },
         { take: number; page: number }
       >({
         query: (body: {
@@ -38,7 +44,7 @@ export const userApi =
           method: 'GET',
         }),
         keepUnusedDataFor: 0.0001,
-        providesTags: [apiTags.user],
+        providesTags: [apiTags.admins],
       }),
 
       deleteAdmin: builder.mutation<
@@ -49,7 +55,20 @@ export const userApi =
           url: serviceRoute + `/${body.userId}`,
           method: 'DELETE',
         }),
-        invalidatesTags: [apiTags.user],
+        invalidatesTags: [apiTags.admins],
+      }),
+
+      registerNewAdmin: builder.mutation({
+        query: (body: {
+          email: string;
+          password: string;
+          name: string;
+        }) => ({
+          url: serviceRoute,
+          method: 'POST',
+          body,
+        }),
+        invalidatesTags: [apiTags.admins],
       }),
     }),
   });
@@ -58,4 +77,5 @@ export const {
   useDeleteAdminMutation,
   useGetAdminByIdQuery,
   useGetAdminsQuery,
+  useRegisterNewAdminMutation,
 } = userApi;

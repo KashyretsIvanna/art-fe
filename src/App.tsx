@@ -7,7 +7,6 @@ import UserInfo from './pages/UserInfo/UserInfo'
 import Dashboard from './pages/Dashboard/Dashboard'
 import Analytics from './pages/Analytics/Analytics'
 import Users from './pages/Users/Users'
-import ManageAdmins from './pages/ManageAdmins/ManageAdmins'
 import SendLetter from './pages/SendLetter/SendLetter'
 import PromoCodeList from './pages/PromoCodeList/PromoCodeList'
 import ListOfPayments from './pages/ListOfPayments/ListOfPayments'
@@ -28,7 +27,7 @@ function App() {
       <Routes>
         <Route path="/clients/add" element={<AddUser />
         } />
-        <Route path="/clients/login" element={<LoginNewUser />
+        <Route path="/clients/registration" element={<LoginNewUser />
         } />
         <Route path="/clients/collector" element={<AddCollector />
         } />
@@ -52,6 +51,8 @@ function App() {
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/users" element={<Users />} />
           <Route path="/admins" element={<AdminList />} />
+          <Route path="/admins/registration" element={<LoginNewUser />
+          } />
           <Route path="/letter" element={<SendLetter />} />
           <Route path="/promo" element={<PromoCodeList />} />
           <Route path="/payments" element={<ListOfPayments />} />
