@@ -13,13 +13,16 @@ import suitcaseImg from '../../../images/icons/suitcase.svg'
 import usersListImg from '../../../images/icons/users-list.svg'
 // import usersImg from '../../../images/icons/users.svg'
 // import vipImg from '../../../images/icons/vip.svg'
+import MenuImg from '../../../images/icons/menu-side.svg'
 
 
-function AdminLayout({ isOpened }: { isOpened: boolean }) {
+function AdminLayout({ isOpened, setIsOpen }: { isOpened: boolean, setIsOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
     return (
         <>
             {isOpened && <div className={styles.sidebar}>
+
                 <div className={styles.logo_container}>
+                    <div onClick={() => { setIsOpen(prev => !prev) }} className={styles.sidebar_menu}><img src={MenuImg} alt='menu' className={styles.menu} /></div>
                     <img className={styles.logo} src={logoImg} alt='logo' />
                 </div>
 

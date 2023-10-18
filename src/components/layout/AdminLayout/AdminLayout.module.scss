@@ -2,7 +2,8 @@
 
 @import '../../../configs/theme/theme-variables.scss';
 
-.right_side, .right_side__full  {
+.right_side,
+.right_side__full {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -69,6 +70,53 @@
   }
 }
 
-.menu{
+.logo_container {
+  display: none;
+}
+
+.menu {
   cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+  .right_side,
+  .right_side__full {
+    .header {
+      display: none;
+    }
+  }
+
+  .logo_container {
+    display: flex;
+    background: #1f263e;
+    flex-direction: row;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+    padding-left: 20px;
+    padding-top: 40px;
+    position: relative;
+    padding-bottom: 15px;
+    box-sizing: border-box;
+    &_menu {
+      box-sizing: border-box;
+
+      display: block;
+      border-radius: 8px;
+      background: #293354;
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: 20px;
+      bottom: 15px;
+      cursor: pointer;
+    }
+    .logo {
+      width: 124.777px;
+      height: 33.923px;
+    }
+  }
 }

@@ -54,7 +54,7 @@ function AddArtist() {
 
     return (
         <AdminLayout headerRight={
-            null} navigationItems={['Artist']} pageHeader='About me ( Artist )'>
+            null} navigationItems={['Artist']} pageHeader='About me (Artist)'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>
                     <div className={styles.input_row_container}><InputPopup error={countriesError} options={countries} selectedOption={selectedCountry} setSelectedOption={setSelectedCountry} onChange={setSelectedCountry} label={'Select country'} /></div>
@@ -70,8 +70,10 @@ function AddArtist() {
                     <div className={styles.input_row_container}><MultiSelect error={classificationsError} options={classifications} selectedOption={selectedClassifications} setSelectedOption={setSelectedClassifications} label={'Art classifications'} /></div>
                 </div>
                 <div className={styles.input_col_container}><ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} /></div>
+
             </div>
             <NavigationSteps onContinue={() => { console.log('continue') }} stepNumber={3} totalAmountSteps={4} />
+
 
 
         </AdminLayout>

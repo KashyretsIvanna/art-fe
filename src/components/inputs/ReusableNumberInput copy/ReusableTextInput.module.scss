@@ -77,6 +77,21 @@
     color: red;
     text-align: center;
     width: 100%;
+  }
+}
 
+@media screen and (max-width: 700px) {
+  .input_text,
+  .input_text__error {
+    height: 54px;
+    padding: 14px;
+    &::placeholder {
+      top: 15px;
+    }
+  }
+
+  .input_label {
+    font-size: 14px;
+    font-weight: 700;
   }
 }

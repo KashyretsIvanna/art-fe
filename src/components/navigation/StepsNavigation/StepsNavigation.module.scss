@@ -57,3 +57,22 @@
     flex-shrink: 0;
   }
 }
+
+@media screen and (max-width: 700px) {
+  .navigation_steps {
+    &__container {
+      position: unset;
+      width: 100%;
+      align-items: center;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      padding-left: 20px;
+      padding-right: 20px;
+
+    }
+
+    &__button {
+      width: 100%;
+    }
+  }
+}

@@ -15,3 +15,31 @@
     line-height: 15px;
   }
 }
+
+@media screen and (max-width: 700px) {
+  .section_header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+
+    &__rectangular {
+      display: none;
+    }
+
+    &__text {
+      color: #1f263e;
+      font-feature-settings: 'clig' off,
+        'liga' off;
+      font-family: Roboto;
+      font-size: 26px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      text-align: center;
+    }
+  }
+}
