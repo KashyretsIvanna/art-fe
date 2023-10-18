@@ -8,6 +8,7 @@ export enum ApiRoutes {
   ART_CLASSIFICATION = '/art-classification',
   ART_ORIENTATION = '/art-orientation',
   GALLERY_TYPE = '/gallery-type',
+  PROFILE = '/profile',
 }
 
 export const keepUnusedDataFor = 0.01;

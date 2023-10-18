@@ -11,6 +11,7 @@ import { useGetClassificationsQuery } from '../../store/services/api/classificat
 import json from '../../shared-data/cities.json'
 import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
+import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
 
 const genders = [
     { value: GenderType.FEMALE, label: 'Female' },
@@ -23,7 +24,7 @@ function AddArtist() {
 
     const { selectedCity, classifications, cities, countries, profileDescription, age, selectedClassifications, selectedCountry, selectedGender, setAge, setCities, setClassifications, setCountries, setProfileDescription, setSelectedCity, setSelectedClassifications, setSelectedCountry, setSelectedGender } = useManageProfile()
     const { ageError, setAgeError, setCitiesError, setCountriesError, profileDescriptionError, setErrorClassification, setGalleryNameError, setGenderError, setOrientationsError, setProfileDescriptionError, setTypesError, genderError, classificationsError, citiesError, countriesError, } = useManageFormErrors()
-
+    const [createProfile, { data: cretedProfileData, error }] = useCreateProfileMutation()
     const parseJson = async () => {
         const regionNames = new Intl.DisplayNames(
             ['en'], { type: 'region' }
@@ -51,6 +52,52 @@ function AddArtist() {
         }
     }, [data])
 
+    const clickButton = () => {
+
+        setAgeError('')
+        setCitiesError('')
+        setErrorClassification('')
+        setCountriesError('')
+        setGenderError('')
+
+
+        if (!age || age < 18 || age > 100) {
+            setAgeError('Age should be more than 18 or less than 100')
+        }
+        if (selectedCity.value === '0') {
+            setCitiesError('Choose city')
+        }
+        if (selectedClassifications.length === 0) {
+            setErrorClassification('Choose classifications')
+        }
+        if (selectedClassifications.length > 5) {
+            setErrorClassification('You can choose up to 5 classifications')
+        }
+
+
+        if (selectedCountry.value === '0') {
+            setCountriesError('You can choose up to 5 classifications')
+        }
+
+        if (selectedGender.value === '0') {
+            setGenderError('You can choose up to 5 classifications')
+        }
+
+        if (!ageError && !citiesError && !classificationsError && !countriesError && !genderError) {
+            createProfile({
+                role: 'ARTIST',
+                gender: selectedGender.label,
+                age,
+                profileDescription,
+                classifications: selectedClassifications.map(el => Number(el.value)),
+                // lat: 50.450001,
+                // lng: 30.523333,
+                city: selectedCity.label,
+                country: selectedCountry.label,
+            })
+        }
+    }
+
 
     return (
         <AdminLayout headerRight={
@@ -72,7 +119,7 @@ function AddArtist() {
                 <div className={styles.input_col_container}><ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} /></div>
 
             </div>
-            <NavigationSteps onContinue={() => { console.log('continue') }} stepNumber={3} totalAmountSteps={4} />
+            <NavigationSteps disabled={false} onContinue={() => { console.log('continue') }} stepNumber={3} totalAmountSteps={4} />
 
 
 
