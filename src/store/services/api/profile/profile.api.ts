@@ -14,7 +14,7 @@ export const profileApi = createApi({
       baseApiUrl + '/api' + ApiRoutes.PROFILE,
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).user
-        .access_token;
+        .added_user_access_token;
       if (token) {
         headers.set(
           'authorization',
@@ -36,10 +36,8 @@ export const profileApi = createApi({
         classifications: number[];
         orientations?: number[];
         galleryTypes?: number[];
-        // lat: 50.450001;
-        // lng: 30.523333;
-        city: string;
-        country: string;
+        lat: number;
+        lng: number;
       }) => ({
         url: '',
         method: 'POST',

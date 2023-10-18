@@ -12,6 +12,7 @@ import json from '../../shared-data/cities.json'
 import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
+import { useNavigate } from 'react-router-dom';
 
 const genders = [
     { value: GenderType.FEMALE, label: 'Female' },
@@ -32,6 +33,7 @@ function AddArtist() {
         setCountries(Object.keys(json).map(el => ({ label: regionNames.of(el), value: el })))
 
     }
+    const navigate = useNavigate()
 
     useEffect(() => { parseJson() }, [])
     useEffect(() => {
@@ -62,7 +64,7 @@ function AddArtist() {
 
 
         if (!age || age < 18 || age > 100) {
-            setAgeError('Age should be more than 18 or less than 100')
+            setAgeError('Wrong age')
         }
         if (selectedCity.value === '0') {
             setCitiesError('Choose city')
@@ -76,27 +78,32 @@ function AddArtist() {
 
 
         if (selectedCountry.value === '0') {
-            setCountriesError('You can choose up to 5 classifications')
+            setCountriesError('Choose country')
         }
 
         if (selectedGender.value === '0') {
-            setGenderError('You can choose up to 5 classifications')
+            setGenderError('Choose gender')
         }
 
         if (!ageError && !citiesError && !classificationsError && !countriesError && !genderError) {
             createProfile({
                 role: 'ARTIST',
-                gender: selectedGender.label,
-                age,
+                gender: selectedGender.label.toUpperCase().split(' ').join('_'),
+                age: Number(age),
                 profileDescription,
                 classifications: selectedClassifications.map(el => Number(el.value)),
-                // lat: 50.450001,
-                // lng: 30.523333,
-                city: selectedCity.label,
-                country: selectedCountry.label,
+                lat: 50.450001,
+                lng: 30.523333,
+
             })
         }
     }
+
+    useEffect(() => {
+        if (cretedProfileData) {
+            navigate('/clients/look-for')
+        }
+    }, [cretedProfileData])
 
 
     return (
@@ -119,7 +126,7 @@ function AddArtist() {
                 <div className={styles.input_col_container}><ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} /></div>
 
             </div>
-            <NavigationSteps disabled={false} onContinue={() => { console.log('continue') }} stepNumber={3} totalAmountSteps={4} />
+            <NavigationSteps disabled={false} onContinue={() => { clickButton() }} stepNumber={3} totalAmountSteps={4} />
 
 
 

@@ -37,14 +37,12 @@ function AddPhotos() {
                     console.log(error)
                 }
 
-                if (index === photoList.length - 1) {
-                    navigate('/clients/add')
-
-                }
 
 
             }
         })
+        navigate('/clients/add')
+
 
 
     }
