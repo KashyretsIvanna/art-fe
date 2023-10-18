@@ -19,6 +19,7 @@ import AddUser from './pages/AddUser/AddUser'
 import LookingFor from './pages/LookingFor/LookingFor'
 import LoginNewUser from './pages/LoginNewUser/LoginNewUser'
 import AdminList from './pages/AdminList/AdminList'
+import AddPhotos from './pages/AddPhotos/AddPhotos'
 
 function App() {
 
@@ -37,6 +38,9 @@ function App() {
         } />
         <Route path="/clients/look-for" element={<LookingFor />
         } />
+        <Route path="/clients/photos/add" element={<AddPhotos />
+        } />
+
 
 
         <Route path="/login" element={<Login />} />

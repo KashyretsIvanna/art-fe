@@ -63,7 +63,7 @@ function LoginNewUser() {
     useEffect(() => {
         if (isRegisterSuccess) {
             dispatch(setNewUser({ added_user_access_token: registerData.accessToken }));
-            navigate('/clients/add');
+            navigate('/clients/photos/add');
         }
 
     }, [isRegisterSuccess, registerData])

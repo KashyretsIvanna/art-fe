@@ -1,0 +1,60 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+.grid_photo {
+  display: grid;
+  grid-template:
+    'a b c d'
+    'e i j k';
+  row-gap: 18px;
+  column-gap: 12px;
+  width: max-content;
+
+  &__a {
+    grid-area: a;
+    width: max-content;
+    height: max-content;
+  }
+
+  &__b {
+    grid-area: b;
+    width: max-content;
+    height: max-content;
+  }
+
+  &__c {
+    grid-area: c;
+    width: max-content;
+    height: max-content;
+  }
+
+  &__d {
+    grid-area: d;
+    width: max-content;
+    height: max-content;
+  }
+
+  &__e {
+    grid-area: e;
+    width: max-content;
+    height: max-content;
+  }
+
+  &__i {
+    grid-area: i;
+    width: max-content;
+    height: max-content;
+  }
+
+  &__j {
+    grid-area: j;
+    width: max-content;
+    height: max-content;
+  }
+
+  &__k {
+    grid-area: k;
+    width: max-content;
+    height: max-content;
+  }
+}
