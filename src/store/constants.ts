@@ -16,6 +16,7 @@ export const keepUnusedDataFor = 0.01;
 export const apiTags = {
   user: 'User',
   admins: 'Admins',
+  profile: 'Profile',
   files: 'Files',
 };
 
@@ -23,4 +24,11 @@ export const routes = {
   login: '/',
   users: '/users',
   listOfUsers: '/clients',
+  registerNewUser: '/registration',
+  addPhotos: '/photos/add',
+  createProfile: '/clients/add',
+  createArtist: '/clients/artist',
+  createGallery: '/clients/gallery',
+  createCollector: '/clients/collector',
+  setLookingFor: '/clients/look-for',
 };

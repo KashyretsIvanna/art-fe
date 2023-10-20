@@ -32,6 +32,7 @@ export const userApi =
         keepUnusedDataFor: 0.0001,
         providesTags: [apiTags.user],
       }),
+
       getUsers: builder.query<
         UserListRes,
         { take: number; page: number }

@@ -6,27 +6,32 @@ export default function useManageFormErrors() {
   const [
     classificationsError,
     setErrorClassification,
-  ] = useState('');
+  ] = useState<null | string>(null);
 
-  const [citiesError, setCitiesError] =
-    useState('');
+  const [citiesError, setCitiesError] = useState<
+    null | string
+  >(null);
   const [countriesError, setCountriesError] =
-    useState('');
+    useState<null | string>(null);
   const [
     profileDescriptionError,
     setProfileDescriptionError,
-  ] = useState('');
-  const [ageError, setAgeError] = useState('');
+  ] = useState<null | string>(null);
+  const [ageError, setAgeError] = useState<
+    null | string
+  >(null);
   const [
     orientationsError,
     setOrientationsError,
-  ] = useState('');
+  ] = useState<null | string>(null);
   const [galleryNameError, setGalleryNameError] =
-    useState('');
-  const [typesError, setTypesError] =
-    useState('');
-  const [genderError, setGenderError] =
-    useState('');
+    useState<null | string>(null);
+  const [typesError, setTypesError] = useState<
+    null | string
+  >(null);
+  const [genderError, setGenderError] = useState<
+    null | string
+  >(null);
 
   return {
     setTypesError,

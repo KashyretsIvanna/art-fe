@@ -30,7 +30,7 @@ function AddUser() {
         value: string;
         label: string;
     }) => {
-        
+
         dispatch(setRole({
             role: role.value,
         }))
@@ -48,7 +48,7 @@ function AddUser() {
             <div className={styles.add_user__container}>
                 <InputPopup selectedOption={selectedRole} setSelectedOption={setSelectedRole} options={roles} onChange={changeRole} label={'Select user'} />
             </div>
-            <NavigationSteps stepNumber={2} totalAmountSteps={4} onContinue={function (): void {
+            <NavigationSteps disabled={false} stepNumber={2} totalAmountSteps={4} onContinue={function (): void {
                 if (selectedRole.value === 'COLLECTOR') {
                     navigate('/clients/collector')
 

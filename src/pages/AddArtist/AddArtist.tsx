@@ -38,7 +38,7 @@ function AddArtist() {
     useEffect(() => { parseJson() }, [])
     useEffect(() => {
         if (selectedCountry.value !== '0') {
-            setCities(json[selectedCountry.value].map(el => ({ label: el.name, value: el.name })))
+            setCities(json[selectedCountry.value].map(el => ({ label: el.name, value: el.name, lat: el.lat, lng: el.lng })))
         }
         setSelectedCity({ value: '0', label: 'Select city' })
     }, [selectedCountry])
@@ -54,49 +54,58 @@ function AddArtist() {
         }
     }, [data])
 
+    useEffect(() => {
+        if (!((!age || age < 18 || age > 100) && selectedCity.value === '0' && (selectedClassifications.length === 0 || selectedClassifications.length > 5) && selectedCountry.value === '0' && selectedGender.value === '0')) {
+
+
+
+            if (!age || age < 18 || age > 100) {
+                setAgeError('Wrong age')
+            } else {
+                setAgeError('')
+            }
+
+            if (selectedCity.value === '0') {
+                setCitiesError('Choose city')
+            } else {
+                setCitiesError('')
+            }
+
+            if (selectedClassifications.length === 0 || selectedClassifications.length > 5) {
+                setErrorClassification('Choose classifications')
+            } else {
+                setErrorClassification('')
+            }
+
+
+            if (selectedCountry.value === '0') {
+                setCountriesError('Choose country')
+            } else {
+                setCountriesError('')
+            }
+
+            if (selectedGender.value === '0') {
+                setGenderError('Choose gender')
+            } else {
+                setGenderError('')
+            }
+        }
+
+    }, [age, ageError, citiesError, classificationsError, countriesError, genderError, selectedCity.value, selectedClassifications.length, selectedCountry.value, selectedGender.value])
+
     const clickButton = () => {
+        createProfile({
+            role: 'ARTIST',
+            gender: selectedGender.label.toUpperCase().split(' ').join('_'),
+            age: Number(age),
+            profileDescription,
+            classifications: selectedClassifications.map(el => Number(el.value)),
+            lat: Number(selectedCity.lat),
+            lng: Number(selectedCity.lng),
 
-        setAgeError('')
-        setCitiesError('')
-        setErrorClassification('')
-        setCountriesError('')
-        setGenderError('')
-
-
-        if (!age || age < 18 || age > 100) {
-            setAgeError('Wrong age')
-        }
-        if (selectedCity.value === '0') {
-            setCitiesError('Choose city')
-        }
-        if (selectedClassifications.length === 0) {
-            setErrorClassification('Choose classifications')
-        }
-        if (selectedClassifications.length > 5) {
-            setErrorClassification('You can choose up to 5 classifications')
-        }
+        })
 
 
-        if (selectedCountry.value === '0') {
-            setCountriesError('Choose country')
-        }
-
-        if (selectedGender.value === '0') {
-            setGenderError('Choose gender')
-        }
-
-        if (!ageError && !citiesError && !classificationsError && !countriesError && !genderError) {
-            createProfile({
-                role: 'ARTIST',
-                gender: selectedGender.label.toUpperCase().split(' ').join('_'),
-                age: Number(age),
-                profileDescription,
-                classifications: selectedClassifications.map(el => Number(el.value)),
-                lat: 50.450001,
-                lng: 30.523333,
-
-            })
-        }
     }
 
     useEffect(() => {
@@ -104,7 +113,6 @@ function AddArtist() {
             navigate('/clients/look-for')
         }
     }, [cretedProfileData])
-
 
     return (
         <AdminLayout headerRight={
@@ -126,7 +134,7 @@ function AddArtist() {
                 <div className={styles.input_col_container}><ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} /></div>
 
             </div>
-            <NavigationSteps disabled={false} onContinue={() => { clickButton() }} stepNumber={3} totalAmountSteps={4} />
+            <NavigationSteps disabled={!(!ageError && !citiesError && !classificationsError && !countriesError && !genderError && ageError !== null && citiesError !== null && classificationsError !== null && countriesError !== null && genderError !== null)} onContinue={clickButton} stepNumber={3} totalAmountSteps={4} />
 
 
 

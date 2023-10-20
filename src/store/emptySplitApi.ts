@@ -10,13 +10,12 @@ import {
 } from '@reduxjs/toolkit/query/react';
 
 import { ApiError } from './types/error.types';
-import { getAdminHeaders } from './utils/api';
+import { getHeaders } from './utils/api';
 import { apiTags } from './constants';
-import { baseAdminUrl } from './constants/api.constants';
-export const emptySplitAdminApi = createApi({
+export const emptySplitApi = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: baseAdminUrl + '/api',
-    prepareHeaders: getAdminHeaders(),
+    baseUrl: '',
+    prepareHeaders: getHeaders(),
     paramsSerializer: (params) => {
       return queryString.stringify(params, {
         arrayFormat: 'bracket',

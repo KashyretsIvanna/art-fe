@@ -19,7 +19,7 @@ const initialState: AuthState = {
 };
 
 const authSlice = createSlice({
-  name: 'user',
+  name: 'auth',
   initialState,
   reducers: {
     setUser(
@@ -77,3 +77,7 @@ export const authReducer = authSlice.reducer;
 export const selectAuthToken = (
   state: RootState,
 ) => state.user.access_token;
+
+export const selectNewUserAuthToken = (
+  state: RootState,
+) => state.user.added_user_access_token;

@@ -5,12 +5,12 @@ import emailIcon from '../../images/email.svg'
 import passwordIcon from '../../images/password.svg'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useRegisterNewUserMutation } from '../../store/services/admin-api/auth/auth.api';
 import { setNewUser } from '../../store/services/admin-api/auth/auth.slice';
 import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNavigation';
 import AdminLayout from '../../components/layout/AdminLayout/AdminLayout';
 import PersonImg from '../../images/icons/person.svg'
 import { useRegisterNewAdminMutation } from '../../store/services/admin-api/admins/adminApi';
+import { useRegisterNewUserMutation } from '../../store/services/api/profile/profile.api';
 
 function LoginNewUser() {
     const [error, setError] = useState('')

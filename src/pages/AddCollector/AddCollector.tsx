@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import json from '../../shared-data/cities.json'
 import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
+import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
 
 
 const genders = [
@@ -25,7 +26,10 @@ function AddCollector() {
     const navigate = useNavigate()
 
     const { selectedCity, cities, countries, profileDescription, age, selectedCountry, selectedGender, setAge, setCities, setCountries, setProfileDescription, setSelectedCity, setSelectedCountry, setSelectedGender } = useManageProfile()
-    const { ageError, profileDescriptionError, genderError, citiesError, countriesError, } = useManageFormErrors()
+
+    const { ageError, setAgeError, setCitiesError, setCountriesError, profileDescriptionError, setGenderError, genderError, citiesError, countriesError, } = useManageFormErrors()
+
+    const [createProfile, { data: cretedProfileData, error }] = useCreateProfileMutation()
 
     const parseJson = async () => {
         const regionNames = new Intl.DisplayNames(
@@ -38,11 +42,58 @@ function AddCollector() {
     useEffect(() => { parseJson() }, [])
     useEffect(() => {
         if (selectedCountry.value !== '0') {
-            setCities(json[selectedCountry.value].map(el => ({ label: el.name, value: el.name })))
+            setCities(json[selectedCountry.value].map(el => ({ label: el.name, value: el.name, lat: el.lat, lng: el.lng })))
         }
         setSelectedCity({ value: '0', label: 'Select city' })
     }, [selectedCountry])
 
+
+    const clickButton = () => {
+
+        createProfile({
+            role: 'COLLECTOR',
+            gender: selectedGender.label.toUpperCase().split(' ').join('_'),
+            age: Number(age),
+            profileDescription,
+            lat: Number(selectedCity.lat),
+            lng: Number(selectedCity.lng),
+
+        })
+
+    }
+
+    useEffect(() => {
+        if (cretedProfileData) {
+            navigate('/clients/look-for')
+        }
+    }, [cretedProfileData])
+
+    useEffect(() => {
+        if (!(!age && selectedCity.value === '0' && selectedCountry.value === '0' && selectedGender.value === '0')) {
+            if (!age || age < 18 || age > 100) {
+                setAgeError('Wrong age')
+            } else {
+                setAgeError('')
+            }
+            if (selectedCity.value === '0') {
+                setCitiesError('Choose city')
+            } else {
+                setCitiesError('')
+            }
+
+            if (selectedCountry.value === '0') {
+                setCountriesError('Choose country')
+            } else {
+                setCountriesError('')
+            }
+
+            if (selectedGender.value === '0') {
+                setGenderError('Choose gender')
+            } else {
+                setGenderError('')
+            }
+        }
+    }, [age, selectedCity.value, selectedCountry.value, selectedGender.value])
 
     return (
         <AdminLayout headerRight={
@@ -60,7 +111,7 @@ function AddCollector() {
                 </div>
                 <div className={styles.input_col_container}><ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} /></div>
             </div>
-            <NavigationSteps onContinue={() => { navigate('lookFor') }} stepNumber={3} totalAmountSteps={4} />
+            <NavigationSteps disabled={!(!ageError && !citiesError && !countriesError && !genderError && genderError !== null && countriesError !== null && citiesError !== null && ageError !== null)} onContinue={clickButton} stepNumber={3} totalAmountSteps={4} />
         </AdminLayout>
 
 

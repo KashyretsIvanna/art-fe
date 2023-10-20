@@ -20,29 +20,13 @@ import LookingFor from './pages/LookingFor/LookingFor'
 import LoginNewUser from './pages/LoginNewUser/LoginNewUser'
 import AdminList from './pages/AdminList/AdminList'
 import AddPhotos from './pages/AddPhotos/AddPhotos'
+import NewUserPrivateRoute from './routes/NewUserPrivateRoute'
 
 function App() {
 
   return (
     <div className="App">
       <Routes>
-        <Route path="/clients/add" element={<AddUser />
-        } />
-        <Route path="/clients/registration" element={<LoginNewUser />
-        } />
-        <Route path="/clients/collector" element={<AddCollector />
-        } />
-        <Route path="/clients/gallery" element={<AddGallery />
-        } />
-        <Route path="/clients/artist" element={<AddArtist />
-        } />
-        <Route path="/clients/look-for" element={<LookingFor />
-        } />
-        <Route path="/clients/photos/add" element={<AddPhotos />
-        } />
-
-
-
         <Route path="/login" element={<Login />} />
         <Route element={<PrivateRoute />}>
           <Route path="/clients" element={<UserList />
@@ -50,19 +34,35 @@ function App() {
 
           <Route path="/clients/:id" element={<UserInfo />
           } />
-
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/users" element={<Users />} />
           <Route path="/admins" element={<AdminList />} />
-          <Route path="/admins/registration" element={<LoginNewUser />
-          } />
+
           <Route path="/letter" element={<SendLetter />} />
           <Route path="/promo" element={<PromoCodeList />} />
           <Route path="/payments" element={<ListOfPayments />} />
           <Route path="/vip" element={<VipPricing />} />
           <Route path="/settings" element={<Settings />} />
-        </Route>
+          {/* <Route element={<NewUserPrivateRoute />}> */}
+            <Route path="/clients/add" element={<AddUser />
+            } />
+            <Route path="/clients/registration" element={<LoginNewUser />
+            } />
+            <Route path="/clients/collector" element={<AddCollector />
+            } />
+            <Route path="/clients/gallery" element={<AddGallery />
+            } />
+            <Route path="/clients/artist" element={<AddArtist />
+            } />
+            <Route path="/clients/look-for" element={<LookingFor />
+            } />
+            <Route path="/clients/photos/add" element={<AddPhotos />
+            } />
+            <Route path="/admins/registration" element={<LoginNewUser />
+            } />
+          </Route>
+        {/* </Route> */}
         <Route path="*" element={<Navigate to={'/login'} />} />
 
 

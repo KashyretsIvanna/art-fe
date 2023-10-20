@@ -146,3 +146,7 @@ export const addUserReducer = userSlice.reducer;
 export const selectAddedUserData = (
   state: RootState,
 ) => state.addedUser;
+
+export const selectNewUserRole = (
+  state: RootState,
+) => state.addedUser.role;

@@ -15,10 +15,38 @@ export const getHeaders = (): ((
     api: Pick<BaseQueryApi, 'getState'>,
   ): MaybePromise<void | Headers> | undefined => {
     const token = (api.getState() as RootState)
+      .user.added_user_access_token;
+
+    if (
+      token &&
+      api.endpoint !== 'registerNewUser'
+    ) {
+      console.log(headers);
+      headers.set(
+        'Authorization',
+        `Bearer ${token}`,
+      );
+    }
+
+    return headers;
+  };
+};
+
+export const getAdminHeaders = (): ((
+  headers: Headers,
+  api: Pick<BaseQueryApi, 'getState'>,
+) =>
+  | MaybePromise<void | Headers>
+  | undefined) => {
+  return (
+    headers: Headers,
+    api: Pick<BaseQueryApi, 'getState'>,
+  ): MaybePromise<void | Headers> | undefined => {
+    const token = (api.getState() as RootState)
       .user.access_token;
     if (token) {
       headers.set(
-        'authorization',
+        'Authorization',
         `Bearer ${token}`,
       );
     }

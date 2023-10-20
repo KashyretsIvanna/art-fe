@@ -10,31 +10,35 @@ import { useGetClassificationsQuery, useGetGalleryTypesQuery, useGetOrientations
 import json from '../../shared-data/cities.json'
 import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
+import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
+import { useNavigate } from 'react-router-dom';
 
 function AddGallery() {
-
-
     const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'GALLERY' })
     const { data: artOrientations } = useGetOrientationsQuery()
     const { data: galleryTypes } = useGetGalleryTypesQuery()
     const { selectedCity, cities, setGalleryTypes, setClassifications, countries, profileDescription, selectedCountry, selectedOrientations, selectedGalleryTypes, setCities, setCountries, setProfileDescription, setSelectedCity, setSelectedCountry, setGalleryName, setSelectedGalleryTypes, setOrientations, setSelectedOrientations, classifications, orientations, galleryName, selectedClassifications, setSelectedClassifications, types } = useManageProfile()
     const { setCitiesError, setCountriesError, galleryNameError,
         typesError, orientationsError, profileDescriptionError, setErrorClassification, setGalleryNameError, setGenderError, setOrientationsError, setProfileDescriptionError, setTypesError, genderError, classificationsError, citiesError, countriesError, } = useManageFormErrors()
+    const navigate = useNavigate()
 
-
+    const [createProfile, { data: cretedProfileData, error }] = useCreateProfileMutation()
     const parseJson = async () => {
         const regionNames = new Intl.DisplayNames(
             ['en'], { type: 'region' }
         );
+        console.log(json)
+
         setCountries(Object.keys(json).map(el => ({ label: regionNames.of(el), value: el })))
 
     }
 
+    useEffect(() => { console.log(cities) }, [cities])
+
     useEffect(() => { parseJson() }, [])
     useEffect(() => {
         if (selectedCountry.value !== '0') {
-            console.log(selectedCountry.value)
-            setCities(json[selectedCountry.value].map(el => ({ label: el.name, value: el.name })))
+            setCities(json[selectedCountry.value].map(el => ({ label: el.name, value: el.name, lat: el.lat, lng: el.lng })))
         }
 
         setSelectedCity({ value: '0', label: 'Select city' })
@@ -64,6 +68,66 @@ function AddGallery() {
             })))
         }
     }, [artOrientations])
+
+    useEffect(() => {
+        if (cretedProfileData) {
+            navigate('/clients/look-for')
+        }
+    }, [cretedProfileData])
+
+    const clickButton = () => {
+        createProfile({
+            role: 'GALLERY',
+            profileDescription,
+            classifications: selectedClassifications.map(el => Number(el.value)),
+            galleryName,
+            orientations: selectedOrientations.map(el => Number(el.value)),
+            galleryTypes: selectedGalleryTypes.map(el => Number(el.value)),
+            lat: Number(selectedCity.lat),
+            lng: Number(selectedCity.lng),
+
+        })
+
+    }
+    useEffect(() => {
+        if (!(selectedCity.value === '0' && (selectedClassifications.length === 0 || selectedClassifications.length > 5 && (selectedOrientations.length === 0 || selectedOrientations.length > 5) && (selectedGalleryTypes.length === 0 || selectedGalleryTypes.length > 5) && !galleryName && selectedCountry.value === '0'))) {
+
+
+            if (selectedCity.value === '0') {
+                setCitiesError('Choose city')
+            } else {
+                setCitiesError('')
+            }
+            if (selectedClassifications.length === 0 || selectedClassifications.length > 5) {
+                setErrorClassification('Choose classifications')
+            } else {
+                setErrorClassification('')
+            }
+            if (selectedOrientations.length === 0 || selectedOrientations.length > 5) {
+                setOrientationsError('Choose orientations')
+            } else {
+                setOrientationsError('')
+            }
+            if (selectedGalleryTypes.length === 0 || selectedGalleryTypes.length > 5) {
+                setTypesError('Choose types')
+            } else {
+                setTypesError('')
+            }
+            if (!galleryName) {
+                setGalleryNameError('Provide gallery name')
+            } else {
+                setGalleryNameError('')
+            }
+            if (selectedCountry.value === '0') {
+                setCountriesError('Choose country')
+            } else {
+                setCountriesError('')
+            }
+        }
+
+
+
+    }, [galleryName, selectedCity.value, selectedClassifications.length, selectedCountry.value, selectedGalleryTypes.length, selectedOrientations.length])
 
     return (
         <AdminLayout headerRight={
@@ -99,7 +163,7 @@ function AddGallery() {
             <div className={styles.inputs_container__textarea}>
                 <ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} />
             </div>
-            <NavigationSteps onContinue={() => { console.log('cont') }} stepNumber={3} totalAmountSteps={4} />
+            <NavigationSteps disabled={!(!citiesError && !classificationsError && !countriesError && !orientationsError && !typesError && !galleryNameError && citiesError !== null && classificationsError !== null && countriesError !== null && orientationsError !== null && typesError !== null && galleryNameError !== null)} onContinue={clickButton} stepNumber={3} totalAmountSteps={4} />
         </AdminLayout>
 
 
