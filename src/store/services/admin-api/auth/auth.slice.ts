@@ -51,8 +51,9 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       state.access_token = '';
+    },
+    logoutNewUser: (state) => {
       state.added_user_access_token = '';
-
     },
   },
 });
@@ -60,7 +61,10 @@ const authSlice = createSlice({
 const authPersistConfig = {
   key: 'user',
   storage,
-  whitelist: ['access_token','added_user_access_token'],
+  whitelist: [
+    'access_token',
+    'added_user_access_token',
+  ],
 };
 
 export const persistedAuthReducer =
@@ -69,8 +73,12 @@ export const persistedAuthReducer =
     authSlice.reducer,
   );
 
-export const { setUser, logout, setNewUser } =
-  authSlice.actions;
+export const {
+  setUser,
+  logout,
+  setNewUser,
+  logoutNewUser,
+} = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
 

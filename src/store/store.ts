@@ -18,6 +18,7 @@ import { persistedAuthReducer } from './services/admin-api/auth/auth.slice';
 import { filesApi } from './services/api/files/files.api';
 import { classificationsApi } from './services/api/classifications/classifications.api';
 import { persistedAddUserReducer } from './services/admin-api/user/user.slice';
+import { emptySplitApi } from './emptySplitApi';
 
 export const store = configureStore({
   reducer: {
@@ -30,8 +31,8 @@ export const store = configureStore({
     addedUser: persistedAddUserReducer,
     [emptySplitAdminApi.reducerPath]:
       emptySplitAdminApi.reducer,
-    // [emptySplitApi.reducerPath]:
-    //   emptySplitApi.reducer,
+    [emptySplitApi.reducerPath]:
+      emptySplitApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -49,7 +50,7 @@ export const store = configureStore({
       userAuthApi.middleware,
       filesApi.middleware,
       emptySplitAdminApi.middleware,
-      // emptySplitApi.middleware,
+      emptySplitApi.middleware,
       classificationsApi.middleware,
     ),
 });

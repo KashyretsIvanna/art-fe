@@ -20,6 +20,11 @@ export interface AddUserState {
   profileDescription: string | null;
   age: number | null;
   gender: string | null;
+  lookFor: string[];
+  artistClassifications: number[];
+  galleryClassifications: number[];
+  galleryOrientations: number[];
+  galleryTypes: number[];
 }
 
 export interface ArtistInfo {
@@ -38,6 +43,20 @@ export interface CollectorInfo {
   profileDescription: string | null;
   age: number | null;
   gender: string | null;
+}
+
+export interface LookingFor {
+  roles: string[];
+}
+
+export interface GalleryLookFor {
+  galleryClassifications: number[];
+  galleryOrientations: number[];
+  galleryTypes: number[];
+}
+
+export interface ArtistLookFor {
+  artistClassifications: number[];
 }
 
 export interface GalleryInfo {
@@ -61,6 +80,11 @@ const initialState: AddUserState = {
   profileDescription: null,
   age: null,
   gender: null,
+  lookFor: [],
+  artistClassifications: [],
+  galleryClassifications: [],
+  galleryOrientations: [],
+  galleryTypes: [],
 };
 
 const userSlice = createSlice({
@@ -119,6 +143,47 @@ const userSlice = createSlice({
       state.role =
         action.payload.profileDescription;
     },
+    setLookingFor(
+      state,
+      action: PayloadAction<LookingFor>,
+    ) {
+      state.lookFor = action.payload.roles;
+    },
+    setArtistClassifications(
+      state,
+      action: PayloadAction<ArtistLookFor>,
+    ) {
+      state.artistClassifications =
+        action.payload.artistClassifications;
+    },
+    setGalleryClassifications(
+      state,
+      action: PayloadAction<GalleryLookFor>,
+    ) {
+      state.galleryClassifications =
+        action.payload.galleryClassifications;
+      state.galleryOrientations =
+        action.payload.galleryOrientations;
+      state.galleryTypes =
+        action.payload.galleryTypes;
+    },
+    removeNewUserData(state) {
+      state.role = null;
+      state.city = null;
+      state.country = null;
+      state.artClassifications = [];
+      state.artOrientations = [];
+      state.galleryType = [];
+      state.galleryName = null;
+      state.profileDescription = null;
+      state.age = null;
+      state.gender = null;
+      state.lookFor = [];
+      state.artistClassifications = [];
+      state.galleryClassifications = [];
+      state.galleryOrientations = [];
+      state.galleryTypes = [];
+    },
   },
 });
 
@@ -128,6 +193,10 @@ export const {
   setCollectorInfo,
   setGalleryInfo,
   setRole,
+  setArtistClassifications,
+  setGalleryClassifications,
+  setLookingFor,
+  removeNewUserData,
 } = userSlice.actions;
 
 const addUserPersistConfig = {

@@ -14,6 +14,7 @@ import { getAdminHeaders } from './utils/api';
 import { apiTags } from './constants';
 import { baseAdminUrl } from './constants/api.constants';
 export const emptySplitAdminApi = createApi({
+  reducerPath: 'emptySplitAdminApi',
   baseQuery: fetchBaseQuery({
     baseUrl: baseAdminUrl + '/api',
     prepareHeaders: getAdminHeaders(),

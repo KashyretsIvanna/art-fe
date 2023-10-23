@@ -1,0 +1,15 @@
+{
+  "premium": {},
+  "standard": {
+    "artist": {
+      "availableLookFor": ["ARTIST", "GALLERY"]
+    },
+    "gallery": {
+      "availableLookFor": ["ARTIST", "GALLERY"]
+    },
+    "collector": {
+      "availableLookFor": ["ARTIST"]
+    },
+    "maxClassifications": 5
+  }
+}

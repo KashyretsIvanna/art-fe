@@ -6,14 +6,20 @@ import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNa
 import { useGetClassificationsQuery } from '../../store/services/api/classifications/classifications.api';
 import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
+import { removeNewUserData, selectAddedUserData } from '../../store/services/admin-api/user/user.slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useSetLookingForMutation } from '../../store/services/api/profile/profile.api';
+import { logoutNewUser } from '../../store/services/admin-api/auth/auth.slice';
 
 function AddArtistClassifications() {
     const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'ARTIST' })
-
     const { setClassifications, classifications, selectedClassifications, setSelectedClassifications } = useManageProfile()
     const { setErrorClassification, classificationsError } = useManageFormErrors()
-
-
+    const newUserData = useSelector(selectAddedUserData)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const [postLookingFor, { status }] = useSetLookingForMutation()
 
     useEffect(() => {
         if (galleryClassifications) {
@@ -24,12 +30,28 @@ function AddArtistClassifications() {
         }
     }, [galleryClassifications, setClassifications])
 
-
-
     const clickButton = () => {
-        console.log('data sent')
-
+        postLookingFor({
+            filters: {
+                artistClassifications: selectedClassifications.map(el => Number(el.value)),
+                galleryClassifications: newUserData.galleryClassifications,
+                galleryTypes: newUserData.galleryTypes,
+                orientations: newUserData.galleryOrientations
+            }, preferences: {
+                isLookingForArtist: true,
+                isLookingForGallery: newUserData.lookFor.includes('GALLERY') ? true : undefined
+            }
+        })
     }
+    
+    useEffect(() => {
+        if (status === 'fulfilled') {
+            dispatch(removeNewUserData())
+            dispatch(logoutNewUser())
+            navigate('/clients')
+        }
+    }, [status])
+
     useEffect(() => {
         if (!((selectedClassifications.length === 0 || selectedClassifications.length > 5))) {
 
@@ -41,8 +63,6 @@ function AddArtistClassifications() {
 
 
         }
-
-
 
     }, [selectedClassifications.length])
 

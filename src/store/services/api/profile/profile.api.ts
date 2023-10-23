@@ -11,6 +11,84 @@ import {
 
 import { emptySplitApi } from '../../../emptySplitApi';
 
+interface UserProfileInfo {
+  user: {
+    email: string;
+    isEmailVerified: boolean;
+    isPhoneVerified: boolean;
+    name: string;
+    phoneNumber: string | null;
+    steps: {
+      isLookingForCompleted: boolean;
+      isPhotosLoaded: boolean;
+      isProfileCompleted: boolean;
+      isNumberEntered: boolean;
+      isNameEntered: boolean;
+    };
+  };
+  profileLimits: {
+    likeLimit: number;
+    likeLimitMax: number;
+    rewindLimitMax: number;
+    favoriteLimitMax: number;
+    picksLimitMax: number;
+    rewindLimit: number;
+    favoriteLimit: number;
+    picksLimit: number;
+    renewLikesDays: number;
+    renewRewindsDays: number;
+    renewFavoritesDays: number;
+    renewPicksDays: number;
+  };
+  profilePhotos: number[];
+  id: number;
+  age: string | null;
+  gender: string | null;
+  birthdate: string | null;
+  aboutMe: string | null;
+  country: string;
+  city: string;
+  role: string;
+  galleryName: string;
+  profileDescription: string;
+  isLookingForArtist: boolean;
+  isLookingForCollector: boolean;
+  isLookingForGallery: boolean;
+  isTutorialShown: boolean;
+  profileSettings: {
+    emailNotificationsRecieveType: string;
+    pushOnNewMessage: boolean;
+    pushOnLikes: boolean;
+    pushOnAddedToFavorites: boolean;
+    pushOnNewMatch: boolean;
+    pushOnAppNews: boolean;
+    distancePreference: number;
+  };
+  avatar: number | null;
+  classifications: {
+    profileArtOrientations: ProfileArtOrientations[];
+    profileClassifications: Classifications[];
+    profileGalleryTypes: GalleryTypes[];
+  };
+  progress: 90;
+  isPremium: false;
+}
+
+interface ProfileArtOrientations {
+  id: number;
+  orientationName: string;
+}
+
+interface Classifications {
+  id: number;
+  classificationName: string;
+}
+
+interface GalleryTypes {
+  id: number;
+  typeName: string;
+}
+
 export const profileApi =
   emptySplitApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -32,6 +110,30 @@ export const profileApi =
             '/api' +
             ApiRoutes.PROFILE,
           method: 'POST',
+          body,
+        }),
+        invalidatesTags: [apiTags.profile],
+      }),
+      setLookingFor: builder.mutation({
+        query: (body: {
+          preferences: {
+            isLookingForGallery?: boolean;
+            isLookingForArtist?: boolean;
+            isLookingForCollector?: boolean;
+          };
+          filters: {
+            galleryClassifications?: number[];
+            galleryTypes?: number[];
+            orientations?: number[];
+            artistClassifications?: number[];
+          };
+        }) => ({
+          url:
+            baseApiUrl +
+            '/api' +
+            ApiRoutes.PROFILE +
+            '/looking-for',
+          method: 'PUT',
           body,
         }),
         invalidatesTags: [apiTags.profile],
@@ -113,6 +215,21 @@ export const profileApi =
         providesTags: [apiTags.profile],
         keepUnusedDataFor: 0.0001,
       }),
+
+      getNewProfileInfo: builder.query<
+        UserProfileInfo,
+        void
+      >({
+        query: () => ({
+          url:
+            baseApiUrl +
+            '/api' +
+            ApiRoutes.PROFILE,
+          method: 'GET',
+        }),
+        providesTags: [apiTags.profile],
+        keepUnusedDataFor: 0.0001,
+      }),
     }),
   });
 
@@ -121,4 +238,6 @@ export const {
   useGetNewUserInfoQuery,
   useAddPhotosMutation,
   useRegisterNewUserMutation,
+  useSetLookingForMutation,
+  useGetNewProfileInfoQuery,
 } = profileApi;

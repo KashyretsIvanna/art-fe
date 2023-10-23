@@ -28,6 +28,8 @@ function App() {
   return (
     <div className="App">
       <Routes>
+        <Route path="/clients/look-for" element={<LookingFor />
+        } />
         <Route path="/clients/gallery/look-for" element={<AddGalleryClassifications />
         } />
         <Route path="/clients/artist/look-for" element={<AddArtistClassifications />
@@ -61,8 +63,7 @@ function App() {
 
           <Route path="/clients/artist" element={<AddArtist />
           } />
-          <Route path="/clients/look-for" element={<LookingFor />
-          } />
+
           <Route path="/clients/photos/add" element={<AddPhotos />
           } />
           <Route path="/admins/registration" element={<LoginNewUser />

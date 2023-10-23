@@ -6,6 +6,11 @@ import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNa
 import { useGetClassificationsQuery, useGetGalleryTypesQuery, useGetOrientationsQuery } from '../../store/services/api/classifications/classifications.api';
 import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
+import { useSetLookingForMutation } from '../../store/services/api/profile/profile.api';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeNewUserData, selectAddedUserData, setGalleryClassifications } from '../../store/services/admin-api/user/user.slice';
+import { useNavigate } from 'react-router-dom';
+import { logoutNewUser } from '../../store/services/admin-api/auth/auth.slice';
 
 function AddGalleryClassifications() {
     const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'GALLERY' })
@@ -13,8 +18,10 @@ function AddGalleryClassifications() {
     const { data: galleryTypes } = useGetGalleryTypesQuery()
     const { setGalleryTypes, setClassifications, selectedOrientations, selectedGalleryTypes, setSelectedGalleryTypes, setOrientations, setSelectedOrientations, classifications, orientations, selectedClassifications, setSelectedClassifications, types } = useManageProfile()
     const { typesError, orientationsError, setErrorClassification, setOrientationsError, setTypesError, classificationsError } = useManageFormErrors()
-
-
+    const newUserData = useSelector(selectAddedUserData)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const [postLookingFor, { data: lookingForRes }] = useSetLookingForMutation()
 
     useEffect(() => {
         if (galleryClassifications) {
@@ -24,6 +31,7 @@ function AddGalleryClassifications() {
             })))
         }
     }, [galleryClassifications, setClassifications])
+
     useEffect(() => {
         if (galleryTypes) {
             setGalleryTypes(galleryTypes.map((el: { id: number; typeName: string; }) => ({
@@ -32,6 +40,7 @@ function AddGalleryClassifications() {
             })))
         }
     }, [galleryTypes])
+
     useEffect(() => {
         if (artOrientations) {
             setOrientations(artOrientations.map((el: { id: number; orientationName: string; }) => ({
@@ -41,11 +50,40 @@ function AddGalleryClassifications() {
         }
     }, [artOrientations])
 
+    useEffect(() => {
+        dispatch(setGalleryClassifications({
+            galleryClassifications: selectedClassifications.map(el => Number(el.value)),
+            galleryOrientations: selectedOrientations.map(el => Number(el.value)),
+            galleryTypes: selectedGalleryTypes.map(el => Number(el.value))
+        }))
+    }, [selectedClassifications, selectedGalleryTypes, selectedOrientations])
 
     const clickButton = () => {
-        console.log('data sent')
+
+        if (newUserData.lookFor.includes('ARTIST')) {
+            navigate('/clients/artist/look-for')
+        } else {
+            postLookingFor({
+                filters: {
+                    galleryClassifications: selectedClassifications.map(el => Number(el.value)),
+                    galleryTypes: selectedGalleryTypes.map(el => Number(el.value)),
+                    orientations: selectedOrientations.map(el => Number(el.value))
+                },
+                preferences: { isLookingForGallery: true }
+            })
+
+        }
 
     }
+
+    useEffect(() => {
+        if (lookingForRes) {
+            dispatch(removeNewUserData())
+            dispatch(logoutNewUser())
+            navigate('/clients')
+        }
+    }, [lookingForRes])
+
     useEffect(() => {
         if (!((selectedClassifications.length === 0 || selectedClassifications.length > 5 && (selectedOrientations.length === 0 || selectedOrientations.length > 5) && (selectedGalleryTypes.length === 0 || selectedGalleryTypes.length > 5)))) {
 
@@ -73,7 +111,7 @@ function AddGalleryClassifications() {
 
     return (
         <AdminLayout headerRight={
-            null} navigationItems={['Gallery', 'User name']} pageHeader='Gallery'>
+            null} navigationItems={['Gallery', 'User name', 'Look For']} pageHeader='Gallery'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>
 
