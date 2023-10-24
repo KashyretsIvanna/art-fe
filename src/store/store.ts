@@ -19,6 +19,7 @@ import { filesApi } from './services/api/files/files.api';
 import { classificationsApi } from './services/api/classifications/classifications.api';
 import { persistedAddUserReducer } from './services/admin-api/user/user.slice';
 import { emptySplitApi } from './emptySplitApi';
+import { locationReducer } from './services/application/location/location.slice';
 
 export const store = configureStore({
   reducer: {
@@ -28,6 +29,7 @@ export const store = configureStore({
       classificationsApi.reducer,
     [filesApi.reducerPath]: filesApi.reducer,
     user: persistedAuthReducer,
+    location: locationReducer,
     addedUser: persistedAddUserReducer,
     [emptySplitAdminApi.reducerPath]:
       emptySplitAdminApi.reducer,
