@@ -28,7 +28,7 @@ function AdminLayout(props: { navigationItems: string[], pageHeader: string; chi
                 <div className={styles.header}>
 
                     <div className={styles.left_side}>
-                        <img onClick={() => { dispatch(setIsSidebarOpened()) }} src={MenuImg} alt='menu' className={styles.menu} />
+                        <img onClick={() => { dispatch(setIsSidebarOpened({ isOpened: !locationData.isSidebarOpened })) }} src={MenuImg} alt='menu' className={styles.menu} />
                         <InputSearch placeholder='Search...' img={SearchImg} data={search} setData={setSearch} />
                     </div>
                     <div className={styles.header__right_side}>
@@ -38,7 +38,7 @@ function AdminLayout(props: { navigationItems: string[], pageHeader: string; chi
 
                 </div>
                 <div className={styles.logo_container}>
-                    <div onClick={() => { dispatch(setIsSidebarOpened()) }} className={styles.logo_container_menu}><img src={MenuImgMobile} alt='menu' className={styles.menu} /></div>
+                    <div onClick={() => { dispatch(setIsSidebarOpened({ isOpened: !locationData.isSidebarOpened })) }} className={styles.logo_container_menu}><img src={MenuImgMobile} alt='menu' className={styles.menu} /></div>
                     <img className={styles.logo} src={logoImg} alt='logo' />
                 </div>
                 <div className={styles.layout_body}>

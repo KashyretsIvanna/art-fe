@@ -27,9 +27,10 @@ function AdminLayout() {
 
     useEffect(() => {
         if (window.innerWidth <= 700) {
-            dispatch(setIsSidebarOpened())
+            dispatch(setIsSidebarOpened({ isOpened: false }))
 
         }
+
     }, [])
 
     return (
@@ -37,7 +38,7 @@ function AdminLayout() {
             {locationData.isSidebarOpened && <div className={styles.sidebar}>
 
                 <div className={styles.logo_container}>
-                    <div onClick={() => { dispatch(setIsSidebarOpened()) }} className={styles.sidebar_menu}><img src={MenuImg} alt='menu' className={styles.menu} /></div>
+                    <div onClick={() => { dispatch(setIsSidebarOpened({ isOpened: !locationData.isSidebarOpened })) }} className={styles.sidebar_menu}><img src={MenuImg} alt='menu' className={styles.menu} /></div>
                     <img className={styles.logo} src={logoImg} alt='logo' />
                 </div>
 
