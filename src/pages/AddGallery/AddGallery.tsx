@@ -88,7 +88,7 @@ function AddGallery() {
 
     }
     useEffect(() => {
-        if (!(selectedCity.value === '0' && (selectedClassifications.length === 0 || selectedClassifications.length > 5 && (selectedOrientations.length === 0 || selectedOrientations.length > 5) && (selectedGalleryTypes.length === 0 || selectedGalleryTypes.length > 5) && !galleryName && selectedCountry.value === '0'))) {
+        if (!(selectedCity.value === '0' && selectedClassifications.length === 0 && selectedOrientations.length === 0 && selectedGalleryTypes.length === 0 && !galleryName && selectedCountry.value === '0')) {
 
 
             if (selectedCity.value === '0') {
@@ -124,10 +124,15 @@ function AddGallery() {
             }
 
             if (!galleryName) {
-                setGalleryNameError('Provide gallery name')
-            } else {
+                setGalleryNameError("Gallery name shouldn't be empty!")
+            } else if (galleryName.length > 40) {
+                setGalleryNameError('Max length is 40!')
+            }
+            else {
                 setGalleryNameError('')
             }
+
+
             if (selectedCountry.value === '0') {
                 setCountriesError('Choose country')
             } else {
@@ -145,7 +150,7 @@ function AddGallery() {
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>
                     <div className={styles.input_row_container}>
-                        <ReusableTextInput max={40} error={galleryNameError} label={'Gallery Name'} data={galleryName} setData={setGalleryName} placeholder={'Gallery name'} />
+                        <ReusableTextInput error={galleryNameError} label={'Gallery Name'} data={galleryName} setData={setGalleryName} placeholder={'Gallery name'} />
                     </div>
                     <div className={styles.input_row_container}>
                         <MultiSelect options={types} selectedOption={selectedGalleryTypes} setSelectedOption={setSelectedGalleryTypes} label={'Gallery type'} error={typesError} />

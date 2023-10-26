@@ -55,7 +55,7 @@ function AddArtist() {
     }, [data])
 
     useEffect(() => {
-        if (!((!age || age < 18 || age > 100) && selectedCity.value === '0' && (selectedClassifications.length === 0 || selectedClassifications.length > 5) && selectedCountry.value === '0' && selectedGender.value === '0')) {
+        if (!((!age || age < 18 || age > 100) && selectedCity.value === '0' && selectedClassifications.length === 0  && selectedCountry.value === '0' && selectedGender.value === '0')) {
 
 
 
