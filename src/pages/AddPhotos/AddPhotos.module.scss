@@ -6,7 +6,8 @@
   padding: 37px;
   padding-top: 16px;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 125px);
+
   box-sizing: border-box;
   &__description {
     color: #313131;

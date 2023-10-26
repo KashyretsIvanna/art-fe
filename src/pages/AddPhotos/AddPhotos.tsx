@@ -4,10 +4,8 @@ import GridPhotoContainer from '../../components/info-cards/GridPhotoContainer/G
 import styles from './AddPhotos.module.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { ApiRoutes } from '../../store/constants';
-import { baseApiUrl } from '../../store/constants/api.constants';
 import { useAddPhotosMutation } from '../../store/services/api/profile/profile.api';
+import ModalWithPhoto from '../../components/modals/Photo/Photo';
 function AddPhotos() {
     const [isButtonDisabled, setButtonDisabled] = useState(true)
     const [photoList, setPhotoList] = useState<{ file: (Blob | MediaSource) | null, order: number }[]>([])
@@ -39,19 +37,25 @@ function AddPhotos() {
         }
     }, [photoList])
 
+    const [openedPhoto, setOpenedPhoto] = useState<string | undefined>()
+
 
     return (
         <AdminLayout headerRight={
             null} navigationItems={['All Clients', 'Add photos']} pageHeader='Add Photos' >
 
+            {openedPhoto && <ModalWithPhoto closeModal={function (): void {
+                setOpenedPhoto(undefined)
+            }} img={openedPhoto} />}
             <div className={styles.add_photos}>
                 <p className={styles.add_photos__description}>Add at least 1 photo to continue to reorder your photos, use drag&drop</p>
-                <GridPhotoContainer setPhotoList={setPhotoList} /></div>
+                <GridPhotoContainer setPhotoToOpen={setOpenedPhoto} setPhotoList={setPhotoList} /></div>
 
 
             <NavigationSteps disabled={isButtonDisabled} onContinue={() => {
                 clickButton()
             }} stepNumber={2} totalAmountSteps={4} />
+
         </AdminLayout >
     )
 }

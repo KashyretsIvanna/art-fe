@@ -39,7 +39,7 @@
       border: #313131 1px solid;
       border-radius: 50%;
       background-color: white;
-      z-index: 3;
+      z-index: 1;
       cursor: pointer;
     }
   }
@@ -61,6 +61,7 @@
     position: absolute;
     left: -4px;
     top: -4px;
+    cursor: pointer;
     border-radius: 10px;
     border: 4px solid white;
   }

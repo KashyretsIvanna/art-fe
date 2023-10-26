@@ -1,0 +1,18 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+
+.button {
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: max-content;
+  height: max-content;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+
+}
