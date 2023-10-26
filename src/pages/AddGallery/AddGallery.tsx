@@ -12,7 +12,7 @@ import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
 import { useNavigate } from 'react-router-dom';
-
+import configJson from '../../../plan-config.json'
 function AddGallery() {
     const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'GALLERY' })
     const { data: artOrientations } = useGetOrientationsQuery()
@@ -98,21 +98,33 @@ function AddGallery() {
             } else {
                 setCitiesError('')
             }
-            if (selectedClassifications.length === 0 || selectedClassifications.length > 5) {
-                setErrorClassification('Choose classifications')
+
+            if (selectedClassifications.length === 0) {
+                setErrorClassification('Choose at least 1 item!')
+            } else if (selectedClassifications.length > configJson.standard.maxClassifications) {
+                setErrorClassification(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
             } else {
                 setErrorClassification('')
             }
-            if (selectedOrientations.length === 0 || selectedOrientations.length > 5) {
-                setOrientationsError('Choose orientations')
+
+            if (selectedOrientations.length === 0) {
+                setOrientationsError('Choose at least 1 item!')
+            } else if (
+                selectedOrientations.length > configJson.standard.maxClassifications
+            ) {
+                setOrientationsError(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
             } else {
                 setOrientationsError('')
             }
-            if (selectedGalleryTypes.length === 0 || selectedGalleryTypes.length > 5) {
-                setTypesError('Choose types')
+
+            if (selectedGalleryTypes.length === 0) {
+                setTypesError('Choose at least 1 item!')
+            } else if (selectedGalleryTypes.length > configJson.standard.maxClassifications) {
+                setTypesError(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
             } else {
                 setTypesError('')
             }
+
             if (!galleryName) {
                 setGalleryNameError('Provide gallery name')
             } else {
@@ -135,7 +147,7 @@ function AddGallery() {
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>
                     <div className={styles.input_row_container}>
-                        <ReusableTextInput error={galleryNameError} label={'Gallery Name'} data={galleryName} setData={setGalleryName} placeholder={'Gallery name'} />
+                        <ReusableTextInput max={40} error={galleryNameError} label={'Gallery Name'} data={galleryName} setData={setGalleryName} placeholder={'Gallery name'} />
                     </div>
                     <div className={styles.input_row_container}>
                         <MultiSelect options={types} selectedOption={selectedGalleryTypes} setSelectedOption={setSelectedGalleryTypes} label={'Gallery type'} error={typesError} />

@@ -13,6 +13,7 @@ import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
 import { useNavigate } from 'react-router-dom';
+import configJson from '../../../plan-config.json'
 
 const genders = [
     { value: GenderType.FEMALE, label: 'Female' },
@@ -71,9 +72,13 @@ function AddArtist() {
                 setCitiesError('')
             }
 
-            if (selectedClassifications.length === 0 || selectedClassifications.length > 5) {
-                setErrorClassification('Choose classifications')
-            } else {
+            if (selectedClassifications.length === 0) {
+                setErrorClassification('Choose at least 1 item!')
+            } else if (selectedClassifications.length > configJson.standard.maxClassifications) {
+                setErrorClassification(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
+
+
+            }else {
                 setErrorClassification('')
             }
 
