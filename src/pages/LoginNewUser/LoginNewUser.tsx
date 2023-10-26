@@ -11,6 +11,7 @@ import AdminLayout from '../../components/layout/AdminLayout/AdminLayout';
 import PersonImg from '../../images/icons/person.svg'
 import { useRegisterNewAdminMutation } from '../../store/services/admin-api/admins/adminApi';
 import { useRegisterNewUserMutation } from '../../store/services/api/profile/profile.api';
+import { setCreatedUserId } from '../../store/services/admin-api/user/user.slice';
 
 function LoginNewUser() {
     const [error, setError] = useState('')
@@ -62,7 +63,8 @@ function LoginNewUser() {
 
     useEffect(() => {
         if (isRegisterSuccess) {
-            dispatch(setNewUser({ added_user_access_token: registerData.accessToken }));
+            dispatch(setNewUser({ added_user_access_token: registerData.tokens.accessToken }));
+            dispatch(setCreatedUserId({ createdUserId: registerData.id }))
             navigate('/clients/photos/add');
         }
 

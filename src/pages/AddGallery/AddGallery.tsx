@@ -13,6 +13,7 @@ import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
 import { useNavigate } from 'react-router-dom';
 import configJson from '../../../plan-config.json'
+
 function AddGallery() {
     const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'GALLERY' })
     const { data: artOrientations } = useGetOrientationsQuery()
@@ -21,14 +22,11 @@ function AddGallery() {
     const { setCitiesError, setCountriesError, galleryNameError,
         typesError, orientationsError, profileDescriptionError, setErrorClassification, setGalleryNameError, setGenderError, setOrientationsError, setProfileDescriptionError, setTypesError, genderError, classificationsError, citiesError, countriesError, } = useManageFormErrors()
     const navigate = useNavigate()
-
-    const [createProfile, { data: cretedProfileData, error }] = useCreateProfileMutation()
+    const [createProfile, { data: cretedProfileData }] = useCreateProfileMutation()
     const parseJson = async () => {
         const regionNames = new Intl.DisplayNames(
             ['en'], { type: 'region' }
         );
-        console.log(json)
-
         setCountries(Object.keys(json).map(el => ({ label: regionNames.of(el), value: el })))
 
     }

@@ -14,7 +14,6 @@ import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
 import { useNavigate } from 'react-router-dom';
 import configJson from '../../../plan-config.json'
-
 const genders = [
     { value: GenderType.FEMALE, label: 'Female' },
     { value: GenderType.MALE, label: 'Male' },
@@ -78,7 +77,7 @@ function AddArtist() {
                 setErrorClassification(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
 
 
-            }else {
+            } else {
                 setErrorClassification('')
             }
 

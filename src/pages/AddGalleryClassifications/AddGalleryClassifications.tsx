@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeNewUserData, selectAddedUserData, setGalleryClassifications } from '../../store/services/admin-api/user/user.slice';
 import { useNavigate } from 'react-router-dom';
 import { logoutNewUser } from '../../store/services/admin-api/auth/auth.slice';
+import configJson from '../../../plan-config.json'
 
 function AddGalleryClassifications() {
     const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'GALLERY' })
@@ -21,7 +22,7 @@ function AddGalleryClassifications() {
     const newUserData = useSelector(selectAddedUserData)
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const [postLookingFor, { data: lookingForRes }] = useSetLookingForMutation()
+    const [postLookingFor, { status }] = useSetLookingForMutation()
 
     useEffect(() => {
         if (galleryClassifications) {
@@ -76,29 +77,31 @@ function AddGalleryClassifications() {
 
     }
 
-    useEffect(() => {
-        if (lookingForRes) {
-            dispatch(removeNewUserData())
-            dispatch(logoutNewUser())
-            navigate('/clients')
-        }
-    }, [lookingForRes])
+
 
     useEffect(() => {
-        if (!((selectedClassifications.length === 0 || selectedClassifications.length > 5 && (selectedOrientations.length === 0 || selectedOrientations.length > 5) && (selectedGalleryTypes.length === 0 || selectedGalleryTypes.length > 5)))) {
+        if (!((selectedClassifications.length === 0 && selectedOrientations.length === 0 && selectedGalleryTypes.length === 0))) {
 
-            if (selectedClassifications.length === 0 || selectedClassifications.length > 5) {
+            if (selectedClassifications.length === 0) {
                 setErrorClassification('Choose classifications')
+            } else if (selectedClassifications.length > 5) {
+                setErrorClassification(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
             } else {
                 setErrorClassification('')
             }
-            if (selectedOrientations.length === 0 || selectedOrientations.length > 5) {
+
+            if (selectedOrientations.length === 0) {
                 setOrientationsError('Choose orientations')
+            } else if (selectedOrientations.length > 5) {
+                setOrientationsError(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
             } else {
                 setOrientationsError('')
             }
-            if (selectedGalleryTypes.length === 0 || selectedGalleryTypes.length > 5) {
+
+            if (selectedGalleryTypes.length === 0) {
                 setTypesError('Choose types')
+            } else if (selectedGalleryTypes.length > 5) {
+                setTypesError(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
             } else {
                 setTypesError('')
             }
@@ -108,6 +111,17 @@ function AddGalleryClassifications() {
 
 
     }, [selectedClassifications.length, selectedGalleryTypes.length, selectedOrientations.length])
+
+
+
+    useEffect(() => {
+        if (status === 'fulfilled') {
+            const createdUSerData = newUserData
+            dispatch(removeNewUserData())
+            dispatch(logoutNewUser())
+            navigate(`/clients/${createdUSerData.createdUserId}`)
+        }
+    }, [status])
 
     return (
         <AdminLayout headerRight={

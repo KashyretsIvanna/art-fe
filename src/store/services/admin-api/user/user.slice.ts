@@ -25,6 +25,7 @@ export interface AddUserState {
   galleryClassifications: number[];
   galleryOrientations: number[];
   galleryTypes: number[];
+  createdUserId: number | null;
 }
 
 export interface ArtistInfo {
@@ -34,6 +35,7 @@ export interface ArtistInfo {
   profileDescription: string | null;
   age: number | null;
   gender: string | null;
+  createdUserId: number | null;
 }
 
 export interface CollectorInfo {
@@ -43,6 +45,7 @@ export interface CollectorInfo {
   profileDescription: string | null;
   age: number | null;
   gender: string | null;
+  createdUserId: number | null;
 }
 
 export interface LookingFor {
@@ -67,6 +70,7 @@ export interface GalleryInfo {
   galleryType: number[];
   galleryName: string | null;
   profileDescription: string | null;
+  createdUserId: number | null;
 }
 
 const initialState: AddUserState = {
@@ -85,6 +89,7 @@ const initialState: AddUserState = {
   galleryClassifications: [],
   galleryOrientations: [],
   galleryTypes: [],
+  createdUserId: null,
 };
 
 const userSlice = createSlice({
@@ -143,6 +148,15 @@ const userSlice = createSlice({
       state.role =
         action.payload.profileDescription;
     },
+    setCreatedUserId(
+      state,
+      action: PayloadAction<{
+        createdUserId: number;
+      }>,
+    ) {
+      state.createdUserId =
+        action.payload.createdUserId;
+    },
     setLookingFor(
       state,
       action: PayloadAction<LookingFor>,
@@ -167,6 +181,7 @@ const userSlice = createSlice({
       state.galleryTypes =
         action.payload.galleryTypes;
     },
+
     removeNewUserData(state) {
       state.role = null;
       state.city = null;
@@ -183,6 +198,7 @@ const userSlice = createSlice({
       state.galleryClassifications = [];
       state.galleryOrientations = [];
       state.galleryTypes = [];
+      state.createdUserId = null;
     },
   },
 });
@@ -197,6 +213,7 @@ export const {
   setGalleryClassifications,
   setLookingFor,
   removeNewUserData,
+  setCreatedUserId,
 } = userSlice.actions;
 
 const addUserPersistConfig = {

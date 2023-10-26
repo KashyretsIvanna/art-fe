@@ -10,7 +10,7 @@ const MultiSelect = ({ options, label, setSelectedOption, selectedOption, error 
         value: string;
         label: string;
     }[],
-    error: string
+    error: string | null
 }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -31,7 +31,7 @@ const MultiSelect = ({ options, label, setSelectedOption, selectedOption, error 
             <div className={isOpen ? styles.custom_select__active : styles.custom_select}>
                 <div className={error ? styles.custom_select__header__error : styles.custom_select__header} onClick={toggleDropdown}>
                     <img className={styles.custom_select__icon} src={BirdImg} alt='bird' />
-                    <ul className={ styles.custom_select__header_options}>
+                    <ul className={styles.custom_select__header_options}>
                         {selectedOption.map((option) => (
                             <li className={styles.custom_select__header_option} key={option.value} >
                                 <div>{option.label}</div>
@@ -45,7 +45,7 @@ const MultiSelect = ({ options, label, setSelectedOption, selectedOption, error 
 
                 </div>
                 {isOpen && (
-                    <div className={error?styles.custom_select__option_container__error:styles.custom_select__option_container}>
+                    <div className={error ? styles.custom_select__option_container__error : styles.custom_select__option_container}>
                         <ul className={styles.custom_select__options}>
                             {options.filter(el => !selectedOption.includes(el)).map((option) => (
                                 <li className={styles.custom_select__option_item} key={option.value} onClick={() => handleOptionClick(option)}>

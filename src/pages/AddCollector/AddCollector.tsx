@@ -12,7 +12,6 @@ import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
 
-
 const genders = [
     { value: GenderType.FEMALE, label: 'Female' },
     { value: GenderType.MALE, label: 'Male' },
@@ -29,8 +28,7 @@ function AddCollector() {
 
     const { ageError, setAgeError, setCitiesError, setCountriesError, profileDescriptionError, setGenderError, genderError, citiesError, countriesError, } = useManageFormErrors()
 
-    const [createProfile, { data: cretedProfileData, error }] = useCreateProfileMutation()
-
+    const [createProfile, { data: cretedProfileData }] = useCreateProfileMutation()
     const parseJson = async () => {
         const regionNames = new Intl.DisplayNames(
             ['en'], { type: 'region' }

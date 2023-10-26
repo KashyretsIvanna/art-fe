@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useSetLookingForMutation } from '../../store/services/api/profile/profile.api';
 import { logoutNewUser } from '../../store/services/admin-api/auth/auth.slice';
-
+import configJson from '../../../plan-config.json'
 function AddArtistClassifications() {
     const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'ARTIST' })
     const { setClassifications, classifications, selectedClassifications, setSelectedClassifications } = useManageProfile()
@@ -19,6 +19,7 @@ function AddArtistClassifications() {
     const newUserData = useSelector(selectAddedUserData)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
     const [postLookingFor, { status }] = useSetLookingForMutation()
 
     useEffect(() => {
@@ -43,26 +44,32 @@ function AddArtistClassifications() {
             }
         })
     }
-    
+
     useEffect(() => {
         if (status === 'fulfilled') {
+            const createdUSerData = newUserData
             dispatch(removeNewUserData())
             dispatch(logoutNewUser())
-            navigate('/clients')
+            navigate(`/clients/${createdUSerData.createdUserId}`)
         }
     }, [status])
 
     useEffect(() => {
-        if (!((selectedClassifications.length === 0 || selectedClassifications.length > 5))) {
 
-            if (selectedClassifications.length === 0 || selectedClassifications.length > 5) {
+
+        if (classifications.length) {
+            if (selectedClassifications.length === 0) {
                 setErrorClassification('Choose classifications')
+            } else if (selectedClassifications.length > configJson.standard.maxClassifications) {
+                setErrorClassification(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
+
             } else {
                 setErrorClassification('')
             }
-
-
         }
+
+
+
 
     }, [selectedClassifications.length])
 
@@ -78,7 +85,7 @@ function AddArtistClassifications() {
                 </div>
             </div>
 
-            <NavigationSteps disabled={!(!classificationsError && classificationsError !== null)} onContinue={clickButton} stepNumber={3} totalAmountSteps={4} />
+            <NavigationSteps disabled={selectedClassifications.length === 0 || selectedClassifications.length > configJson.standard.maxClassifications} onContinue={clickButton} stepNumber={3} totalAmountSteps={4} />
         </AdminLayout>
 
 

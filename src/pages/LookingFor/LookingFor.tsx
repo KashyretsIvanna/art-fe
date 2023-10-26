@@ -4,8 +4,8 @@ import styles from './LookingFor.module.scss'
 import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNavigation';
 import configJson from '../../../plan-config.json'
 import { useGetNewProfileInfoQuery, useSetLookingForMutation } from '../../store/services/api/profile/profile.api';
-import { removeNewUserData, setLookingFor } from '../../store/services/admin-api/user/user.slice';
-import { useDispatch } from 'react-redux';
+import { removeNewUserData, selectAddedUserData, setLookingFor } from '../../store/services/admin-api/user/user.slice';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logoutNewUser } from '../../store/services/admin-api/auth/auth.slice';
 import { useEffect, useState } from 'react';
@@ -19,6 +19,8 @@ const LookingFor = () => {
     const { data, isLoading, error } = useGetNewProfileInfoQuery();
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    const newUserData = useSelector(selectAddedUserData)
 
 
     useEffect(() => {
@@ -61,9 +63,7 @@ const LookingFor = () => {
         if (lookingForRes) {
             dispatch(removeNewUserData())
             dispatch(logoutNewUser())
-
-            navigate('/clients')
-
+            navigate(`/clients/${newUserData.createdUserId}`)
         }
     }, [lookingForRes])
 
@@ -88,7 +88,7 @@ const LookingFor = () => {
         if (checkedArtist) {
             navigate('/clients/artist/look-for')
 
-            return 
+            return
         }
         if (checkedCollector) {
             postLookingFor({
