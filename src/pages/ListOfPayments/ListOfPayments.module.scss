@@ -1,2 +1,11 @@
 /** @format */
 @import '../../configs/theme/theme-variables.scss';
+
+.user_list__container {
+    height: calc(100% - 125px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  
