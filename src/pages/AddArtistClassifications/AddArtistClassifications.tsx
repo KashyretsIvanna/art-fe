@@ -74,7 +74,7 @@ function AddArtistClassifications() {
     }, [selectedClassifications.length])
 
     return (
-        <AdminLayout headerRight={
+        <AdminLayout isBackButtonVisible={true} headerRight={
             null} navigationItems={['Artist', 'User name']} pageHeader='Artist'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>

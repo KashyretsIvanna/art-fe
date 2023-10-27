@@ -4,7 +4,7 @@ function Analytics() {
 
 
     return (
-        <AdminLayout pageHeader='Analytics' headerRight={<></>} navigationItems={['Analytics']} >
+        <AdminLayout isBackButtonVisible={true} pageHeader='Analytics' headerRight={<></>} navigationItems={['Analytics']} >
             Analytics
         </AdminLayout>
 

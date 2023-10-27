@@ -4,7 +4,7 @@ function SendLetter() {
 
 
     return (
-        <AdminLayout pageHeader='Send Letter' navigationItems={['Send letter']} headerRight={<></>}>
+        <AdminLayout isBackButtonVisible={true} pageHeader='Send Letter' navigationItems={['Send letter']} headerRight={<></>}>
             SendLetter
         </AdminLayout>
 

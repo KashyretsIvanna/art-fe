@@ -119,7 +119,7 @@ function AddArtist() {
     }, [cretedProfileData])
 
     return (
-        <AdminLayout headerRight={
+        <AdminLayout isBackButtonVisible={true} headerRight={
             null} navigationItems={['Artist']} pageHeader='About me (Artist)'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>

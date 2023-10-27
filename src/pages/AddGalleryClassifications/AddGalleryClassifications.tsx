@@ -124,7 +124,7 @@ function AddGalleryClassifications() {
     }, [status])
 
     return (
-        <AdminLayout headerRight={
+        <AdminLayout isBackButtonVisible={true} headerRight={
             null} navigationItems={['Gallery', 'User name', 'Look For']} pageHeader='Gallery'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>

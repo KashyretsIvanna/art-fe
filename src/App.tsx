@@ -28,17 +28,29 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/clients/look-for" element={<LookingFor />
-        } />
-         <Route path="/clients/photos/add" element={<AddPhotos />
-          } />
-        <Route path="/clients/gallery/look-for" element={<AddGalleryClassifications />
-        } />
-        <Route path="/clients/artist/look-for" element={<AddArtistClassifications />
-        } />
+
         <Route path="/login" element={<Login />} />
         <Route element={<PrivateRoute />}>
+          <Route path="/clients/add" element={<AddUser />
+          } />
+          <Route path="/clients/registration" element={<LoginNewUser />
+          } />
+          <Route path="/clients/collector" element={<AddCollector />
+          } />
+          <Route path="/clients/gallery" element={<AddGallery />
+          } />
+
+          <Route path="/clients/artist" element={<AddArtist />
+          } />
           <Route path="/clients" element={<UserList />
+          } />
+          <Route path="/clients/look-for" element={<LookingFor />
+          } />
+          <Route path="/clients/photos/add" element={<AddPhotos />
+          } />
+          <Route path="/clients/gallery/look-for" element={<AddGalleryClassifications />
+          } />
+          <Route path="/clients/artist/look-for" element={<AddArtistClassifications />
           } />
 
           <Route path="/clients/:id" element={<UserInfo />
@@ -54,19 +66,9 @@ function App() {
           <Route path="/vip" element={<VipPricing />} />
           <Route path="/settings" element={<Settings />} />
           {/* <Route element={<NewUserPrivateRoute />}> */}
-          <Route path="/clients/add" element={<AddUser />
-          } />
-          <Route path="/clients/registration" element={<LoginNewUser />
-          } />
-          <Route path="/clients/collector" element={<AddCollector />
-          } />
-          <Route path="/clients/gallery" element={<AddGallery />
-          } />
 
-          <Route path="/clients/artist" element={<AddArtist />
-          } />
 
-         
+
           <Route path="/admins/registration" element={<LoginNewUser />
           } />
         </Route>

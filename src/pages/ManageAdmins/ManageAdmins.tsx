@@ -4,7 +4,7 @@ function ManageAdmins() {
 
 
     return (
-        <AdminLayout pageHeader='Manage Admins' navigationItems={['Manage admins']} headerRight={<></>}>
+        <AdminLayout isBackButtonVisible={true} pageHeader='Manage Admins' navigationItems={['Manage admins']} headerRight={<></>}>
             ManageAdmins
         </AdminLayout>
 

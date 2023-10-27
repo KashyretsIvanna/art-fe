@@ -4,7 +4,7 @@ function ListOfPayments() {
 
 
     return (
-        <AdminLayout pageHeader='List Of Payments' navigationItems={['List of payments']} headerRight={<></>}>
+        <AdminLayout isBackButtonVisible={true} pageHeader='List Of Payments' navigationItems={['List of payments']} headerRight={<></>}>
             List of payments
         </AdminLayout>
 

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import BackMobile from '../../../images/icons/back-mobile.svg'
 type ChildrenProp = string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined;
 
-function AdminLayout(props: { pageHeader: string, children: ChildrenProp, headerRight: ChildrenProp, navigationItems: string[] }) {
+function AdminLayout(props: { pageHeader: string, children: ChildrenProp, headerRight: ChildrenProp, navigationItems: string[], isBackButtonVisible: boolean }) {
 
     const navigate = useNavigate()
 
@@ -22,14 +22,16 @@ function AdminLayout(props: { pageHeader: string, children: ChildrenProp, header
             <div className={styles.white_board__content}>
 
                 <div className={styles.white_board__section_header}>
-                    <div onClick={() => { navigate(-1) }} className={styles.white_board__section_header__header_back}>
+
+                    {props.isBackButtonVisible && <> <div onClick={() => { navigate(-1) }} className={styles.white_board__section_header__header_back}>
                         <img src={ArrowIcon} alt='arrow' />
                         <div className={styles.white_board__button_text}>Back</div>
                     </div>
-                    <div onClick={() => { navigate(-1) }} className={styles.white_board__header_back__mobile}>
-                        <div className={styles.white_board__header__pointer}><img src={BackMobile} alt='arrow' /></div>
-                        <div className={styles.white_board__button_text}>Back</div>
-                    </div>
+                        <div onClick={() => { navigate(-1) }} className={styles.white_board__header_back__mobile}>
+                            <div className={styles.white_board__header__pointer}><img src={BackMobile} alt='arrow' /></div>
+                            <div className={styles.white_board__button_text}>Back</div>
+                        </div></>}
+
                     <SectionHeader text={props.pageHeader} />
                     <div className={styles.white_board__header_right} >
                         {props.headerRight}

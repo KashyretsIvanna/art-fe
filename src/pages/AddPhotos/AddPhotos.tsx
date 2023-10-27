@@ -41,7 +41,7 @@ function AddPhotos() {
 
 
     return (
-        <AdminLayout headerRight={
+        <AdminLayout isBackButtonVisible={true} headerRight={
             null} navigationItems={['All Clients', 'Add photos']} pageHeader='Add Photos' >
 
             {openedPhoto && <ModalWithPhoto closeModal={function (): void {

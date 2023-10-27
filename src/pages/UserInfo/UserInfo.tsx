@@ -36,7 +36,7 @@ function UserInfo() {
     }, [data])
 
     return (
-        <AdminLayout headerRight={
+        <AdminLayout isBackButtonVisible={true} headerRight={
             <> <SectionHeaderButton icon={EditIcon} text={'EDIT PROFILE'} clickButton={() => { console.log('User edited') }} background={'#0077EB'} color={'#ffff'} />
 
             </>

@@ -94,7 +94,7 @@ function AddCollector() {
     }, [age, selectedCity.value, selectedCountry.value, selectedGender.value])
 
     return (
-        <AdminLayout headerRight={
+        <AdminLayout isBackButtonVisible={true} headerRight={
             null} navigationItems={['Collector']} pageHeader='About me( Collector )'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>

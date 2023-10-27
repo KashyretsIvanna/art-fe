@@ -4,7 +4,7 @@ function Users() {
 
 
     return (
-        <AdminLayout navigationItems={['Users']} pageHeader='Users' headerRight={<></>}>
+        <AdminLayout isBackButtonVisible={true} navigationItems={['Users']} pageHeader='Users' headerRight={<></>}>
             Users
         </AdminLayout>
 

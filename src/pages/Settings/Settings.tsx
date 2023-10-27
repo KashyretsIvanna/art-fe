@@ -4,7 +4,7 @@ function Settings() {
 
 
     return (
-        <AdminLayout pageHeader='Settings' navigationItems={['Settings']} headerRight={<></>}>
+        <AdminLayout isBackButtonVisible={true} pageHeader='Settings' navigationItems={['Settings']} headerRight={<></>}>
             Settings
         </AdminLayout>
     )

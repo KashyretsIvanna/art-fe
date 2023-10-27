@@ -145,7 +145,7 @@ function AddGallery() {
     }, [galleryName, selectedCity.value, selectedClassifications.length, selectedCountry.value, selectedGalleryTypes.length, selectedOrientations.length])
 
     return (
-        <AdminLayout headerRight={
+        <AdminLayout isBackButtonVisible={true} headerRight={
             null} navigationItems={['Gallery']} pageHeader='About me( Gallery )'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>

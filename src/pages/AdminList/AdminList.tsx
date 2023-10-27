@@ -54,7 +54,7 @@ function AdminList() {
 
     return (
         <div className={styles.layout}>
-            <AdminLayout navigationItems={['Welcome', 'Admin']} pageHeader='Admin' headerRight={<>
+            <AdminLayout isBackButtonVisible={true} navigationItems={['Welcome', 'Admin']} pageHeader='Admin' headerRight={<>
                 {selectedUsers.length ? <SectionHeaderButton icon={DeleteIcon} text={'DELETE'} clickButton={() => { onDeleteButtonClick() }} background={'#EE3143'} color={'#fffff'} /> : <></>}
                 {!selectedUsers.length ? <SectionHeaderButton icon={PlusImg} text={'ADD ADMIN'} clickButton={() => { navigate('/admins/registration') }} background={'#FF9700'} color={'#ffff'} /> : <></>}</>}>
                 <div className={styles.user_list__container}>

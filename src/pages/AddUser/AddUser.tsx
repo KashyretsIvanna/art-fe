@@ -42,7 +42,7 @@ function AddUser() {
     }, [])
 
     return (
-        <AdminLayout headerRight={
+        <AdminLayout isBackButtonVisible={true} headerRight={
             null} navigationItems={['All clients']} pageHeader='Add user'>
 
             <div className={styles.add_user__container}>

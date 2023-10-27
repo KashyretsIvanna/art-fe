@@ -4,7 +4,7 @@ function PromoCodeList() {
 
 
     return (
-        <AdminLayout pageHeader='Promo Code' navigationItems={['Promo code list']} headerRight={<></>}>
+        <AdminLayout isBackButtonVisible={true} pageHeader='Promo Code' navigationItems={['Promo code list']} headerRight={<></>}>
             Promo code list
         </AdminLayout>
 

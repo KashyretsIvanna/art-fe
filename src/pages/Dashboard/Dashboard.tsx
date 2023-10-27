@@ -4,7 +4,7 @@ function Dashboard() {
 
 
     return (
-        <AdminLayout pageHeader='Dashboard' headerRight={<></>} navigationItems={['Dashboard']} >
+        <AdminLayout isBackButtonVisible={true} pageHeader='Dashboard' headerRight={<></>} navigationItems={['Dashboard']} >
             Dashboard
         </AdminLayout>
 

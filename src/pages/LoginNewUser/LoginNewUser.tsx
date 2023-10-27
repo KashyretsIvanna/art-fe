@@ -81,7 +81,7 @@ function LoginNewUser() {
 
 
     return (
-        <AdminLayout headerRight={
+        <AdminLayout isBackButtonVisible={true} headerRight={
             null} navigationItems={[`${location.pathname.includes('admin') ? 'All Admins' : 'All Clients'}`, 'Registration']} pageHeader='Registration' >
             <div className={styles.inputs_container}>
                 <InputWithImage maxLength={30} type='text' imgHEight='16px' imgWidth='16px' isError={isNameError} data={name} setData={setName} placeholder='Art Date' img={PersonImg} marginTop={'22px'} marginLeft={'11px'} />

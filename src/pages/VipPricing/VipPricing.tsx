@@ -4,7 +4,7 @@ function VipPricing() {
 
 
     return (
-        <AdminLayout pageHeader='VIP Pricing' navigationItems={['VIP pricing']} headerRight={<></>}>
+        <AdminLayout isBackButtonVisible={true} pageHeader='VIP Pricing' navigationItems={['VIP pricing']} headerRight={<></>}>
             Vip pricing
         </AdminLayout>
 

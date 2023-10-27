@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectLocationsConfig, setIsSidebarOpened } from '../../../store/services/application/location/location.slice';
 
 type ChildrenProp = string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined;
-function AdminLayout(props: { navigationItems: string[], pageHeader: string; children: ChildrenProp, headerRight: ChildrenProp }) {
+function AdminLayout(props: { navigationItems: string[], pageHeader: string; children: ChildrenProp, headerRight: ChildrenProp, isBackButtonVisible: boolean }) {
     const [search, setSearch] = useState('')
 
     const locationData = useSelector(selectLocationsConfig)
@@ -42,7 +42,7 @@ function AdminLayout(props: { navigationItems: string[], pageHeader: string; chi
                     <img className={styles.logo} src={logoImg} alt='logo' />
                 </div>
                 <div className={styles.layout_body}>
-                    <WhiteBoard headerRight={props.headerRight} pageHeader={props.pageHeader} navigationItems={props.navigationItems}>
+                    <WhiteBoard isBackButtonVisible={props.isBackButtonVisible} headerRight={props.headerRight} pageHeader={props.pageHeader} navigationItems={props.navigationItems}>
                         {props.children}
                     </WhiteBoard>
                 </div>
