@@ -1,0 +1,49 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+
+.image_picker__container {
+  position: relative;
+}
+
+.image_picker {
+  width: 277px;
+  height: 365px;
+  border-radius: 12px;
+  border: 1px solid #e6ecfe;
+  background: #fbfcff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 7px;
+  position: absolute;
+  &__avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: wheat;
+    margin-bottom: 10px;
+  }
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+  }
+
+  &__left {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+
+  &__right {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+}

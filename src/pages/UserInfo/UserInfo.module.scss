@@ -3,7 +3,7 @@
 
 .user_info {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 125px);
   padding: 11px;
   display: flex;
   align-items: flex-start;
