@@ -11,6 +11,9 @@ import json from '../../shared-data/cities.json'
 import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
+import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
+import { useDispatch } from 'react-redux';
+import { setCollectorInfo } from '../../store/services/admin-api/user/user.slice';
 
 const genders = [
     { value: GenderType.FEMALE, label: 'Female' },
@@ -20,22 +23,20 @@ const genders = [
 ];
 
 function AddCollector() {
-
-
+    UseManageStepsNAvigation()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const { selectedCity, cities, countries, profileDescription, age, selectedCountry, selectedGender, setAge, setCities, setCountries, setProfileDescription, setSelectedCity, setSelectedCountry, setSelectedGender } = useManageProfile()
-
     const { ageError, setAgeError, setCitiesError, setCountriesError, profileDescriptionError, setGenderError, genderError, citiesError, countriesError, } = useManageFormErrors()
-
     const [createProfile, { data: cretedProfileData }] = useCreateProfileMutation()
+
     const parseJson = async () => {
         const regionNames = new Intl.DisplayNames(
             ['en'], { type: 'region' }
         );
         setCountries(Object.keys(json).map(el => ({ label: regionNames.of(el), value: el })))
     }
-
 
     useEffect(() => { parseJson() }, [])
     useEffect(() => {
@@ -47,7 +48,16 @@ function AddCollector() {
 
 
     const clickButton = () => {
+        dispatch(setCollectorInfo(
+            {
+                gender: selectedGender.label.toUpperCase().split(' ').join('_'),
+                age: Number(age),
+                profileDescription: profileDescription ?? null,
+                lat: Number(selectedCity.lat),
+                lng: Number(selectedCity.lng),
 
+            }
+        ))
         createProfile({
             role: 'COLLECTOR',
             gender: selectedGender.label.toUpperCase().split(' ').join('_'),

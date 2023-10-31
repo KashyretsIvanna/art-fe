@@ -14,6 +14,9 @@ import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
 import { useNavigate } from 'react-router-dom';
 import configJson from '../../../plan-config.json'
+import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
+import { useDispatch } from 'react-redux';
+import { setArtistInfo } from '../../store/services/admin-api/user/user.slice';
 const genders = [
     { value: GenderType.FEMALE, label: 'Female' },
     { value: GenderType.MALE, label: 'Male' },
@@ -22,10 +25,17 @@ const genders = [
 ];
 
 function AddArtist() {
+    UseManageStepsNAvigation()
+
 
     const { selectedCity, classifications, cities, countries, profileDescription, age, selectedClassifications, selectedCountry, selectedGender, setAge, setCities, setClassifications, setCountries, setProfileDescription, setSelectedCity, setSelectedClassifications, setSelectedCountry, setSelectedGender } = useManageProfile()
     const { ageError, setAgeError, setCitiesError, setCountriesError, profileDescriptionError, setErrorClassification, setGalleryNameError, setGenderError, setOrientationsError, setProfileDescriptionError, setTypesError, genderError, classificationsError, citiesError, countriesError, } = useManageFormErrors()
-    const [createProfile, { data: cretedProfileData, error }] = useCreateProfileMutation()
+    const [createProfile, { data: cretedProfileData }] = useCreateProfileMutation()
+    const navigate = useNavigate()
+    const { data } = useGetClassificationsQuery({ role: 'ARTIST' })
+    const dispatch = useDispatch()
+
+
     const parseJson = async () => {
         const regionNames = new Intl.DisplayNames(
             ['en'], { type: 'region' }
@@ -33,7 +43,6 @@ function AddArtist() {
         setCountries(Object.keys(json).map(el => ({ label: regionNames.of(el), value: el })))
 
     }
-    const navigate = useNavigate()
 
     useEffect(() => { parseJson() }, [])
     useEffect(() => {
@@ -42,9 +51,6 @@ function AddArtist() {
         }
         setSelectedCity({ value: '0', label: 'Select city' })
     }, [selectedCountry])
-
-    const { data } = useGetClassificationsQuery({ role: 'ARTIST' })
-
     useEffect(() => {
         if (data) {
             setClassifications(data.map((el) => ({
@@ -55,10 +61,7 @@ function AddArtist() {
     }, [data])
 
     useEffect(() => {
-        if (!((!age || age < 18 || age > 100) && selectedCity.value === '0' && selectedClassifications.length === 0  && selectedCountry.value === '0' && selectedGender.value === '0')) {
-
-
-
+        if (!((!age || age < 18 || age > 100) && selectedCity.value === '0' && selectedClassifications.length === 0 && selectedCountry.value === '0' && selectedGender.value === '0')) {
             if (!age || age < 18 || age > 100) {
                 setAgeError('Wrong age')
             } else {
@@ -75,12 +78,9 @@ function AddArtist() {
                 setErrorClassification('Choose at least 1 item!')
             } else if (selectedClassifications.length > configJson.standard.maxClassifications) {
                 setErrorClassification(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
-
-
             } else {
                 setErrorClassification('')
             }
-
 
             if (selectedCountry.value === '0') {
                 setCountriesError('Choose country')
@@ -98,6 +98,15 @@ function AddArtist() {
     }, [age, ageError, citiesError, classificationsError, countriesError, genderError, selectedCity.value, selectedClassifications.length, selectedCountry.value, selectedGender.value])
 
     const clickButton = () => {
+        dispatch(setArtistInfo({
+            gender: selectedGender.label.toUpperCase().split(' ').join('_'),
+            age: Number(age),
+            profileDescription: profileDescription ?? null,
+            artClassifications: selectedClassifications.map(el => Number(el.value)),
+            lat: Number(selectedCity.lat),
+            lng: Number(selectedCity.lng),
+            createdUserId: null
+        }))
         createProfile({
             role: 'ARTIST',
             gender: selectedGender.label.toUpperCase().split(' ').join('_'),
@@ -106,9 +115,7 @@ function AddArtist() {
             classifications: selectedClassifications.map(el => Number(el.value)),
             lat: Number(selectedCity.lat),
             lng: Number(selectedCity.lng),
-
         })
-
 
     }
 

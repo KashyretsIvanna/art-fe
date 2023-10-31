@@ -8,19 +8,19 @@ import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useSetLookingForMutation } from '../../store/services/api/profile/profile.api';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeNewUserData, selectAddedUserData, setGalleryClassifications } from '../../store/services/admin-api/user/user.slice';
-import { useNavigate } from 'react-router-dom';
-import { logoutNewUser } from '../../store/services/admin-api/auth/auth.slice';
+import { logoutNewUser, selectAddedUserData, setGalleryClassifications } from '../../store/services/admin-api/user/user.slice';
 import configJson from '../../../plan-config.json'
+import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 
 function AddGalleryClassifications() {
+    UseManageStepsNAvigation()
+
     const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'GALLERY' })
     const { data: artOrientations } = useGetOrientationsQuery()
     const { data: galleryTypes } = useGetGalleryTypesQuery()
     const { setGalleryTypes, setClassifications, selectedOrientations, selectedGalleryTypes, setSelectedGalleryTypes, setOrientations, setSelectedOrientations, classifications, orientations, selectedClassifications, setSelectedClassifications, types } = useManageProfile()
     const { typesError, orientationsError, setErrorClassification, setOrientationsError, setTypesError, classificationsError } = useManageFormErrors()
     const newUserData = useSelector(selectAddedUserData)
-    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [postLookingFor, { status }] = useSetLookingForMutation()
 
@@ -51,19 +51,11 @@ function AddGalleryClassifications() {
         }
     }, [artOrientations])
 
-    useEffect(() => {
-        dispatch(setGalleryClassifications({
-            galleryClassifications: selectedClassifications.map(el => Number(el.value)),
-            galleryOrientations: selectedOrientations.map(el => Number(el.value)),
-            galleryTypes: selectedGalleryTypes.map(el => Number(el.value))
-        }))
-    }, [selectedClassifications, selectedGalleryTypes, selectedOrientations])
 
     const clickButton = () => {
 
-        if (newUserData.lookFor.includes('ARTIST')) {
-            navigate('/clients/artist/look-for')
-        } else {
+        if (!newUserData.lookFor.includes('ARTIST')) {
+
             postLookingFor({
                 filters: {
                     galleryClassifications: selectedClassifications.map(el => Number(el.value)),
@@ -74,10 +66,14 @@ function AddGalleryClassifications() {
             })
 
         }
+        dispatch(setGalleryClassifications({
+            galleryClassifications: selectedClassifications.map(el => Number(el.value)),
+            galleryOrientations: selectedOrientations.map(el => Number(el.value)),
+            galleryTypes: selectedGalleryTypes.map(el => Number(el.value))
+        }))
+
 
     }
-
-
 
     useEffect(() => {
         if (!((selectedClassifications.length === 0 && selectedOrientations.length === 0 && selectedGalleryTypes.length === 0))) {
@@ -108,20 +104,16 @@ function AddGalleryClassifications() {
 
         }
 
-
-
     }, [selectedClassifications.length, selectedGalleryTypes.length, selectedOrientations.length])
 
 
 
     useEffect(() => {
         if (status === 'fulfilled') {
-            const createdUSerData = newUserData
-            dispatch(removeNewUserData())
             dispatch(logoutNewUser())
-            navigate(`/clients/${createdUSerData.createdUserId}`)
         }
     }, [status])
+
 
     return (
         <AdminLayout isBackButtonVisible={true} headerRight={

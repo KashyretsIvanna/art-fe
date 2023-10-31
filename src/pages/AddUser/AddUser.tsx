@@ -6,34 +6,28 @@ import styles from './AddUser.module.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAddedUserData, setRole } from '../../store/services/admin-api/user/user.slice';
 import { useNavigate } from 'react-router-dom';
+import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 const roles = [
     { value: 'ARTIST', label: 'Artist' },
     { value: 'GALLERY', label: 'Gallery' },
-    { value: 'COLLECTOR', label: 'Art Dealer' },
-
-
+    { value: 'COLLECTOR', label: 'Art Dealer' }
 ];
 
 function AddUser() {
+    UseManageStepsNAvigation()
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
     const addedUserData = useSelector(selectAddedUserData)
     const [selectedRole, setSelectedRole] = useState<{
         value: string;
         label: string;
     }>(roles[0]);
 
-
-
     const changeRole = (role: {
         value: string;
         label: string;
     }) => {
-
-        dispatch(setRole({
-            role: role.value,
-        }))
         setSelectedRole(role)
     }
 
@@ -41,24 +35,31 @@ function AddUser() {
         setSelectedRole(roles.filter(el => el.value === addedUserData.role)[0])
     }, [])
 
+    useEffect(() => {
+        if (addedUserData.role === 'COLLECTOR') {
+
+            navigate('/clients/collector')
+
+        } else if (addedUserData.role === 'GALLERY') {
+            navigate('/clients/gallery')
+
+        } if (addedUserData.role === 'ARTIST') {
+            navigate('/clients/artist')
+
+        }
+    }, [addedUserData.role])
+
     return (
         <AdminLayout isBackButtonVisible={true} headerRight={
             null} navigationItems={['All clients']} pageHeader='Add user'>
 
             <div className={styles.add_user__container}>
-                <InputPopup selectedOption={selectedRole} setSelectedOption={setSelectedRole} options={roles} onChange={changeRole} label={'Select user'} />
+                <InputPopup selectedOption={selectedRole} setSelectedOption={setSelectedRole} options={roles} onChange={changeRole} label={'Select user'} error={''} />
             </div>
             <NavigationSteps disabled={false} stepNumber={2} totalAmountSteps={4} onContinue={function (): void {
-                if (selectedRole.value === 'COLLECTOR') {
-                    navigate('/clients/collector')
-
-                } else if (selectedRole.value === 'GALLERY') {
-                    navigate('/clients/gallery')
-
-                } if (selectedRole.value === 'ARTIST') {
-                    navigate('/clients/artist')
-
-                }
+                dispatch(setRole({
+                    role: selectedRole.value,
+                }))
             }} />
 
 

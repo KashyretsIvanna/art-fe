@@ -160,7 +160,6 @@ export const profileApi =
             body,
           };
         },
-
         invalidatesTags: [apiTags.profile],
       }),
       addPhotos: builder.mutation({

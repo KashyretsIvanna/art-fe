@@ -15,7 +15,7 @@ export const getHeaders = (): ((
     api: Pick<BaseQueryApi, 'getState'>,
   ): MaybePromise<void | Headers> | undefined => {
     const token = (api.getState() as RootState)
-      .user.added_user_access_token;
+      .addedUser.added_user_access_token;
 
     if (
       token &&

@@ -4,11 +4,11 @@ import styles from './LookingFor.module.scss'
 import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNavigation';
 import configJson from '../../../plan-config.json'
 import { useGetNewProfileInfoQuery, useSetLookingForMutation } from '../../store/services/api/profile/profile.api';
-import { removeNewUserData, selectAddedUserData, setLookingFor } from '../../store/services/admin-api/user/user.slice';
+import { logoutNewUser, selectAddedUserData, setLookingFor } from '../../store/services/admin-api/user/user.slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logoutNewUser } from '../../store/services/admin-api/auth/auth.slice';
 import { useEffect, useState } from 'react';
+import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 
 const LookingFor = () => {
     const [checkedArtist, setCheckedArtist] = useState(false);
@@ -20,29 +20,23 @@ const LookingFor = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
+
     const newUserData = useSelector(selectAddedUserData)
+    UseManageStepsNAvigation()
 
 
     useEffect(() => {
         if (data?.role === 'ARTIST') {
-            console.log('ARTIST')
             setAllowedRolesToLook(configJson.standard.artist.availableLookFor)
         }
 
         if (data?.role === 'GALLERY') {
-            console.log('GALLERY')
-
             setAllowedRolesToLook(configJson.standard.gallery.availableLookFor)
         }
 
         if (data?.role === 'COLLECTOR') {
-            console.log('COLLECTOR')
-
             setAllowedRolesToLook(configJson.standard.collector.availableLookFor)
         }
-
-
-
     }, [data, error, isLoading])
 
 
@@ -61,7 +55,6 @@ const LookingFor = () => {
 
     useEffect(() => {
         if (lookingForRes) {
-            dispatch(removeNewUserData())
             dispatch(logoutNewUser())
             navigate(`/clients/${newUserData.createdUserId}`)
         }
@@ -78,25 +71,13 @@ const LookingFor = () => {
         if (checkedGallery) {
             lookForRoles.push('GALLERY')
         }
-        dispatch(setLookingFor({ roles: lookForRoles }))
-
-        if (checkedGallery) {
-            navigate('/clients/gallery/look-for')
-
-            return
-        }
-        if (checkedArtist) {
-            navigate('/clients/artist/look-for')
-
-            return
-        }
-        if (checkedCollector) {
+        if (checkedCollector && !checkedGallery && !checkedArtist) {
             postLookingFor({
                 preferences: { isLookingForCollector: true },
                 filters: {}
             })
         }
-
+        dispatch(setLookingFor({ roles: lookForRoles }))
     }
 
 

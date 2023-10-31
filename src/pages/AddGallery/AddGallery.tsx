@@ -13,6 +13,9 @@ import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
 import { useNavigate } from 'react-router-dom';
 import configJson from '../../../plan-config.json'
+import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
+import { useDispatch } from 'react-redux';
+import { setGalleryInfo } from '../../store/services/admin-api/user/user.slice';
 
 function AddGallery() {
     const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'GALLERY' })
@@ -30,8 +33,8 @@ function AddGallery() {
         setCountries(Object.keys(json).map(el => ({ label: regionNames.of(el), value: el })))
 
     }
-
-    useEffect(() => { console.log(cities) }, [cities])
+    const dispatch = useDispatch()
+    UseManageStepsNAvigation()
 
     useEffect(() => { parseJson() }, [])
     useEffect(() => {
@@ -74,6 +77,15 @@ function AddGallery() {
     }, [cretedProfileData])
 
     const clickButton = () => {
+        dispatch(setGalleryInfo({
+            profileDescription: profileDescription ?? null,
+            artClassifications: selectedClassifications.map(el => Number(el.value)),
+            galleryName: galleryName ?? null,
+            artOrientations: selectedOrientations.map(el => Number(el.value)),
+            galleryType: selectedGalleryTypes.map(el => Number(el.value)),
+            lat: Number(selectedCity.lat),
+            lng: Number(selectedCity.lng),
+        }))
         createProfile({
             role: 'GALLERY',
             profileDescription,

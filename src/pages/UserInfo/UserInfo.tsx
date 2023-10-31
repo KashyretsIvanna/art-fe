@@ -9,15 +9,17 @@ import SectionHeaderButton from '../../components/buttons/SectionHeaderButton/Se
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useGetUserByIdQuery } from '../../store/services/admin-api/user/userApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAddedUserData, setIsCreatedUserViewed } from '../../store/services/admin-api/user/user.slice';
 
 
 function UserInfo() {
 
     const params = useParams()
     const [lookingFor, setLookingFor] = useState<string[]>([])
-
+    const addedUser = useSelector(selectAddedUserData)
     const { data } = useGetUserByIdQuery({ userId: params.id ? +params.id : 1 })
-
+    const dispatch = useDispatch()
 
 
     useEffect(() => {
@@ -35,6 +37,16 @@ function UserInfo() {
         arrayOfRoles = []
     }, [data])
 
+    useEffect(() => {
+        if (addedUser.createdUserId === Number(params.id)
+        ) {
+            dispatch(setIsCreatedUserViewed({
+                isViewed: true
+            }))
+
+        }
+    }, [addedUser.createdUserId, dispatch, params.id])
+
     return (
         <AdminLayout isBackButtonVisible={true} headerRight={
             <> <SectionHeaderButton icon={EditIcon} text={'EDIT PROFILE'} clickButton={() => { console.log('User edited') }} background={'#0077EB'} color={'#ffff'} />
@@ -44,7 +56,7 @@ function UserInfo() {
         } navigationItems={['All clients', data?.user.name || 'Name']} pageHeader='User profile'  >
             {data ? <div className={styles.user_info}>
 
-                <UserProfileInfoCard imgId={data.user.profilePhoto} plan={data.user.plan} avatar={logo} name={data.user.name} role={data.user.role} />
+                <UserProfileInfoCard imgId={data?data.user.userPhotos[0].id:[]} plan={data.user.plan} avatar={logo} name={data.user.name} role={data.user.role} />
                 <UserInfoList email={data.user.email} country={data.user.country || ''} city={data.user.city || ''} age={data.user.age || ''} gender={data.user.gender || ''} status={data.user.plan || ''} about={data.user.profileDescription || ''} lookingFor={lookingFor} />
             </div> : <>User not found</>}
 

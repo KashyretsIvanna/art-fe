@@ -11,8 +11,8 @@ import { persistReducer } from 'redux-persist';
 
 export interface AddUserState {
   role: string | null;
-  city: string | null;
-  country: string | null;
+  lat: number | null;
+  lng: number | null;
   artClassifications: number[];
   artOrientations: number[];
   galleryType: number[];
@@ -26,26 +26,25 @@ export interface AddUserState {
   galleryOrientations: number[];
   galleryTypes: number[];
   createdUserId: number | null;
+  isCreatedUserViewed: boolean;
+  added_user_access_token: null | string;
 }
 
 export interface ArtistInfo {
-  city: string | null;
-  country: string | null;
+  lat: number | null;
+  lng: number | null;
   artClassifications: number[];
   profileDescription: string | null;
   age: number | null;
   gender: string | null;
-  createdUserId: number | null;
 }
 
 export interface CollectorInfo {
-  city: string | null;
-  country: string | null;
-  artClassifications: number[];
+  lat: number | null;
+  lng: number | null;
   profileDescription: string | null;
   age: number | null;
   gender: string | null;
-  createdUserId: number | null;
 }
 
 export interface LookingFor {
@@ -63,20 +62,19 @@ export interface ArtistLookFor {
 }
 
 export interface GalleryInfo {
-  city: string | null;
-  country: string | null;
+  lat: number | null;
+  lng: number | null;
   artClassifications: number[];
   artOrientations: number[];
   galleryType: number[];
   galleryName: string | null;
   profileDescription: string | null;
-  createdUserId: number | null;
 }
 
 const initialState: AddUserState = {
-  city: null,
+  lat: null,
   role: null,
-  country: null,
+  lng: null,
   artClassifications: [],
   artOrientations: [],
   galleryType: [],
@@ -90,6 +88,8 @@ const initialState: AddUserState = {
   galleryOrientations: [],
   galleryTypes: [],
   createdUserId: null,
+  isCreatedUserViewed: true,
+  added_user_access_token: null,
 };
 
 const userSlice = createSlice({
@@ -112,24 +112,25 @@ const userSlice = createSlice({
       state,
       action: PayloadAction<GalleryInfo>,
     ) {
-      state.role = action.payload.city;
-      state.role = action.payload.country;
+      state.lat = action.payload.lat;
+      state.lng = action.payload.lng;
       state.artClassifications =
         action.payload.artClassifications;
       state.artOrientations =
         action.payload.artOrientations;
       state.galleryType =
         action.payload.galleryType;
-      state.role = action.payload.galleryName;
-      state.role =
+      state.galleryName =
+        action.payload.galleryName;
+      state.profileDescription =
         action.payload.profileDescription;
     },
     setArtistInfo(
       state,
       action: PayloadAction<ArtistInfo>,
     ) {
-      state.role = action.payload.city;
-      state.role = action.payload.country;
+      state.lat = action.payload.lat;
+      state.lng = action.payload.lng;
       state.artClassifications =
         action.payload.artClassifications;
       state.gender = action.payload.gender;
@@ -141,11 +142,11 @@ const userSlice = createSlice({
       state,
       action: PayloadAction<CollectorInfo>,
     ) {
-      state.role = action.payload.city;
-      state.role = action.payload.country;
+      state.lat = action.payload.lat;
+      state.lng = action.payload.lng;
       state.gender = action.payload.gender;
       state.age = action.payload.age;
-      state.role =
+      state.profileDescription =
         action.payload.profileDescription;
     },
     setCreatedUserId(
@@ -181,16 +182,30 @@ const userSlice = createSlice({
       state.galleryTypes =
         action.payload.galleryTypes;
     },
-
-    removeNewUserData(state) {
+    setNewUser(
+      state,
+      action: PayloadAction<{
+        added_user_access_token: string;
+        createdUserId: number;
+      }>,
+    ) {
+      state.added_user_access_token =
+        action.payload.added_user_access_token;
+      state.createdUserId =
+        action.payload.createdUserId;
+    },
+    logoutNewUser: (state) => {
+      state.added_user_access_token = '';
       state.role = null;
-      state.city = null;
-      state.country = null;
+      state.lat = null;
+      state.lng = null;
       state.artClassifications = [];
       state.artOrientations = [];
       state.galleryType = [];
       state.galleryName = null;
       state.profileDescription = null;
+      state.createdUserId = null;
+
       state.age = null;
       state.gender = null;
       state.lookFor = [];
@@ -198,7 +213,19 @@ const userSlice = createSlice({
       state.galleryClassifications = [];
       state.galleryOrientations = [];
       state.galleryTypes = [];
+    },
+
+    removeCreatedUserId(state) {
       state.createdUserId = null;
+    },
+    setIsCreatedUserViewed(
+      state,
+      action: PayloadAction<{
+        isViewed: boolean;
+      }>,
+    ) {
+      state.isCreatedUserViewed =
+        action.payload.isViewed;
     },
   },
 });
@@ -212,8 +239,11 @@ export const {
   setArtistClassifications,
   setGalleryClassifications,
   setLookingFor,
-  removeNewUserData,
   setCreatedUserId,
+  removeCreatedUserId,
+  setIsCreatedUserViewed,
+  setNewUser,
+  logoutNewUser,
 } = userSlice.actions;
 
 const addUserPersistConfig = {
@@ -236,3 +266,7 @@ export const selectAddedUserData = (
 export const selectNewUserRole = (
   state: RootState,
 ) => state.addedUser.role;
+
+export const selectNewUserAuthToken = (
+  state: RootState,
+) => state.addedUser.added_user_access_token;

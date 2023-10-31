@@ -6,21 +6,26 @@ import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNa
 import { useGetClassificationsQuery } from '../../store/services/api/classifications/classifications.api';
 import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
-import { removeNewUserData, selectAddedUserData } from '../../store/services/admin-api/user/user.slice';
+import { logoutNewUser, selectAddedUserData, setArtistClassifications, setIsCreatedUserViewed } from '../../store/services/admin-api/user/user.slice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { useSetLookingForMutation } from '../../store/services/api/profile/profile.api';
-import { logoutNewUser } from '../../store/services/admin-api/auth/auth.slice';
 import configJson from '../../../plan-config.json'
+import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 function AddArtistClassifications() {
     const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'ARTIST' })
     const { setClassifications, classifications, selectedClassifications, setSelectedClassifications } = useManageProfile()
     const { setErrorClassification, classificationsError } = useManageFormErrors()
     const newUserData = useSelector(selectAddedUserData)
-    const navigate = useNavigate()
     const dispatch = useDispatch()
+    UseManageStepsNAvigation()
 
     const [postLookingFor, { status }] = useSetLookingForMutation()
+
+    useEffect(() => {
+        if (status === 'fulfilled') {
+            dispatch(logoutNewUser())
+        }
+    }, [status])
 
     useEffect(() => {
         if (galleryClassifications) {
@@ -43,16 +48,15 @@ function AddArtistClassifications() {
                 isLookingForGallery: newUserData.lookFor.includes('GALLERY') ? true : undefined
             }
         })
+        dispatch(setArtistClassifications({
+            artistClassifications: selectedClassifications.map(el => Number(el.value)),
+        }))
+        dispatch(setIsCreatedUserViewed({ isViewed: false }))
+
+
     }
 
-    useEffect(() => {
-        if (status === 'fulfilled') {
-            const createdUSerData = newUserData
-            dispatch(removeNewUserData())
-            dispatch(logoutNewUser())
-            navigate(`/clients/${createdUSerData.createdUserId}`)
-        }
-    }, [status])
+
 
     useEffect(() => {
 

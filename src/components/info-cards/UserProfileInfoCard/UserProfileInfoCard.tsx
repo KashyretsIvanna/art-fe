@@ -14,8 +14,7 @@ function UserProfileInfoCard({ name, role, plan, imgId }: { name: string, role: 
         if (data) {
             setFile(data)
         }
-    }, [data, error, isLoading])
-
+    }, [data, error, isLoading,imgId])
     return (
         <div className={styles.profile_card}>
             <PhotoPicker images={data ? [file] : []} isLoading={isLoading} />

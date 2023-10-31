@@ -4,34 +4,39 @@ import styles from './LoginNewUser.module.scss'
 import emailIcon from '../../images/email.svg'
 import passwordIcon from '../../images/password.svg'
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setNewUser } from '../../store/services/admin-api/auth/auth.slice';
+import { useDispatch, useSelector } from 'react-redux';
 import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNavigation';
 import AdminLayout from '../../components/layout/AdminLayout/AdminLayout';
 import PersonImg from '../../images/icons/person.svg'
 import { useRegisterNewAdminMutation } from '../../store/services/admin-api/admins/adminApi';
 import { useRegisterNewUserMutation } from '../../store/services/api/profile/profile.api';
-import { setCreatedUserId } from '../../store/services/admin-api/user/user.slice';
+import { selectAddedUserData, selectNewUserAuthToken, setNewUser } from '../../store/services/admin-api/user/user.slice';
+import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 
 function LoginNewUser() {
     const [error, setError] = useState('')
-
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [name, setName] = useState('')
-
     const [isPasswordError, setIsPasswordError] = useState<boolean>(false)
     const [isEmailError, setIsEmailError] = useState<boolean>(false)
     const [isNameError, setIsNameError] = useState<boolean>(false)
-
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const newUserData = useSelector(selectAddedUserData)
+    const authData = useSelector(selectNewUserAuthToken)
+
+
+    if (!location.pathname.includes('admin')) {
+        UseManageStepsNAvigation()
+    }
 
     const [registerNewUser, { data: registerData, isSuccess: isRegisterSuccess, error: registrationError }] =
         useRegisterNewUserMutation();
     const [registerNewAdmin, { data: registerAdminData, isSuccess: isAdminRegSuccessful, error: adminRegistrationError }] =
         useRegisterNewAdminMutation();
+
 
     const clickButton = async () => {
         if (location.pathname.includes('admin')) {
@@ -63,22 +68,22 @@ function LoginNewUser() {
 
     useEffect(() => {
         if (isRegisterSuccess) {
-            dispatch(setNewUser({ added_user_access_token: registerData.tokens.accessToken }));
-            dispatch(setCreatedUserId({ createdUserId: registerData.id }))
-            navigate('/clients/photos/add');
+            dispatch(setNewUser({ added_user_access_token: registerData.tokens.accessToken, createdUserId: registerData.id }));
         }
 
     }, [isRegisterSuccess, registerData])
 
     useEffect(() => {
+        if (isRegisterSuccess && authData && newUserData.createdUserId) {
+            navigate('/clients/photos/add')
+        }
+    },[authData, isRegisterSuccess, navigate, newUserData.createdUserId])
 
-
+    useEffect(() => {
         if (isAdminRegSuccessful) {
             navigate('/admins');
         }
     }, [isAdminRegSuccessful, registerAdminData])
-
-
 
     return (
         <AdminLayout isBackButtonVisible={true} headerRight={
