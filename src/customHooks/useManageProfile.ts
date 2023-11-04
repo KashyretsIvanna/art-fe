@@ -1,6 +1,17 @@
 /** @format */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import json from '../shared-data/cities.json';
+import { GenderType } from '../contants/profile-info.constants';
+const genders = [
+  { value: GenderType.FEMALE, label: 'Female' },
+  { value: GenderType.MALE, label: 'Male' },
+  {
+    value: GenderType.NOT_SPECIFIED,
+    label: 'Not specified',
+  },
+  { value: GenderType.OTHER, label: 'Other' },
+];
 
 export default function useManageProfile() {
   const [age, setAge] = useState<
@@ -93,6 +104,36 @@ export default function useManageProfile() {
     }[]
   >([]);
 
+  const parseJson = async () => {
+    const regionNames = new Intl.DisplayNames(
+      ['en'],
+      { type: 'region' },
+    );
+    setCountries(
+      Object.keys(json).map((el) => ({
+        label: regionNames.of(el),
+        value: el,
+      })),
+    );
+  };
+
+  useEffect(() => {
+    parseJson();
+  }, []);
+  useEffect(() => {
+    if (selectedCountry.value !== '0') {
+      setCities(
+        json[selectedCountry.value].map((el) => ({
+          label: el.name,
+          value: el.name,
+          lat: el.lat,
+          lng: el.lng,
+        })),
+      );
+    }
+   
+  }, [selectedCountry]);
+
   return {
     selectedCity,
     selectedClassifications,
@@ -121,6 +162,7 @@ export default function useManageProfile() {
     age,
     orientations,
     galleryName,
+    genders,
     types,
   };
 }

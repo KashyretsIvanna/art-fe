@@ -19,6 +19,12 @@
     justify-content: flex-start;
   }
 
+  &__row:last-child {
+    &__description_select__edit {
+      border-radius: 20px;
+    }
+  }
+
   &__header {
     width: 156px;
     padding-left: 14px;
@@ -61,5 +67,36 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    box-sizing: border-box;
+  }
+
+  &__description_select__edit {
+    border-bottom: 1px solid #e6ecfe;
+    height: 100%;
+    width: 100%;
+    padding-left: 34px;
+    color: #1f263e;
+    font-family: Oxygen;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    // border: 1.5px solid #008eff;
+
+  }
+}
+.info_container__row:last-child {
+  & .info_container__description_select__edit {
+    border-radius: 0 0 12px 0;
+  }
+}
+
+.info_container__row:first-child {
+  & .info_container__description_select__edit {
+    border-radius: 0 12px 0px 0;
   }
 }

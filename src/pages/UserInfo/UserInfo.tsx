@@ -19,7 +19,10 @@ function UserInfo() {
     const [lookingFor, setLookingFor] = useState<string[]>([])
     const addedUser = useSelector(selectAddedUserData)
     const { data } = useGetUserByIdQuery({ userId: params.id ? +params.id : 1 })
+    const [isEditTurnOn, setIsEditTurnOn] = useState(false)
     const dispatch = useDispatch()
+
+
 
 
     useEffect(() => {
@@ -47,17 +50,25 @@ function UserInfo() {
         }
     }, [addedUser.createdUserId, dispatch, params.id])
 
+    const onSaveChanges = () => {
+        setIsEditTurnOn(false)
+        console.log('save changes')
+    }
+    const onCancelChanges = () => {
+        console.log('save changes')
+    }
+
     return (
         <AdminLayout isBackButtonVisible={true} headerRight={
-            <> <SectionHeaderButton icon={EditIcon} text={'EDIT PROFILE'} clickButton={() => { console.log('User edited') }} background={'#0077EB'} color={'#ffff'} />
+            <> {isEditTurnOn ? <SectionHeaderButton icon={EditIcon} text={'SAVE CHANGES'} clickButton={onSaveChanges} background={'#0077EB'} color={'#ffff'} /> : <SectionHeaderButton icon={EditIcon} text={'EDIT PROFILE'} clickButton={() => { setIsEditTurnOn(true) }} background={'#0077EB'} color={'#ffff'} />}
 
             </>
 
         } navigationItems={['All clients', data?.user.name || 'Name']} pageHeader='User profile'  >
             {data ? <div className={styles.user_info}>
 
-                <UserProfileInfoCard imgId={data?data.user.userPhotos[0].id:[]} plan={data.user.plan} avatar={logo} name={data.user.name} role={data.user.role} />
-                <UserInfoList email={data.user.email} country={data.user.country || ''} city={data.user.city || ''} age={data.user.age || ''} gender={data.user.gender || ''} status={data.user.plan || ''} about={data.user.profileDescription || ''} lookingFor={lookingFor} />
+                <UserProfileInfoCard imgId={data ? data.user.userPhotos[0].id : []} plan={data.user.plan} avatar={logo} name={data.user.name} role={data.user.role} />
+                <UserInfoList email={data.user.email} country={data.user.country || ''} city={data.user.city || ''} age={data.user.age || ''} gender={data.user.gender || ''} status={data.user.plan || ''} about={data.user.profileDescription || ''} lookingFor={lookingFor} isEdit={isEditTurnOn} onSaveChange={onSaveChanges} onCancelChanges={onCancelChanges} />
             </div> : <>User not found</>}
 
         </AdminLayout>
