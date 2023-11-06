@@ -17,6 +17,9 @@ export default function useManageProfile() {
   const [age, setAge] = useState<
     number | undefined
   >();
+  const [email, setEmail] = useState<
+    string | undefined
+  >();
   const [
     profileDescription,
     setProfileDescription,
@@ -131,7 +134,6 @@ export default function useManageProfile() {
         })),
       );
     }
-   
   }, [selectedCountry]);
 
   return {
@@ -143,6 +145,7 @@ export default function useManageProfile() {
     selectedOrientations,
     setAge,
     setCities,
+    setEmail,
     setClassifications,
     setCountries,
     setProfileDescription,
@@ -160,6 +163,7 @@ export default function useManageProfile() {
     profileDescription,
     classifications,
     age,
+    email,
     orientations,
     galleryName,
     genders,

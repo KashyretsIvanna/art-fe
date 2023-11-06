@@ -9,7 +9,9 @@ function TextInputEdit({
 
         <div className={styles.input_container} >
             <img src={panIcon} className={styles.input_container__pan} />
-            <input className={error ? styles.input_text__error : styles.input_text} value={data} onChange={(e) => setData(e.target.value)} placeholder={placeholder} />
+            <input className={error ? styles.input_text__error : styles.input_text} value={data} onChange={(e) => {
+                setData(e.target.value)
+            }} placeholder={placeholder} />
         </div>
 
     )
