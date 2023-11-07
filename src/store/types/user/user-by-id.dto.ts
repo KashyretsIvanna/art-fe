@@ -14,7 +14,7 @@ export interface UserByIdRes {
     isLookingForArtist: boolean;
     isLookingForGallery: boolean;
     isLookingForCollector: boolean;
-    userPhotos: { id: number }[];
+    userPhotos: { id: number; order: number }[];
     role: string;
   };
 }

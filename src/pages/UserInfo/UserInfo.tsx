@@ -148,7 +148,7 @@ function UserInfo() {
 
         }
     }, [updatedUserData, updatedUserProfileData])
-    
+
 
     const onCancelChanges = () => {
         setIsEditTurnOn(false)
@@ -159,20 +159,15 @@ function UserInfo() {
             <>
                 {isEditTurnOn ? <SectionHeaderButton icon={DeleteIcon} text={'CANCEL'} clickButton={() => { onCancelChanges() }} background={'#EE3143'} color={'#fffff'} /> : <></>}
                 {isEditTurnOn ? <SectionHeaderButton icon={EditIcon} text={'SAVE CHANGES'} clickButton={onSaveChanges} background={'#0077EB'} color={'#ffff'} /> : <SectionHeaderButton icon={EditIcon} text={'EDIT PROFILE'} clickButton={() => { setIsEditTurnOn(true) }} background={'#0077EB'} color={'#ffff'} />}
-
             </>
-
         } navigationItems={['All clients', data?.user.name || 'Name']} pageHeader='User profile'  >
             {data ? <div className={styles.user_info}>
 
-                <UserProfileInfoCard imgId={data ? data.user.userPhotos[0].id : []} plan={data.user.plan} avatar={logo} name={data.user.name} role={data.user.role} />
+                <UserProfileInfoCard imgIds={data ? data.user.userPhotos : []} plan={data.user.plan} avatar={logo} name={data.user.name} role={data.user.role} />
                 <UserInfoList items={items} isEdit={isEditTurnOn} />
             </div> : <>User not found</>}
 
         </AdminLayout>
-
-
-
 
     )
 }

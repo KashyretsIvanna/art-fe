@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAddPhotosMutation } from '../../store/services/api/profile/profile.api';
 import ModalWithPhoto from '../../components/modals/Photo/Photo';
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
+
+
 function AddPhotos() {
     UseManageStepsNAvigation()
 
@@ -33,6 +35,8 @@ function AddPhotos() {
             setButtonDisabled(true)
         }
     }, [photoList])
+
+
 
     return (
         <AdminLayout isBackButtonVisible={true} headerRight={

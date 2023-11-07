@@ -267,6 +267,10 @@ export const profileApi =
             'photo',
             body.file as Blob,
           );
+          formData.append(
+            'order',
+            body.order.toString(),
+          );
           return {
             url:
               baseApiUrl +

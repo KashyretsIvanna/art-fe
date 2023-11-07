@@ -13,6 +13,13 @@
   justify-content: center;
   flex-direction: column;
   gap: 7px;
+
+  &__set_main {
+    width: 136px;
+    height: 26px;
+    border-radius: 10px;
+  }
+
   &__avatar {
     width: 100px;
     height: 100px;
@@ -34,7 +41,7 @@
   &__role {
     color: #979797;
     font-feature-settings: 'clig' off, 'liga' off;
-    font-family: Oxygen , sans-serif;
+    font-family: Oxygen, sans-serif;
     font-size: 11px;
     font-style: normal;
     font-weight: 300;
