@@ -15,11 +15,11 @@ import AgeImg from '../../images/icons/age.svg'
 import SectionHeaderButton from '../../components/buttons/SectionHeaderButton/SectionHeaderButton';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useGetUserByIdQuery } from '../../store/services/admin-api/user/userApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAddedUserData, setIsCreatedUserViewed } from '../../store/services/admin-api/user/user.slice';
 import useManageProfile from '../../customHooks/useManageProfile';
 import DeleteIcon from '../../images/icons/delete.svg'
+import { useGetUserByIdQuery, useUpdateUserByIdMutation, useUpdateUserProfileByIdMutation } from '../../store/services/api/profile/profile.api';
 
 
 function UserInfo() {
@@ -27,17 +27,20 @@ function UserInfo() {
     const params = useParams()
     const [lookingFor, setLookingFor] = useState<string[]>([])
     const addedUser = useSelector(selectAddedUserData)
-    const { data } = useGetUserByIdQuery({ userId: params.id ? +params.id : 1 })
+    const { data, isLoading } = useGetUserByIdQuery({ userId: params.id ? +params.id : 1 })
     const [isEditTurnOn, setIsEditTurnOn] = useState(false)
     const dispatch = useDispatch()
+    const [updateUserById, { status: updatedUserData, isLoading: updatedUserDataLoading }] = useUpdateUserByIdMutation()
+    const [updateUserProfileById, { status: updatedUserProfileData, isLoading: updatedUserProfileDataLoading }] = useUpdateUserProfileByIdMutation()
 
     const [items, setItems] = useState<{
         icon: string, header: string, options?: { value: string; label: string; }[], selectedOption: { value: string; label: string; } | string | number, selectOption?: React.Dispatch<React.SetStateAction<{
             value: string;
             label: string;
-        } | string | number>>
+        } | string | number>>, isEditable: boolean
     }[]>([])
 
+    const { cities, countries, email, genders, age, profileDescription, setSelectedCountry, setProfileDescription, selectedGender, setEmail, selectedCity, selectedCountry, setSelectedGender, setAge, setSelectedCity } = useManageProfile()
 
 
     useEffect(() => {
@@ -45,39 +48,38 @@ function UserInfo() {
             setSelectedCity({ label: data.user.city, value: '0' })
         }
 
-    }, [data, isEditTurnOn])
+    }, [data, setSelectedCity])
 
     useEffect(() => {
         if (data) {
             setSelectedCountry({ label: data.user.country, value: '0' })
         }
 
-    }, [data, isEditTurnOn])
+    }, [data, setSelectedCountry])
     useEffect(() => {
 
         if (data) {
             setSelectedGender({ label: data.user.gender, value: '0' })
         }
 
-    }, [data, isEditTurnOn])
+    }, [data, setSelectedGender])
 
-    const { cities, countries, email, genders, age, profileDescription, setSelectedCountry, setProfileDescription, selectedGender, setEmail, selectedCity, selectedCountry, setSelectedGender, setAge, setSelectedCity } = useManageProfile()
 
 
     useEffect(() => {
         setItems(
-            [{ icon: MailImg, header: 'Email', selectedOption: email, selectOption: setEmail, },
-            { icon: GlobImg, header: 'Country', options: countries, selectedOption: selectedCountry, selectOption: setSelectedCountry, },
-            { icon: LocationImg, header: 'City', options: cities, selectedOption: selectedCity, selectOption: setSelectedCity, },
-            { icon: AgeImg, header: 'Age', selectedOption: age?.toString(), selectOption: setAge },
-            { icon: GenderImg, header: 'Gender', options: genders, selectedOption: selectedGender, selectOption: setSelectedGender, },
-            { icon: StatusImg, header: 'Status', selectedOption: 'status', selectOption: () => { }, },
-            { icon: PersonImg, header: 'About me', selectedOption: profileDescription, selectOption: setProfileDescription },
-            { icon: PaintImg, header: "I'm looking for", selectedOption: lookingFor.join(', '), selectOption: () => { } }
+            [{ icon: MailImg, header: 'Email', selectedOption: email, selectOption: setEmail, isEditable: true },
+            { icon: GlobImg, header: 'Country', options: countries, selectedOption: selectedCountry, selectOption: setSelectedCountry, isEditable: true },
+            { icon: LocationImg, header: 'City', options: cities, selectedOption: selectedCity, selectOption: setSelectedCity, isEditable: true },
+            { icon: AgeImg, header: 'Age', selectedOption: age?.toString(), selectOption: setAge, isEditable: true },
+            { icon: GenderImg, header: 'Gender', options: genders, selectedOption: selectedGender, selectOption: setSelectedGender, isEditable: true },
+            { icon: StatusImg, header: 'Status', selectedOption: 'status', selectOption: () => { }, isEditable: false },
+            { icon: PersonImg, header: 'About me', selectedOption: profileDescription, selectOption: setProfileDescription, isEditable: true },
+            { icon: PaintImg, header: "I'm looking for", selectedOption: lookingFor.join(', '), selectOption: () => { }, isEditable: false }
             ]
 
         )
-    }, [age, isEditTurnOn, cities, countries, data, email, genders, lookingFor, profileDescription, selectedCity, selectedCountry, selectedGender, setAge, setEmail, setProfileDescription, setSelectedCity, setSelectedCountry, setSelectedGender])
+    }, [age, cities, countries, data, email, genders, lookingFor, profileDescription, selectedCity, selectedCountry, selectedGender, setAge, setEmail, setProfileDescription, setSelectedCity, setSelectedCountry, setSelectedGender])
 
 
 
@@ -101,7 +103,7 @@ function UserInfo() {
 
 
 
-    }, [data, isEditTurnOn])
+    }, [data, setAge, setEmail, setProfileDescription])
 
     useEffect(() => {
         if (addedUser.createdUserId === Number(params.id)
@@ -109,26 +111,53 @@ function UserInfo() {
             dispatch(setIsCreatedUserViewed({
                 isViewed: true
             }))
-
         }
     }, [addedUser.createdUserId, dispatch, params.id])
 
-    const onSaveChanges = () => {
-        setIsEditTurnOn(false)
-        console.log('save changes')
+
+
+    const onSaveChanges = async () => {
+        if (data && (age !== data.user.age || selectedGender.label !== data.user.gender || profileDescription !== data.user.profileDescription)) {
+            await updateUserProfileById({
+                age: age !== data.user.age ? Number(age) : undefined,
+                gender: selectedGender.label !== data.user.gender ? selectedGender.label.toUpperCase().split(' ').join('_') : undefined,
+                profileDescription: profileDescription !== data.user.profileDescription ? profileDescription : undefined,
+                userId: data.user.id
+            })
+        }
+
+        if (data && (email !== data.user.email || selectedCountry.label !== data.user.country || selectedCity.label !== data.user.city)) {
+
+            await updateUserById({
+                email: email !== data.user.email ? email : undefined, userId: data.user.id, discovery: selectedCity.label !== data.user.city && selectedCountry.label !== data.user.country ? {
+                    location: {
+                        lat: selectedCity.label !== data.user.city && selectedCountry.label !== data.user.country ? Number(selectedCity.lat) : undefined,
+                        lng: selectedCity.label !== data.user.city && selectedCountry.label !== data.user.country ? Number(selectedCity.lng) : undefined
+                    }
+                } : undefined
+            })
+        }
+
     }
+    useEffect(() => {
+
+
+        if (((updatedUserData === 'fulfilled' || updatedUserProfileData === 'fulfilled') && !updatedUserDataLoading && !updatedUserProfileDataLoading && !isLoading)) {
+
+            setIsEditTurnOn(false)
+
+        }
+    }, [updatedUserData, updatedUserProfileData])
+    
+
     const onCancelChanges = () => {
         setIsEditTurnOn(false)
     }
 
-
     return (
         <AdminLayout isBackButtonVisible={true} headerRight={
-
-
             <>
                 {isEditTurnOn ? <SectionHeaderButton icon={DeleteIcon} text={'CANCEL'} clickButton={() => { onCancelChanges() }} background={'#EE3143'} color={'#fffff'} /> : <></>}
-
                 {isEditTurnOn ? <SectionHeaderButton icon={EditIcon} text={'SAVE CHANGES'} clickButton={onSaveChanges} background={'#0077EB'} color={'#ffff'} /> : <SectionHeaderButton icon={EditIcon} text={'EDIT PROFILE'} clickButton={() => { setIsEditTurnOn(true) }} background={'#0077EB'} color={'#ffff'} />}
 
             </>

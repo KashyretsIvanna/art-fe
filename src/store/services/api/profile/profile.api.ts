@@ -10,6 +10,7 @@ import {
 } from '../../../constants/api.constants';
 
 import { emptySplitApi } from '../../../emptySplitApi';
+import { UserByIdRes } from '../../../types/user/user-by-id.dto';
 
 interface UserProfileInfo {
   user: {
@@ -70,7 +71,7 @@ interface UserProfileInfo {
     profileClassifications: Classifications[];
     profileGalleryTypes: GalleryTypes[];
   };
-  progress: 90;
+  progress: number;
   isPremium: false;
 }
 
@@ -113,6 +114,100 @@ export const profileApi =
           body,
         }),
         invalidatesTags: [apiTags.profile],
+      }),
+      updateUserProfileById: builder.mutation({
+        query: (body: {
+          gender?: string;
+          galleryName?: string;
+          age?: number;
+          profileDescription?: string;
+          name?: string;
+          userId: number;
+        }) => {
+          const token = JSON.parse(
+            localStorage.getItem('persist:user'),
+          ).access_token.slice(1, -1);
+
+          const { userId, ...rest } = body;
+
+          return {
+            url:
+              baseAdminUrl +
+              '/api' +
+              ApiRoutes.USER +
+              `/${userId}` +
+              ApiRoutes.PROFILE,
+            method: 'PATCH',
+            body: rest,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
+        },
+        invalidatesTags: [
+          apiTags.user,
+          apiTags.profile,
+        ],
+      }),
+      updateUserById: builder.mutation({
+        query: (body: {
+          email?: string;
+          phoneNumber?: string;
+          userId: number;
+          discovery?: {
+            location?: {
+              lat: number;
+              lng: number;
+            };
+          };
+        }) => {
+          const token = JSON.parse(
+            localStorage.getItem('persist:user'),
+          ).access_token.slice(1, -1);
+
+          const { userId, ...rest } = body;
+          return {
+            url:
+              baseAdminUrl +
+              '/api' +
+              ApiRoutes.USER +
+              `/${userId}`,
+            method: 'PATCH',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: rest,
+          };
+        },
+        async onQueryStarted(
+          { id, ...patch },
+          { dispatch, queryFulfilled },
+        ) {
+          const patchResult = dispatch(
+            profileApi.util.updateQueryData(
+              'getNewProfileInfo',
+              id,
+              (draft) => {
+                Object.assign(draft, patch);
+              },
+            ),
+          );
+          try {
+            await queryFulfilled;
+          } catch {
+            patchResult.undo();
+
+            /**
+             * Alternatively, on failure you can invalidate the corresponding cache tags
+             * to trigger a re-fetch:
+             * dispatch(api.util.invalidateTags(['Post']))
+             */
+          }
+        },
+        invalidatesTags: [
+          apiTags.profile,
+          apiTags.user,
+        ],
       }),
       setLookingFor: builder.mutation({
         query: (body: {
@@ -215,6 +310,34 @@ export const profileApi =
         keepUnusedDataFor: 0.0001,
       }),
 
+      getUserById: builder.query<
+        UserByIdRes,
+        { userId: number }
+      >({
+        query: (body: { userId: number }) => {
+          const token = JSON.parse(
+            localStorage.getItem('persist:user'),
+          ).access_token.slice(1, -1);
+
+          return {
+            url:
+              baseAdminUrl +
+              '/api' +
+              '/user' +
+              `/${body.userId}`,
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
+        },
+        keepUnusedDataFor: 0.0001,
+        providesTags: [
+          apiTags.user,
+          apiTags.profile,
+        ],
+      }),
+
       getNewProfileInfo: builder.query<
         UserProfileInfo,
         void
@@ -239,4 +362,7 @@ export const {
   useRegisterNewUserMutation,
   useSetLookingForMutation,
   useGetNewProfileInfoQuery,
+  useUpdateUserByIdMutation,
+  useUpdateUserProfileByIdMutation,
+  useGetUserByIdQuery,
 } = profileApi;

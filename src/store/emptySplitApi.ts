@@ -27,6 +27,6 @@ export const emptySplitApi = createApi({
     unknown,
     ApiError
   >,
-  endpoints: () => ({}),
   tagTypes: Object.values(apiTags),
+  endpoints: () => ({}),
 });

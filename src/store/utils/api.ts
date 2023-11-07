@@ -16,12 +16,13 @@ export const getHeaders = (): ((
   ): MaybePromise<void | Headers> | undefined => {
     const token = (api.getState() as RootState)
       .addedUser.added_user_access_token;
-
     if (
       token &&
-      api.endpoint !== 'registerNewUser'
+      api.endpoint !== 'registerNewUser' &&
+      api.endpoint !== 'updateUserById' &&
+      api.endpoint !== 'updateUserProfileById' &&
+      api.endpoint !== 'getUserById'
     ) {
-      console.log(headers);
       headers.set(
         'Authorization',
         `Bearer ${token}`,
