@@ -22,6 +22,7 @@ import AdminList from './pages/AdminList/AdminList'
 import AddPhotos from './pages/AddPhotos/AddPhotos'
 import AddGalleryClassifications from './pages/AddGalleryClassifications/AddGalleryClassifications'
 import AddArtistClassifications from './pages/AddArtistClassifications/AddArtistClassifications'
+import PaymentInfo from './pages/PaymentInfo/PaymentInfo'
 
 function App() {
 
@@ -44,6 +45,8 @@ function App() {
           <Route path="/letter" element={<SendLetter />} />
           <Route path="/promo" element={<PromoCodeList />} />
           <Route path="/payments" element={<ListOfPayments />} />
+          <Route path="/payments/:id" element={<PaymentInfo />} />
+
           <Route path="/vip" element={<VipPricing />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/clients/registration" element={<LoginNewUser />

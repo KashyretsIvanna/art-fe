@@ -2,11 +2,19 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import CheckBox from '../../inputs/Checkbox/Checkbox'
 import styles from './TableList.module.scss'
-function TableList({ data, setSelected, columns }: { setSelected: React.Dispatch<React.SetStateAction<number[]>>, selected: number[], data: { id: number, data: string[] }[], columns: string[] }) {
+function TableList({ data, setSelected, columns, isCheckbox }: { isCheckbox: boolean, setSelected?: React.Dispatch<React.SetStateAction<number[]>>, selected?: number[], data: { id: number, data: string[] }[], columns: string[] }) {
 
     const navigate = useNavigate()
     const location = useLocation(
     )
+
+    const onItemClicked = (el: { id: any; }) => {
+        if (location.pathname.includes('client')) { navigate(`/clients/${el.id}`) }
+        if (location.pathname.includes('payment')) { navigate(`/payments/${el.id}`) }
+
+    }
+
+
 
     return (
         <table className={styles.list_table}>
@@ -19,13 +27,13 @@ function TableList({ data, setSelected, columns }: { setSelected: React.Dispatch
             </tr>
 
             {data.map(el => <tr key={el.id} className={styles.list_table__row}>
-                <td >
+                {isCheckbox ? <td >
                     <CheckBox onChange={(isChecked) => {
                         setSelected(prev => isChecked ? [...prev, el.id] : prev.filter(ids => ids !== el.id))
                     }} />
-                </td>
+                </td> : <>      </>}
 
-                {el.data.map(infoItem => <td className={location.pathname.includes('admin') ? styles.admin : undefined} onClick={() => { navigate(`/clients/${el.id}`) }}>{infoItem}</td>
+                {el.data.map(infoItem => <td className={location.pathname.includes('admin') ? styles.admin : undefined} onClick={() => { onItemClicked(el) }}>{infoItem}</td>
                 )}
             </tr>)}
 

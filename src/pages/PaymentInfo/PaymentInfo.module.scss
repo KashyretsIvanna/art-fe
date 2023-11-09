@@ -1,0 +1,35 @@
+/** @format */
+@import '../../configs/theme/theme-variables.scss';
+
+.user_list__container {
+  height: calc(100% - 125px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.payment_details {
+  width: 100%;
+  height: max-content;
+  text-align: left;
+
+  &__info{
+    padding-left: 40px;
+
+  }
+
+  h3 {
+    padding-left: 40px;
+    padding-top: 26px;
+    padding-bottom: 18px;
+
+
+    color: #1f263e;
+    font-family: Oxygen;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+}

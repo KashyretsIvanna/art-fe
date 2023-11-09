@@ -58,7 +58,7 @@ function AdminList() {
                 {selectedUsers.length ? <SectionHeaderButton icon={DeleteIcon} text={'DELETE'} clickButton={() => { onDeleteButtonClick() }} background={'#EE3143'} color={'#fffff'} /> : <></>}
                 {!selectedUsers.length ? <SectionHeaderButton icon={PlusImg} text={'ADD ADMIN'} clickButton={() => { navigate('/admins/registration') }} background={'#FF9700'} color={'#ffff'} /> : <></>}</>}>
                 <div className={styles.user_list__container}>
-                    <TableList columns={columns}
+                    <TableList isCheckbox={true}  columns={columns}
                         setSelected={setSelectedUsers} selected={selectedUsers} data={admins.map(el => ({ id: el.id, data: [el.name, el.email, '* * * * * *'] }))} />
                     <UsePagination items={items} />
                 </div>

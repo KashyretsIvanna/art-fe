@@ -63,7 +63,7 @@ function UserList() {
 
 
 
-                        setSelected={setSelectedUsers} selected={selectedUsers} data={users.map(el => ({ id: el.id, data: [el.name, el.email, el.country, el.city, el.gender, el.role, el.plan, el.isLookingForArtist ? 'Artist' : 'Gallery'] }))} />
+                        setSelected={setSelectedUsers} selected={selectedUsers} data={users.map(el => ({ id: el.id, data: [el.name, el.email, el.country, el.city, el.gender, el.role, el.plan, el.isLookingForArtist ? 'Artist' : 'Gallery'] }))} isCheckbox={true} />
                     <UsePagination items={items} />
                 </div>
 
