@@ -1,0 +1,26 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+
+.status_view {
+  padding: 5px 0px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background: #d8f6c4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  box-sizing: border-box;
+  margin-right: 20px;
+
+  &__text {
+    color: #2d861a;
+    font-family: Oxygen;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 10px; /* 71.429% */
+  }
+}

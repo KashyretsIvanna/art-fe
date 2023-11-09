@@ -33,7 +33,7 @@ function UserInfoList({ items, isEdit }: {
                     <div className={styles.info_container__header}>
                         <img src={el.icon} alt={el.header} /><div>{el.header}</div>
                     </div>
-                    {isEdit && el.isEditable ? el.options ? <InputSelectColumns label={''} options={el.options} error={''} setSelectedOption={(option) => { if (el.selectOption) { el.selectOption(option) } }} selectedOption={el.selectedOption} onChange={(option) => { console.log(option) }} /> : <TextInputEdit data={el.selectedOption as string} setData={(value) => { el.selectOption(value); }} placeholder={''} min={undefined} max={undefined} error={''} /> : <div className={styles.info_container__description}>{el.selectedOption ? typeof el.selectedOption !== 'string' ? el.selectedOption.label : el.selectedOption : ''}</div>
+                    {isEdit && el.isEditable ? el.options ? <InputSelectColumns label={''} options={el.options} error={''} setSelectedOption={(option) => { if (el.selectOption) { el.selectOption(option) } }} selectedOption={el.selectedOption} onChange={(option) => { }} /> : <TextInputEdit data={el.selectedOption as string} setData={(value) => { el.selectOption(value); }} placeholder={''} min={undefined} max={undefined} error={''} /> : <div className={styles.info_container__description}>{el.selectedOption ? typeof el.selectedOption !== 'string' ? el.selectedOption.label : el.selectedOption : ''}</div>
                     }
                 </div>)
             }

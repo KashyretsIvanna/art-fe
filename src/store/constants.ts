@@ -5,6 +5,7 @@ export enum ApiRoutes {
   FILES = '/files',
   AUTH = '/auth',
   ADMIN = '/admin',
+  PAYMENTS = '/payments',
   ART_CLASSIFICATION = '/art-classification',
   ART_ORIENTATION = '/art-orientation',
   GALLERY_TYPE = '/gallery-type',
@@ -16,6 +17,7 @@ export const keepUnusedDataFor = 0.01;
 export const apiTags = {
   user: 'User',
   admins: 'Admins',
+  payouts: 'Payouts',
   profile: 'Profile',
   files: 'Files',
 };

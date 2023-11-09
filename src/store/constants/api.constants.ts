@@ -5,7 +5,6 @@ export const baseAdminUrl: string = import.meta
 
 export const baseApiUrl: string = import.meta.env
   .VITE_API_URL;
-console.log(baseAdminUrl);
 
 export enum ApiRoutes {
   AUTH = '/auth',

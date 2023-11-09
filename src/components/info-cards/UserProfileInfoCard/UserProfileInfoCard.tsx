@@ -14,7 +14,6 @@ function UserProfileInfoCard({ name, role, plan, imgIds }: { name: string, role:
             <p className={styles.profile_card__role}>{role}</p>
             <div className={styles.profile_card__set_main}>
                 <ReusableButton text={'Set as main image'} clickButton={function (): void {
-                    console.log('click')
                 }} />
             </div>
 
