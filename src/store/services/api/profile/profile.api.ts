@@ -257,6 +257,28 @@ export const profileApi =
         },
         invalidatesTags: [apiTags.profile],
       }),
+      changePhotosOrder: builder.mutation({
+        query: (body: number[]) => {
+          const token = JSON.parse(
+            localStorage.getItem('persist:user'),
+          ).access_token.slice(1, -1);
+
+          return {
+            url:
+              baseAdminUrl +
+              '/api' +
+              ApiRoutes.USER +
+              '/photos' +
+              '/order',
+            method: 'PATCH',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: { orderedIds: body },
+          };
+        },
+        invalidatesTags: [apiTags.profile],
+      }),
       addPhotos: builder.mutation({
         query: (body: {
           file: Blob;
@@ -369,4 +391,5 @@ export const {
   useUpdateUserByIdMutation,
   useUpdateUserProfileByIdMutation,
   useGetUserByIdQuery,
+  useChangePhotosOrderMutation,
 } = profileApi;

@@ -140,8 +140,6 @@ function UserInfo() {
 
     }
     useEffect(() => {
-
-
         if (((updatedUserData === 'fulfilled' || updatedUserProfileData === 'fulfilled') && !updatedUserDataLoading && !updatedUserProfileDataLoading && !isLoading)) {
 
             setIsEditTurnOn(false)

@@ -59,10 +59,7 @@ export default function PaymentInfo() {
 
 
     const columns = ["Last update", "Customer", "Payment method", "Email",]
-
-
-
-
+    
     return (
         <AdminLayout isBackButtonVisible={true} navigationItems={['List of payments']} pageHeader='Payment' headerRight={<>
         </>}>

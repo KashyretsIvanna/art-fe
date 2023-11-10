@@ -9,9 +9,8 @@ import OnlineStatus from '../../signs/OnlineStatus/OnlineStatus';
 import MainPhoto from '../../signs/MainPhoto/MainPhoto';
 import { useGetProfilePhotoByIdQuery } from '../../../store/services/api/files/files.api';
 
-function PhotoPicker({ imagesIds }: { imagesIds: { id: number, order: number }[] }) {
+function PhotoPicker({ imagesIds, currentPosition, setCurrentPosition }: { imagesIds: { id: number, order: number }[], currentPosition: number, setCurrentPosition: React.Dispatch<React.SetStateAction<number>> }) {
 
-    const [currentPosition, setCurrentPosition] = useState(0)
     const [file, setFile] = useState<File | null>(null)
     const { data, error, isLoading } = useGetProfilePhotoByIdQuery({ profilePhotoId: imagesIds[currentPosition].id })
 
