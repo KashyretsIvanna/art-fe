@@ -1,0 +1,131 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+
+@mixin RefundBlock {
+  width: 100%;
+  padding-left: 22px;
+  padding-right: 22px;
+  box-sizing: border-box;
+}
+.refund {
+  &_container {
+    width: 448px;
+    height: 338px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid #008eff;
+    background: #fff;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  &_header {
+    color: #000a12;
+    font-family: Oxygen;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-align: center;
+    padding: 17px;
+    border-bottom: 1px #dfe5f9 solid;
+    width: 100%;
+  }
+
+  &_info {
+    padding: 8px;
+    @include RefundBlock;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    background: #fafbff;
+    border-bottom: 1px #dfe5f9 solid;
+
+    div {
+      color: #000;
+      font-family: Oxygen;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 22px; /* 157.143% */
+      text-align: left;
+
+      a {
+        color: #399cff;
+        font-family: Oxygen;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 22px;
+      }
+    }
+    img {
+    }
+  }
+
+  &__button_container {
+    width: 130px;
+    height: 38px;
+  }
+
+  &_body {
+    border-bottom: 1px #dfe5f9 solid;
+    background: #fafbff;
+    @include RefundBlock;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    label {
+      color: #000;
+      font-family: Oxygen;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 12px; /* 85.714% */
+    }
+
+    div {
+      width: max-content;
+      height: max-content;
+
+      span {
+        position: relative;
+        right: 40px;
+        top: 2px;
+      }
+      input {
+        border-radius: 6px;
+        border: 1px solid #a7a7a7;
+        background: #fff;
+        width: 179.733px;
+        height: 32px;
+        box-sizing: border-box;
+        padding: 7px;
+        padding-right: 40px;
+        &:active,
+        &:focus {
+          border-radius: 6px;
+          border: 1px solid #399cff;
+          background: #fff;
+          outline: none;
+        }
+      }
+    }
+  }
+  &_footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    gap: 8px;
+
+    width: 100%;
+  }
+}

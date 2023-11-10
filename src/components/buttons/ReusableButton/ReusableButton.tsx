@@ -2,10 +2,10 @@ import styles from './ReusableButton.module.scss'
 
 
 function ReusableButton({
-    text, clickButton }: { text: string, clickButton: () => void }) {
+    text, clickButton, color }: { text: string, color?: string, clickButton: () => void }) {
 
     return (
-        <button onClick={clickButton} className={styles.button}>{text}</button>
+        <button style={{ backgroundColor: color }} onClick={clickButton} className={styles.button}>{text}</button>
     )
 }
 

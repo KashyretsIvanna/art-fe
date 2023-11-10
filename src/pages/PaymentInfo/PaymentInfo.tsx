@@ -6,11 +6,13 @@ import visaIcon from '../../images/icons/visa.png'
 import SectionLine from '../../components/lines/SectionLine/SectionLine';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { PaymentByIdData, useGetPaymentByIdQuery } from '../../store/services/admin-api/payments/paymentsApi';
+import { PaymentByIdData, useGetPaymentByIdQuery, useRefundPaymentByIdMutation } from '../../store/services/admin-api/payments/paymentsApi';
 import StatusDesign from '../../components/badges/StatusDesign/StatusDesign';
 import SectionHeaderButton from '../../components/buttons/SectionHeaderButton/SectionHeaderButton';
 
 import RefundIcon from '../../images/icons/refund.svg'
+import ModalLayout from '../../components/modals/ModalLaout/ModalLaout';
+import RefundInfoModal from '../../components/info-cards/RefundInfoModal/RefundInfoModal';
 
 export default function PaymentInfo() {
 
@@ -18,7 +20,14 @@ export default function PaymentInfo() {
 
     const [payouts, setPayouts] = useState<PaymentByIdData>()
     const { data } = useGetPaymentByIdQuery({ payoutId: id })
+    const [refundPayment, { data: refundData }] = useRefundPaymentByIdMutation()
+    const [isRefundOpen, setOsRefundOpen] = useState(false)
 
+    useEffect(() => {
+        if (refundData) {
+            setOsRefundOpen(false)
+        }
+    }, [refundData])
 
     useEffect(() => {
         if (data) {
@@ -53,11 +62,12 @@ export default function PaymentInfo() {
 
 
 
+
     return (
         <AdminLayout isBackButtonVisible={true} navigationItems={['List of payments']} pageHeader='Payment' headerRight={<>
         </>}>
 
-            <div className={styles.payment_details__header}>          <div><span className={styles.payment_details__amount}>{`US$ ` + payouts?.amount.toFixed(2)}</span><div className={styles.payment_details__currency}>{payouts?.currency.toUpperCase()}</div><div className={styles.payment_details__status}> <StatusDesign text={payouts ? payouts.status : ''} /></div></div>              <SectionHeaderButton icon={RefundIcon} text={'Refund'} clickButton={() => { }} background={'#399CFF'} color={'#fffff'} />
+            <div className={styles.payment_details__header}>          <div><span className={styles.payment_details__amount}>{`US$ ` + payouts?.amount.toFixed(2)}</span><div className={styles.payment_details__currency}>{payouts?.currency.toUpperCase()}</div><div className={styles.payment_details__status}> <StatusDesign text={payouts ? payouts.status : ''} /></div></div>              <SectionHeaderButton icon={RefundIcon} text={'Refund'} clickButton={() => { setOsRefundOpen(true) }} background={'#399CFF'} color={'#fffff'} />
 
             </div>
             <div className={styles.user_list__container}>
@@ -85,7 +95,18 @@ export default function PaymentInfo() {
                 </div>
 
             </div>
-
+            {isRefundOpen && <ModalLayout modal={<RefundInfoModal currency={payouts ? payouts.currency : ''} amount={payouts ? payouts.amount : 0} onCancelClick={function (): void {
+                setOsRefundOpen(false)
+            }} onRefundClick={function (amount: number): void {
+                if (id) {
+                    refundPayment({ amount, payoutId: id })
+                } else {
+                    console.log('no id found')
+                }
+            }} />} closeModal={function (): void {
+                setOsRefundOpen(false)
+            }} />
+            }
 
         </AdminLayout >
     )

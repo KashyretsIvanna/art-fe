@@ -216,10 +216,30 @@ export const paymentsApi =
         keepUnusedDataFor: 0.0001,
         providesTags: [apiTags.payouts],
       }),
+      refundPaymentById: builder.mutation<
+        PaymentByIdData,
+        {
+          payoutId: number;
+          amount: number;
+        }
+      >({
+        query: (body: {
+          payoutId: number;
+          amount: number;
+        }) => ({
+          url:
+            serviceRoute +
+            `/${body.payoutId}/refund`,
+          method: 'POST',
+          body: { amount :body.amount},
+        }),
+        invalidatesTags: [apiTags.payouts],
+      }),
     }),
   });
 
 export const {
   useGetPaymentsQuery,
   useGetPaymentByIdQuery,
+  useRefundPaymentByIdMutation,
 } = paymentsApi;
