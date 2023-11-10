@@ -22,12 +22,7 @@ function ListOfPayments() {
     const [pagePayouts, setPagePayouts] = useState<number>(1)
     const [payoutsLoading, setPAyoutsLoading] = useState(true)
     const [totalPages, setTotalPages] = useState<number>(1)
-    const [admins, setAdmins] = useState<{
-        name: string;
-        email: string;
-        method: string;
-        created: string;
-    }[]>(paymentsData)
+  
     const [payouts, setPayouts] = useState<PaymentListRes>()
     const [startAfter, setStartAfter] = useState<string[] | undefined>()
     const [selectedUsers, setSelectedUsers] = useState<number[]>([])
@@ -118,11 +113,12 @@ function ListOfPayments() {
             <CustomizedTabs tabNames={['Overview', 'Remaining balances to payments']} setTab={setTab} active={tab} />
 
             <div className={styles.user_list__container}>
-                {tab === 0 ? <><TableList isCheckbox={true}  columns={columns}
-                    setSelected={setSelectedUsers} selected={selectedUsers} data={admins.map(el => ({ id: el.id, data: [el.name, el.email, <><img src={visaIcon} />{el.method}</>, formatDate(new Date(el.created))] }))} />
-                    <UsePagination items={items} /></>
+                {tab === 0 ? <><TableList isCheckbox={true} columns={columns}
+                    setSelected={setSelectedUsers} selected={selectedUsers} data={payouts ? payouts.data.map(el => ({ id: el.id, data: [el.customer.name, el.customer.email, <><img src={visaIcon} />****2424</>, formatDate(new Date(el.created))] })) : []} />
+                    <UnknownAmountPag onNextClick={onNextClick} onPrevClick={onPrevClick} isNext={payoutsLoading ? false : data ? data.has_more : false} isPrev={payoutsLoading ? false : pagePayouts === 1 ? false : true} />
+                </>
                     :
-                    <><TableList isCheckbox={true}  columns={payoutsColumns}
+                    <><TableList isCheckbox={true} columns={payoutsColumns}
                         setSelected={setSelectedPayments} selected={selectedPayments} data={payouts ? payouts.data.map(el => ({
                             id: el.id, data: [el.amount, el.currency.toUpperCase(), <StatusDesign text={el.status} />, el.customer.email, formatDate(new Date(el.created))]
                         })) : []} />

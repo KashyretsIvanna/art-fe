@@ -72,7 +72,7 @@ export default function PaymentInfo() {
             </div>
             <div className={styles.user_list__container}>
                 {payouts ? <TableList isCheckbox={false} columns={columns}
-                    data={[{ id: payouts.id, data: ['', formatDate(new Date(payouts.created)), payouts?.customer?.name, <><img src={visaIcon} />{payouts.payment_method.object}</>, payouts?.customer?.email] }]} /> : <></>}
+                    data={[{ id: payouts.id, data: ['', formatDate(new Date(payouts.created)), payouts?.customer?.name, <><img src={visaIcon} />****{payouts.payment_method.card.last4}</>, payouts?.customer?.email] }]} /> : <></>}
 
                 <div className={styles.payment_details}>
                     <SectionLine />
