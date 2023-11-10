@@ -1,12 +1,16 @@
 import styles from './RefundInfoModal.module.scss'
 import InfoIcon from '../../../images/icons/info.svg'
 import ReusableButton from '../../buttons/ReusableButton/ReusableButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 function RefundInfoModal({ currency, amount, onCancelClick, onRefundClick }: { currency: string, amount: number, onCancelClick: () => void, onRefundClick: (amount: number) => void }) {
 
 
-
     const [refundAmount, setRefundAmount] = useState(amount)
+    useEffect(() => {
+
+        if (refundAmount > amount) { setRefundAmount(amount) }
+    }, [refundAmount])
+
     return (
         <div className={styles.refund_container}>
             <div className={styles.refund_header}>Refund payment</div>

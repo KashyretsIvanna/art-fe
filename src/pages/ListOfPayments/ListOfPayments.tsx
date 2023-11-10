@@ -1,7 +1,6 @@
 import AdminLayout from '../../components/layout/AdminLayout/AdminLayout'
 import styles from './ListOfPayments.module.scss'
 import TableList from '../../components/lists/TableList/TableList'
-import UsePagination from '../../components/pagination/ListPagination/ListPagination';
 import usePagination from '@mui/material/usePagination';
 import { useEffect, useState } from 'react';
 import CustomizedTabs from '../../components/buttons/PageCheckout/PageCheckout';
@@ -11,18 +10,12 @@ import UnknownAmountPag from '../../components/pagination/UnknownAmountPaginatio
 import StatusDesign from '../../components/badges/StatusDesign/StatusDesign';
 
 
-const paymentsData = [{ name: "Anjekjsjf ddds", email: "emaul@gmail.vcom", method: "****6574", created: new Date().toISOString() },
-{ name: "Anjekjsjf ddds", email: "emaul@gmail.vcom", method: "****6574", created: new Date().toISOString() },
-{ name: "Anjekjsjf ddds", email: "emaul@gmail.vcom", method: "****6574", created: new Date().toISOString() },
-{ name: "Anjekjsjf ddds", email: "emaul@gmail.vcom", method: "****6574", created: new Date().toISOString() },
-{ name: "Anjekjsjf ddds", email: "emaul@gmail.vcom", method: "****6574", created: new Date().toISOString() }]
-
 function ListOfPayments() {
     const [page, setPage] = useState<number>(1)
     const [pagePayouts, setPagePayouts] = useState<number>(1)
     const [payoutsLoading, setPAyoutsLoading] = useState(true)
     const [totalPages, setTotalPages] = useState<number>(1)
-  
+
     const [payouts, setPayouts] = useState<PaymentListRes>()
     const [startAfter, setStartAfter] = useState<string[] | undefined>()
     const [selectedUsers, setSelectedUsers] = useState<number[]>([])
@@ -114,7 +107,7 @@ function ListOfPayments() {
 
             <div className={styles.user_list__container}>
                 {tab === 0 ? <><TableList isCheckbox={true} columns={columns}
-                    setSelected={setSelectedUsers} selected={selectedUsers} data={payouts ? payouts.data.map(el => ({ id: el.id, data: [el.customer.name, el.customer.email, <><img src={visaIcon} />****2424</>, formatDate(new Date(el.created))] })) : []} />
+                    setSelected={setSelectedUsers} selected={selectedUsers} data={payouts ? payouts.data.map(el => ({ id: el.id, data: [el.customer.name, el.customer.email, <><img src={visaIcon} />****{el.latest_charge.payment_method_details.card.last4}</>, formatDate(new Date(el.created))] })) : []} />
                     <UnknownAmountPag onNextClick={onNextClick} onPrevClick={onPrevClick} isNext={payoutsLoading ? false : data ? data.has_more : false} isPrev={payoutsLoading ? false : pagePayouts === 1 ? false : true} />
                 </>
                     :

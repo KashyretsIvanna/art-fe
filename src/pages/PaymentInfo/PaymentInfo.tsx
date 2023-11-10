@@ -67,7 +67,7 @@ export default function PaymentInfo() {
         <AdminLayout isBackButtonVisible={true} navigationItems={['List of payments']} pageHeader='Payment' headerRight={<>
         </>}>
 
-            <div className={styles.payment_details__header}>          <div><span className={styles.payment_details__amount}>{`US$ ` + payouts?.amount.toFixed(2)}</span><div className={styles.payment_details__currency}>{payouts?.currency.toUpperCase()}</div><div className={styles.payment_details__status}> <StatusDesign text={payouts ? payouts.status : ''} /></div></div>              <SectionHeaderButton icon={RefundIcon} text={'Refund'} clickButton={() => { setOsRefundOpen(true) }} background={'#399CFF'} color={'#fffff'} />
+            <div className={styles.payment_details__header}>          <div><span className={styles.payment_details__amount}>{`US$ ` + payouts?.amount.toFixed(2)}</span><div className={styles.payment_details__currency}>{payouts?.currency.toUpperCase()}</div><div className={styles.payment_details__status}> <StatusDesign text={payouts ? payouts.status : ''} /></div></div>             {payouts && payouts.amount - payouts.latest_charge.amount_refunded > 0 ? <SectionHeaderButton icon={RefundIcon} text={'Refund'} clickButton={() => { setOsRefundOpen(true) }} background={'#399CFF'} color={'#fffff'} /> : <></>}
 
             </div>
             <div className={styles.user_list__container}>
@@ -95,7 +95,7 @@ export default function PaymentInfo() {
                 </div>
 
             </div>
-            {isRefundOpen && <ModalLayout modal={<RefundInfoModal currency={payouts ? payouts.currency : ''} amount={payouts ? payouts.amount : 0} onCancelClick={function (): void {
+            {isRefundOpen && <ModalLayout modal={<RefundInfoModal currency={payouts ? payouts.currency : ''} amount={payouts ? payouts.amount - payouts.latest_charge.amount_refunded : 0} onCancelClick={function (): void {
                 setOsRefundOpen(false)
             }} onRefundClick={function (amount: number): void {
                 if (id) {
