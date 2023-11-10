@@ -19,9 +19,9 @@ function TableList({ data, setSelected, columns, isCheckbox }: { isCheckbox: boo
     return (
         <table className={styles.list_table}>
             <tr className={styles.list_table__head}>
-                <th >
+                {isCheckbox ? <th >
                     <CheckBox />
-                </th>
+                </th> : <th className={styles.list_table__empty}>kh.</th>}
                 {columns.map(columnName => <th>{columnName}</th>)}
 
             </tr>

@@ -7,8 +7,10 @@ import SectionLine from '../../components/lines/SectionLine/SectionLine';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { PaymentByIdData, useGetPaymentByIdQuery } from '../../store/services/admin-api/payments/paymentsApi';
+import StatusDesign from '../../components/badges/StatusDesign/StatusDesign';
+import SectionHeaderButton from '../../components/buttons/SectionHeaderButton/SectionHeaderButton';
 
-
+import RefundIcon from '../../images/icons/refund.svg'
 
 export default function PaymentInfo() {
 
@@ -55,7 +57,9 @@ export default function PaymentInfo() {
         <AdminLayout isBackButtonVisible={true} navigationItems={['List of payments']} pageHeader='Payment' headerRight={<>
         </>}>
 
-            {`US$ `+ payouts?.amount.toFixed(2) + `    ${payouts?.currency.toUpperCase()}`}
+            <div className={styles.payment_details__header}>          <div><span className={styles.payment_details__amount}>{`US$ ` + payouts?.amount.toFixed(2)}</span><div className={styles.payment_details__currency}>{payouts?.currency.toUpperCase()}</div><div className={styles.payment_details__status}> <StatusDesign text={payouts ? payouts.status : ''} /></div></div>              <SectionHeaderButton icon={RefundIcon} text={'Refund'} clickButton={() => { }} background={'#399CFF'} color={'#fffff'} />
+
+            </div>
             <div className={styles.user_list__container}>
                 {payouts ? <TableList isCheckbox={false} columns={columns}
                     data={[{ id: payouts.id, data: ['', formatDate(new Date(payouts.created)), payouts?.customer?.name, <><img src={visaIcon} />{payouts.payment_method.object}</>, payouts?.customer?.email] }]} /> : <></>}
@@ -64,23 +68,26 @@ export default function PaymentInfo() {
                     <SectionLine />
                     <h3>Payment details</h3>
                     <SectionLine />
-                    <div className={styles.payment_details__info}>
-                        <div>
-                            <div>Statue</div>
-                            <div>{payouts?.status}</div>
-                        </div>
-                        <div>
-                            <div>Description</div>
-                            <div>{payouts?.description}</div>
-                        </div>
+                    <table className={styles.payment_details__info}>
+                        <tbody>
+                            <tr>
+                                <td className={styles.payment_details__key}>Statue</td>
+                                <td className={styles.payment_details__value}>{payouts?.status}</td>
+                            </tr>
+                            <tr>
+                                <td className={styles.payment_details__key}>Description</td>
+                                <td className={styles.payment_details__value}>{payouts?.description}</td>
+                            </tr>
+                        </tbody>
 
-                    </div>
+
+                    </table>
                 </div>
 
             </div>
 
 
-        </AdminLayout>
+        </AdminLayout >
     )
 }
 

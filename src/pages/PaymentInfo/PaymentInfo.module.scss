@@ -13,17 +13,73 @@
   width: 100%;
   height: max-content;
   text-align: left;
+  &__status {
+    width: max-content;
+    height: 22px;
+  }
 
-  &__info{
+  &__amount {
+    color: #1f263e;
+    font-family: Oxygen;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+  &__currency {
+    color: #a8a8aa;
+    font-family: Oxygen;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 40.26px;
+    padding-right: 30.77px;
+    padding-bottom: 9px;
+
+    div {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+  }
+
+  &__key {
+    color: #929090;
+    font-family: Oxygen;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 171.429% */
+  }
+
+  &__value {
+    color: #232323;
+    font-family: Oxygen;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 171.429% */
+    padding-left: 70px;
+  }
+
+  &__info {
     padding-left: 40px;
 
+    width: max-content;
+    border-spacing: 5px;
   }
 
   h3 {
     padding-left: 40px;
     padding-top: 26px;
     padding-bottom: 18px;
-
 
     color: #1f263e;
     font-family: Oxygen;

@@ -7,6 +7,10 @@
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
+  &__empty{
+    opacity: 0;
+  }
+
 
   &__head {
     width: 100%;
