@@ -43,7 +43,6 @@ export default function UseManageStepsNAvigation() {
           replace: true,
         },
       );
-      return;
     }
 
     if (
