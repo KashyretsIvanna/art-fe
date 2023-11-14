@@ -107,7 +107,7 @@ function ListOfPayments() {
 
             <div className={styles.user_list__container}>
                 {tab === 0 ? <><TableList isCheckbox={true} columns={columns}
-                    setSelected={setSelectedUsers} selected={selectedUsers} data={payouts ? payouts.data.map(el => ({ id: el.id, data: [el.customer.name, el.customer.email, <><img src={visaIcon} />****{el.latest_charge.payment_method_details.card.last4}</>, formatDate(new Date(el.created))] })) : []} />
+                    setSelected={setSelectedUsers} selected={selectedUsers} data={payouts ? payouts.data.map(el => ({ id: el.id, data: [el.customer.name, el.customer.email, <><img src={visaIcon} />****{el && el.latest_charge ? el.latest_charge.payment_method_details.card.last4 : ''}</>, formatDate(new Date(el.created))] })) : []} />
                     <UnknownAmountPag onNextClick={onNextClick} onPrevClick={onPrevClick} isNext={payoutsLoading ? false : data ? data.has_more : false} isPrev={payoutsLoading ? false : pagePayouts === 1 ? false : true} />
                 </>
                     :
