@@ -12,41 +12,32 @@
   margin-bottom: 17px;
   padding-left: 34px;
   box-sizing: border-box;
-  color: #0C0C0C;
-
-
+  color: #0c0c0c;
+  
   &:focus {
     border: 1px solid #8ac0ff;
     outline: none;
-    color: #0C0C0C;
+    color: #0c0c0c;
     background: $white;
-
-
   }
 
   &:active {
     border: 1px solid #8ac0ff;
     outline: none;
-    color: #0C0C0C;
+    color: #0c0c0c;
     background: $white;
-
-
-
   }
   &:hover {
     border: 1px solid #8ac0ff;
     outline: none;
-    color: #0C0C0C;
+    color: #0c0c0c;
     background: $white;
-
-
-
   }
 }
 
 .input_container {
   position: relative;
-  color: #0C0C0C;
+  color: #0c0c0c;
 
   & .input_icon {
     position: absolute;
@@ -55,7 +46,6 @@
 
   &__field {
     @include Input;
-
 
     &_error {
       @include Input;

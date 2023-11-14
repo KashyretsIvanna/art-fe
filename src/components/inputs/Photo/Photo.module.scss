@@ -16,6 +16,8 @@
   border: 1px solid #c0c0c0;
   background: #fff;
   @include PhotoInput;
+  cursor: pointer;
+
 
   .photo_input__active {
     @include PhotoInput;
@@ -53,6 +55,8 @@
     top: 0;
     z-index: 2;
     border-radius: 10px;
+
+    cursor: pointer;
   }
 
   &__img {
