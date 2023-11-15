@@ -89,7 +89,7 @@ function AddArtistClassifications() {
                 </div>
             </div>
 
-            <NavigationSteps disabled={selectedClassifications.length === 0 || selectedClassifications.length > configJson.standard.maxClassifications} onContinue={clickButton} stepNumber={3} totalAmountSteps={4} />
+            <NavigationSteps disabled={selectedClassifications.length === 0 || selectedClassifications.length > configJson.standard.maxClassifications} onContinue={clickButton} stepNumber={6} totalAmountSteps={6} />
         </AdminLayout>
 
 

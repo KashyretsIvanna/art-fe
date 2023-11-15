@@ -18,12 +18,19 @@
   flex-direction: column;
   gap: 7px;
   position: absolute;
-  &__avatar {
-    width: 100px;
-    height: 100px;
+  &__avatar_container {
+    
     border-radius: 50%;
+    overflow: hidden;
+
+  }
+
+  &__avatar {
     background-color: wheat;
-    margin-bottom: 10px;
+    width: 100px;
+    height: 100px;    
+    object-fit: cover;
+  
   }
 
   &__container {

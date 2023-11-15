@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './MultiSelect.module.scss'
 import BirdImg from '../../../images/icons/buird.svg'
 import RemoveIcon from '../../../images/icons/remove.svg'
-const MultiSelect = ({ options, label, setSelectedOption, selectedOption, error }: {
+const MultiSelect = ({ options, label, setSelectedOption, selectedOption, error, isDropdownOpen }: {
     label: string, options: { value: string, label: string }[], setSelectedOption: React.Dispatch<React.SetStateAction<{
         value: string;
         label: string;
@@ -10,7 +10,8 @@ const MultiSelect = ({ options, label, setSelectedOption, selectedOption, error 
         value: string;
         label: string;
     }[],
-    error: string | null
+    error: string | null,
+    isDropdownOpen: boolean
 }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -20,6 +21,10 @@ const MultiSelect = ({ options, label, setSelectedOption, selectedOption, error 
 
         }
     };
+
+    useEffect(() => {
+        setIsOpen(isDropdownOpen)
+    }, [isDropdownOpen])
 
     const handleOptionClick = (option: { value: string, label: string }) => {
         setSelectedOption(prev => [...prev, option]);

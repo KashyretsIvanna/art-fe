@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './InputSelect.module.scss'
 import BirdImg from '../../../images/icons/buird.svg'
 
-const InputPopup = ({ options, onChange, label, setSelectedOption, selectedOption, error }: {
+const InputPopup = ({ options, onChange, label, setSelectedOption, selectedOption, error, isDropdownOpen }: {
     label: string, options: { value: string, label: string }[], error: string, setSelectedOption: React.Dispatch<React.SetStateAction<{
         value: string;
         label: string;
@@ -10,12 +10,17 @@ const InputPopup = ({ options, onChange, label, setSelectedOption, selectedOptio
         value: string;
         label: string;
     }, onChange: (value: { value: string, label: string }) => void,
+    isDropdownOpen: boolean
 }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
+
+    useEffect(() => {
+        setIsOpen(isDropdownOpen)
+    }, [isDropdownOpen])
 
     const handleOptionClick = (option: { value: string, label: string }) => {
         setSelectedOption(option);

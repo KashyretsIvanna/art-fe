@@ -141,7 +141,7 @@ function AddGalleryClassifications() {
 
             </div>
 
-            <NavigationSteps disabled={!(!classificationsError && !orientationsError && !typesError && classificationsError !== null && orientationsError !== null && typesError !== null)} onContinue={clickButton} stepNumber={3} totalAmountSteps={4} />
+            <NavigationSteps disabled={!(!classificationsError && !orientationsError && !typesError && classificationsError !== null && orientationsError !== null && typesError !== null)} onContinue={clickButton} stepNumber={6} totalAmountSteps={6} />
         </AdminLayout>
 
 

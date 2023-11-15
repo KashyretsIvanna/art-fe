@@ -1,7 +1,7 @@
 import AdminLayout from '../../components/layout/AdminLayout/AdminLayout'
 import styles from './AddGallery.module.scss'
 import InputPopup from '../../components/inputs/InputSelect/InputSelect';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ReusableTextArea from '../../components/inputs/ReusableTextArea/ReusableTextArea';
 import ReusableTextInput from '../../components/inputs/ReusableTextInput/ReusableTextInput';
 import MultiSelect from '../../components/inputs/MultiSelect/MultiSelect';
@@ -156,41 +156,44 @@ function AddGallery() {
 
     }, [galleryName, selectedCity.value, selectedClassifications.length, selectedCountry.value, selectedGalleryTypes.length, selectedOrientations.length])
 
+
+    const [activeDropdownNumber, setActiveDropdownNumber] = useState<number>()
+
     return (
         <AdminLayout isBackButtonVisible={true} headerRight={
             null} navigationItems={['Gallery']} pageHeader='About me( Gallery )'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>
-                    <div className={styles.input_row_container}>
+                    <div className={styles.input_row_container} onClick={() => { setActiveDropdownNumber(1) }}>
                         <ReusableTextInput error={galleryNameError} label={'Gallery Name'} data={galleryName} setData={setGalleryName} placeholder={'Gallery name'} />
                     </div>
-                    <div className={styles.input_row_container}>
-                        <MultiSelect options={types} selectedOption={selectedGalleryTypes} setSelectedOption={setSelectedGalleryTypes} label={'Gallery type'} error={typesError} />
+                    <div className={styles.input_row_container} onClick={() => { setActiveDropdownNumber(2) }}>
+                        <MultiSelect isDropdownOpen={activeDropdownNumber === 2 ? true : false} options={types} selectedOption={selectedGalleryTypes} setSelectedOption={setSelectedGalleryTypes} label={'Gallery type'} error={typesError} />
                     </div>
                 </div>
                 <div className={styles.input_col_container}>
-                    <div className={styles.input_row_container}>
-                        <InputPopup options={countries} onChange={setSelectedCountry} setSelectedOption={setSelectedCountry} selectedOption={selectedCountry} label={'Select Country'} error={countriesError} />
+                    <div className={styles.input_row_container} onClick={() => { setActiveDropdownNumber(3) }}>
+                        <InputPopup isDropdownOpen={activeDropdownNumber === 3 ? true : false} options={countries} onChange={setSelectedCountry} setSelectedOption={setSelectedCountry} selectedOption={selectedCountry} label={'Select Country'} error={countriesError} />
                     </div>
-                    <div className={styles.input_row_container}>
-                        <MultiSelect error={orientationsError} options={orientations} selectedOption={selectedOrientations} setSelectedOption={setSelectedOrientations} label={'Art Orientations'} />
+                    <div className={styles.input_row_container} onClick={() => { setActiveDropdownNumber(4) }}>
+                        <MultiSelect isDropdownOpen={activeDropdownNumber === 4 ? true : false} error={orientationsError} options={orientations} selectedOption={selectedOrientations} setSelectedOption={setSelectedOrientations} label={'Art Orientations'} />
                     </div>
                 </div>
 
                 <div className={styles.input_col_container}>
-                    <div className={styles.input_row_container}>
-                        <InputPopup options={cities} onChange={setSelectedCity} selectedOption={selectedCity} setSelectedOption={setSelectedCity} label={'Select City'} error={citiesError} />
+                    <div className={styles.input_row_container} onClick={() => { setActiveDropdownNumber(5) }}>
+                        <InputPopup isDropdownOpen={activeDropdownNumber === 5 ? true : false} options={cities} onChange={setSelectedCity} selectedOption={selectedCity} setSelectedOption={setSelectedCity} label={'Select City'} error={citiesError} />
                     </div>
-                    <div className={styles.input_row_container}>
-                        <MultiSelect error={classificationsError} options={classifications} selectedOption={selectedClassifications} setSelectedOption={setSelectedClassifications} label={'Art Classification type'} />
+                    <div className={styles.input_row_container} onClick={() => { setActiveDropdownNumber(6) }}>
+                        <MultiSelect isDropdownOpen={activeDropdownNumber === 6 ? true : false} error={classificationsError} options={classifications} selectedOption={selectedClassifications} setSelectedOption={setSelectedClassifications} label={'Art Classification type'} />
                     </div>
                 </div>
 
             </div>
-            <div className={styles.inputs_container__textarea}>
+            <div className={styles.inputs_container__textarea} onClick={() => { setActiveDropdownNumber(7) }}>
                 <ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} />
             </div>
-            <NavigationSteps disabled={!(!citiesError && !classificationsError && !countriesError && !orientationsError && !typesError && !galleryNameError && citiesError !== null && classificationsError !== null && countriesError !== null && orientationsError !== null && typesError !== null && galleryNameError !== null)} onContinue={clickButton} stepNumber={3} totalAmountSteps={4} />
+            <NavigationSteps disabled={!(!citiesError && !classificationsError && !countriesError && !orientationsError && !typesError && !galleryNameError && citiesError !== null && classificationsError !== null && countriesError !== null && orientationsError !== null && typesError !== null && galleryNameError !== null)} onContinue={clickButton} stepNumber={4} totalAmountSteps={6} />
         </AdminLayout>
 
 

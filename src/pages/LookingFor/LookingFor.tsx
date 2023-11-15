@@ -100,7 +100,7 @@ const LookingFor = () => {
             </div>
             <NavigationSteps disabled={!checkedArtist && !checkedCollector && !checkedGallery} onContinue={() => {
                 clickButton()
-            }} stepNumber={1} totalAmountSteps={4} />
+            }} stepNumber={5} totalAmountSteps={6} />
 
         </AdminLayout >
 

@@ -52,7 +52,7 @@ function AddPhotos() {
 
             <NavigationSteps disabled={isButtonDisabled} onContinue={() => {
                 clickButton()
-            }} stepNumber={2} totalAmountSteps={4} />
+            }} stepNumber={2} totalAmountSteps={6} />
 
         </AdminLayout >
     )

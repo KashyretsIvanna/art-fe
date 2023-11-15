@@ -56,7 +56,7 @@ function AddUser() {
             <div className={styles.add_user__container}>
                 <InputPopup selectedOption={selectedRole} setSelectedOption={setSelectedRole} options={roles} onChange={changeRole} label={'Select user'} error={''} />
             </div>
-            <NavigationSteps disabled={false} stepNumber={2} totalAmountSteps={4} onContinue={function (): void {
+            <NavigationSteps disabled={false} stepNumber={3} totalAmountSteps={6} onContinue={function (): void {
                 dispatch(setRole({
                     role: selectedRole.value,
                 }))

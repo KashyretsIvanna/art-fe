@@ -25,10 +25,10 @@ function PhotoPicker({ imagesIds, currentPosition, setCurrentPosition }: { image
         <div className={styles.image_picker__container}>
             {!isLoading && currentPosition !== 0 ? <img onClick={() => { setCurrentPosition(prev => prev - 1) }} className={styles.image_picker__left} src={NavLeftIcon} /> : <div className={styles.image_picker__left}></div>}
 
-            {isLoading ? <CircularProgress color="inherit" />
+            {isLoading ? <div className={styles.image_picker__avatar_container}><CircularProgress color="inherit" /></div>
                 :
-                <img className={styles.image_picker__avatar} src={imagesIds.length && imagesIds[currentPosition] && file ? URL.createObjectURL(file)
-                    : avatar} alt='avatar' />
+                <div className={styles.image_picker__avatar_container}><img className={styles.image_picker__avatar} src={imagesIds.length && imagesIds[currentPosition] && file ? URL.createObjectURL(file)
+                    : avatar} alt='avatar' /></div>
             }
             {!isLoading && currentPosition !== imagesIds.length - 1 ? <img onClick={() => { setCurrentPosition(prev => prev + 1) }} className={styles.image_picker__right} src={NavRightIcon} /> : <div className={styles.image_picker__left}></div>}
             {!isLoading && < OnlineStatus right='42px' top='85px' />}

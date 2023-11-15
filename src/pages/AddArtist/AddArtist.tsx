@@ -1,7 +1,7 @@
 import AdminLayout from '../../components/layout/AdminLayout/AdminLayout'
 import styles from './AddArtist.module.scss'
 import InputPopup from '../../components/inputs/InputSelect/InputSelect';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ReusableTextArea from '../../components/inputs/ReusableTextArea/ReusableTextArea';
 import { GenderType } from '../../contants/profile-info.constants';
 import ReusableNumberInput from '../../components/inputs/ReusableNumberInput copy/ReusableTextInput';
@@ -125,27 +125,30 @@ function AddArtist() {
         }
     }, [cretedProfileData])
 
+    const [activeDropdownNumber, setActiveDropdownNumber] = useState<number>()
+
+
     return (
         <AdminLayout isBackButtonVisible={true} headerRight={
             null} navigationItems={['Artist']} pageHeader='About me (Artist)'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>
-                    <div className={styles.input_row_container}><InputPopup error={countriesError} options={countries} selectedOption={selectedCountry} setSelectedOption={setSelectedCountry} onChange={setSelectedCountry} label={'Select country'} /></div>
-                    <div className={styles.input_row_container}><InputPopup error={citiesError} options={cities} selectedOption={selectedCity} setSelectedOption={setSelectedCity} onChange={setSelectedCity} label={'Select city'} />
+                    <div className={styles.input_row_container} onClick={() => { setActiveDropdownNumber(1) }}><InputPopup isDropdownOpen={activeDropdownNumber === 1 ? true : false} error={countriesError} options={countries} selectedOption={selectedCountry} setSelectedOption={setSelectedCountry} onChange={setSelectedCountry} label={'Select country'} /></div>
+                    <div className={styles.input_row_container} onClick={() => { setActiveDropdownNumber(2) }}><InputPopup isDropdownOpen={activeDropdownNumber === 2 ? true : false} error={citiesError} options={cities} selectedOption={selectedCity} setSelectedOption={setSelectedCity} onChange={setSelectedCity} label={'Select city'} />
                     </div>
                 </div>
                 <div className={styles.input_col_container}>
                     <div className={styles.input_col_container__age}>
-                        <div className={styles.input_row_container}><ReusableNumberInput error={ageError} max={100} min={18} data={age} setData={setAge} label={'Age'} placeholder={'Age'} /></div>
-                        <div className={styles.input_row__gender}><InputPopup error={genderError} selectedOption={selectedGender} setSelectedOption={setSelectedGender} options={genders} onChange={setSelectedGender} label={'Gender'} /></div>
+                        <div className={styles.input_row_container} onClick={() => { setActiveDropdownNumber(3) }}><ReusableNumberInput error={ageError} max={100} min={18} data={age} setData={setAge} label={'Age'} placeholder={'Age'} /></div>
+                        <div className={styles.input_row__gender} onClick={() => { setActiveDropdownNumber(4) }}><InputPopup isDropdownOpen={activeDropdownNumber === 4 ? true : false} error={genderError} selectedOption={selectedGender} setSelectedOption={setSelectedGender} options={genders} onChange={setSelectedGender} label={'Gender'} /></div>
 
                     </div>
-                    <div className={styles.input_row_container}><MultiSelect error={classificationsError} options={classifications} selectedOption={selectedClassifications} setSelectedOption={setSelectedClassifications} label={'Art classifications'} /></div>
+                    <div className={styles.input_row_container} onClick={() => { setActiveDropdownNumber(5) }}><MultiSelect isDropdownOpen={activeDropdownNumber === 5 ? true : false} error={classificationsError} options={classifications} selectedOption={selectedClassifications} setSelectedOption={setSelectedClassifications} label={'Art classifications'} /></div>
                 </div>
-                <div className={styles.input_col_container}><ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} /></div>
+                <div className={styles.input_col_container} onClick={() => { setActiveDropdownNumber(6) }}><ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} /></div>
 
             </div>
-            <NavigationSteps disabled={!(!ageError && !citiesError && !classificationsError && !countriesError && !genderError && ageError !== null && citiesError !== null && classificationsError !== null && countriesError !== null && genderError !== null)} onContinue={clickButton} stepNumber={3} totalAmountSteps={4} />
+            <NavigationSteps disabled={!(!ageError && !citiesError && !classificationsError && !countriesError && !genderError && ageError !== null && citiesError !== null && classificationsError !== null && countriesError !== null && genderError !== null)} onContinue={clickButton} stepNumber={4} totalAmountSteps={6} />
 
 
 

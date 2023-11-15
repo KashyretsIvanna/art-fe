@@ -97,7 +97,7 @@ function LoginNewUser() {
 
             <NavigationSteps onContinue={() => {
                 clickButton()
-            }} stepNumber={1} totalAmountSteps={location.pathname.includes('admin') ? 1 : 4} />
+            }} stepNumber={1} totalAmountSteps={location.pathname.includes('admin') ? 1 : 6} />
         </AdminLayout >
     )
 }

@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import styles from './ListPagination.module.scss'
 import NextImage from '../../../images/icons/next.svg'
 
+
 const List = styled('ul')({
     listStyle: 'none',
     padding: 0,
@@ -34,9 +35,12 @@ export default function UsePagination({ items }: { items: UsePaginationItem[] })
                         );
                     } else {
                         children = (
-                            <button disabled={disabled?true:false} className={styles.pagination__next} type="button" {...item}>
-                                <img className={disabled ? styles.pagination_disabled : styles.pagination__next_img} src={NextImage} alt='type' />
-                            </button>
+                            <button disabled={disabled ? true : false} className={styles.pagination__next} type="button" {...item}>
+                                {index === 0 ?
+                                    <img style={{ rotate: '180deg' }} className={disabled ? styles.pagination_disabled : styles.pagination__next_img} src={NextImage} alt='type' />
+                                    :
+                                    <img className={disabled ? styles.pagination_disabled : styles.pagination__next_img} src={NextImage} alt='type' />
+                                } </button>
                         );
                     }
 
