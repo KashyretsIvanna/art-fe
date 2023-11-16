@@ -22,7 +22,6 @@ export default function PaymentInfo() {
     const { data } = useGetPaymentByIdQuery({ payoutId: id })
     const [refundPayment, { data: refundData }] = useRefundPaymentByIdMutation()
     const [isRefundOpen, setOsRefundOpen] = useState(false)
-
     useEffect(() => {
         if (refundData) {
             setOsRefundOpen(false)
@@ -59,12 +58,12 @@ export default function PaymentInfo() {
 
 
     const columns = ["Last update", "Customer", "Payment method", "Email",]
-    
+
     return (
         <AdminLayout isBackButtonVisible={true} navigationItems={['List of payments']} pageHeader='Payment' headerRight={<>
         </>}>
 
-            <div className={styles.payment_details__header}>          <div><span className={styles.payment_details__amount}>{`US$ ` + payouts?.amount.toFixed(2)}</span><div className={styles.payment_details__currency}>{payouts?.currency.toUpperCase()}</div><div className={styles.payment_details__status}> <StatusDesign text={payouts ? payouts.status : ''} /></div></div>             {payouts && payouts.amount - payouts.latest_charge.amount_refunded > 0 ? <SectionHeaderButton icon={RefundIcon} text={'Refund'} clickButton={() => { setOsRefundOpen(true) }} background={'#399CFF'} color={'#fffff'} /> : <></>}
+            <div className={styles.payment_details__header}>          <div><span className={styles.payment_details__amount}>{`US$ ` + (payouts?.amount / 100).toFixed(2)}</span><div className={styles.payment_details__currency}>{payouts?.currency.toUpperCase()}</div><div className={styles.payment_details__status}> <StatusDesign text={payouts ? payouts.status : ''} /></div></div>             {payouts && payouts.amount / 100 - payouts.latest_charge.amount_refunded / 100 > 0 ? <SectionHeaderButton icon={RefundIcon} text={'Refund'} clickButton={() => { setOsRefundOpen(true) }} background={'#399CFF'} color={'#fffff'} /> : <></>}
 
             </div>
             <div className={styles.user_list__container}>
@@ -92,11 +91,11 @@ export default function PaymentInfo() {
                 </div>
 
             </div>
-            {isRefundOpen && <ModalLayout modal={<RefundInfoModal currency={payouts ? payouts.currency : ''} amount={payouts ? payouts.amount - payouts.latest_charge.amount_refunded : 0} onCancelClick={function (): void {
+            {isRefundOpen && <ModalLayout modal={<RefundInfoModal currency={payouts ? payouts.currency : ''} amount={payouts ? payouts.amount / 100 - payouts.latest_charge.amount_refunded / 100 : 0} onCancelClick={function (): void {
                 setOsRefundOpen(false)
             }} onRefundClick={function (amount: number): void {
                 if (id) {
-                    refundPayment({ amount, payoutId: id })
+                    refundPayment({ amount: (amount * 100).toFixed(0), payoutId: id })
                 } else {
                     console.log('no id found')
                 }

@@ -3,8 +3,6 @@ import InfoIcon from '../../../images/icons/info.svg'
 import ReusableButton from '../../buttons/ReusableButton/ReusableButton';
 import { useEffect, useState } from 'react';
 function RefundInfoModal({ currency, amount, onCancelClick, onRefundClick }: { currency: string, amount: number, onCancelClick: () => void, onRefundClick: (amount: number) => void }) {
-
-
     const [refundAmount, setRefundAmount] = useState(amount)
     useEffect(() => {
 

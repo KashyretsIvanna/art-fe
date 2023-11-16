@@ -3,6 +3,8 @@ import styles from "./ModalLaout.module.scss";
 
 
 const ModalLayout = ({ closeModal, modal }: { closeModal: () => void, modal: ReactElement }) => {
+
+
     return (
         <>
             <div className={styles.darkBG} onClick={() => closeModal()} />
