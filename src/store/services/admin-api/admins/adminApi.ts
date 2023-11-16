@@ -6,6 +6,7 @@ import {
 } from '../../../constants';
 import { UserByIdRes } from '../../../types/user/user-by-id.dto';
 import { emptySplitAdminApi } from '../../../emptySplitAdminApi';
+import { redirectOnUnAuthorized } from '../../../helpers/redirect-401.helper';
 
 const serviceRoute = ApiRoutes.ADMIN;
 
@@ -34,6 +35,8 @@ export const userApi =
         }),
         keepUnusedDataFor: 0.0001,
         providesTags: [apiTags.admins],
+        transformErrorResponse:
+          redirectOnUnAuthorized,
       }),
       getAdminById: builder.query<
         UserByIdRes,
@@ -45,6 +48,8 @@ export const userApi =
         }),
         keepUnusedDataFor: 0.0001,
         providesTags: [apiTags.admins],
+        transformErrorResponse:
+          redirectOnUnAuthorized,
       }),
 
       deleteAdmin: builder.mutation<
@@ -56,6 +61,8 @@ export const userApi =
           method: 'DELETE',
         }),
         invalidatesTags: [apiTags.admins],
+        transformErrorResponse:
+          redirectOnUnAuthorized,
       }),
 
       registerNewAdmin: builder.mutation({

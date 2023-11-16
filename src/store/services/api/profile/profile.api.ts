@@ -10,6 +10,7 @@ import {
 } from '../../../constants/api.constants';
 
 import { emptySplitApi } from '../../../emptySplitApi';
+import { redirectOnUnAuthorized } from '../../../helpers/redirect-401.helper';
 import { UserByIdRes } from '../../../types/user/user-by-id.dto';
 
 interface UserProfileInfo {
@@ -89,7 +90,6 @@ interface GalleryTypes {
   id: number;
   typeName: string;
 }
-
 export const profileApi =
   emptySplitApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -126,7 +126,7 @@ export const profileApi =
         }) => {
           const token = JSON.parse(
             localStorage.getItem('persist:user'),
-          ).access_token.slice(1, -1);
+          )?.access_token.slice(1, -1);
 
           const { userId, ...rest } = body;
 
@@ -148,6 +148,8 @@ export const profileApi =
           apiTags.user,
           apiTags.profile,
         ],
+        transformErrorResponse:
+          redirectOnUnAuthorized,
       }),
       updateUserById: builder.mutation({
         query: (body: {
@@ -163,7 +165,7 @@ export const profileApi =
         }) => {
           const token = JSON.parse(
             localStorage.getItem('persist:user'),
-          ).access_token.slice(1, -1);
+          )?.access_token.slice(1, -1);
 
           const { userId, ...rest } = body;
           return {
@@ -179,6 +181,8 @@ export const profileApi =
             body: rest,
           };
         },
+        transformErrorResponse:
+          redirectOnUnAuthorized,
         async onQueryStarted(
           { id, ...patch },
           { dispatch, queryFulfilled },
@@ -241,7 +245,7 @@ export const profileApi =
         }) => {
           const token = JSON.parse(
             localStorage.getItem('persist:user'),
-          ).access_token.slice(1, -1);
+          )?.access_token.slice(1, -1);
 
           return {
             url:
@@ -255,13 +259,15 @@ export const profileApi =
             body,
           };
         },
+        transformErrorResponse:
+          redirectOnUnAuthorized,
         invalidatesTags: [apiTags.profile],
       }),
       changePhotosOrder: builder.mutation({
         query: (body: number[]) => {
           const token = JSON.parse(
             localStorage.getItem('persist:user'),
-          ).access_token.slice(1, -1);
+          )?.access_token.slice(1, -1);
 
           return {
             url:
@@ -277,6 +283,8 @@ export const profileApi =
             body: { orderedIds: body },
           };
         },
+        transformErrorResponse:
+          redirectOnUnAuthorized,
         invalidatesTags: [apiTags.profile],
       }),
       addPhotos: builder.mutation({
@@ -343,7 +351,7 @@ export const profileApi =
         query: (body: { userId: number }) => {
           const token = JSON.parse(
             localStorage.getItem('persist:user'),
-          ).access_token.slice(1, -1);
+          )?.access_token.slice(1, -1);
 
           return {
             url:
@@ -357,6 +365,8 @@ export const profileApi =
             },
           };
         },
+        transformErrorResponse:
+          redirectOnUnAuthorized,
         keepUnusedDataFor: 0.0001,
         providesTags: [
           apiTags.user,

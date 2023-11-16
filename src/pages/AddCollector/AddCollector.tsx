@@ -76,8 +76,9 @@ function AddCollector() {
         }
     }, [cretedProfileData])
 
-    useEffect(() => {
-        if (!(!age && selectedCity.value === '0' && selectedCountry.value === '0' && selectedGender.value === '0')) {
+
+    const checkFields = () => {
+        if (!age || age < 18 || age > 100 || selectedCity.value === '0' || selectedCountry.value === '0' || selectedGender.value === '0') {
             if (!age || age < 18 || age > 100) {
                 setAgeError('Wrong age')
             } else {
@@ -100,8 +101,61 @@ function AddCollector() {
             } else {
                 setGenderError('')
             }
+        } else {
+            clickButton()
         }
-    }, [age, selectedCity.value, selectedCountry.value, selectedGender.value])
+
+
+
+    }
+
+    useEffect(() => {
+
+        if (genderError !== null) {
+            if (selectedGender.value === '0') {
+                setGenderError('Choose gender')
+            } else {
+                setGenderError('')
+            }
+        }
+    }, [selectedGender.value, setGenderError])
+
+
+    useEffect(() => {
+
+        if (countriesError !== null) {
+            if (selectedCountry.value === '0') {
+                setCountriesError('Choose country')
+            } else {
+                setCountriesError('')
+            }
+        }
+    }, [cities, setCountriesError])
+
+
+
+    useEffect(() => {
+
+        if (ageError !== null) {
+            if (!age || age < 18 || age > 100) {
+                setAgeError('Wrong age')
+            } else {
+                setAgeError('')
+            }
+        }
+    }, [age, setAgeError])
+
+    useEffect(() => {
+
+        if (citiesError !== null) {
+            if (selectedCity.value === '0') {
+                setCitiesError('Choose city')
+            } else {
+                setCitiesError('')
+            }
+        }
+    }, [selectedCity.value, setCitiesError])
+
 
     const [activeDropdownNumber, setActiveDropdownNumber] = useState<number>()
 
@@ -122,7 +176,7 @@ function AddCollector() {
                 </div>
                 <div className={styles.input_col_container} onClick={() => { setActiveDropdownNumber(5) }}><ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} /></div>
             </div>
-            <NavigationSteps disabled={!(!ageError && !citiesError && !countriesError && !genderError && genderError !== null && countriesError !== null && citiesError !== null && ageError !== null)} onContinue={clickButton} stepNumber={4} totalAmountSteps={6} />
+            <NavigationSteps disabled={false} onContinue={checkFields} stepNumber={4} totalAmountSteps={6} />
         </AdminLayout>
 
 

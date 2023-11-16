@@ -5,6 +5,7 @@ import {
   apiTags,
 } from '../../../constants';
 import { emptySplitAdminApi } from '../../../emptySplitAdminApi';
+import { redirectOnUnAuthorized } from '../../../helpers/redirect-401.helper';
 
 export interface PaymentListRes {
   has_more: boolean;
@@ -200,6 +201,8 @@ export const paymentsApi =
             }`,
           method: 'GET',
         }),
+        transformErrorResponse:
+          redirectOnUnAuthorized,
         keepUnusedDataFor: 0.0001,
         providesTags: [apiTags.payouts],
       }),
@@ -215,7 +218,10 @@ export const paymentsApi =
         }),
         keepUnusedDataFor: 0.0001,
         providesTags: [apiTags.payouts],
+        transformErrorResponse:
+          redirectOnUnAuthorized,
       }),
+
       refundPaymentById: builder.mutation<
         PaymentByIdData,
         {
@@ -231,9 +237,11 @@ export const paymentsApi =
             serviceRoute +
             `/${body.payoutId}/refund`,
           method: 'POST',
-          body: { amount :body.amount},
+          body: { amount: body.amount },
         }),
         invalidatesTags: [apiTags.payouts],
+        transformErrorResponse:
+          redirectOnUnAuthorized,
       }),
     }),
   });

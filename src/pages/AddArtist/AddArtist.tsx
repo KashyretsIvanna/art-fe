@@ -17,6 +17,7 @@ import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { useDispatch } from 'react-redux';
 import { setArtistInfo } from '../../store/services/admin-api/user/user.slice';
+
 const genders = [
     { value: GenderType.FEMALE, label: 'Female' },
     { value: GenderType.MALE, label: 'Male' },
@@ -60,8 +61,32 @@ function AddArtist() {
         }
     }, [data])
 
-    useEffect(() => {
-        if (!((!age || age < 18 || age > 100) && selectedCity.value === '0' && selectedClassifications.length === 0 && selectedCountry.value === '0' && selectedGender.value === '0')) {
+
+    const clickButton = () => {
+        dispatch(setArtistInfo({
+            gender: selectedGender.label.toUpperCase().split(' ').join('_'),
+            age: Number(age),
+            profileDescription: profileDescription ?? null,
+            artClassifications: selectedClassifications.map(el => Number(el.value)),
+            lat: Number(selectedCity.lat),
+            lng: Number(selectedCity.lng),
+            createdUserId: null
+        }))
+        createProfile({
+            role: 'ARTIST',
+            gender: selectedGender.label.toUpperCase().split(' ').join('_'),
+            age: Number(age),
+            profileDescription,
+            classifications: selectedClassifications.map(el => Number(el.value)),
+            lat: Number(selectedCity.lat),
+            lng: Number(selectedCity.lng),
+        })
+
+    }
+
+
+    const checkFields = () => {
+        if (!age || age < 18 || age > 100 || selectedCity.value === '0' || selectedClassifications.length === 0 || selectedClassifications.length > configJson.standard.maxClassifications || selectedCountry.value === '0' || selectedGender.value === '0') {
             if (!age || age < 18 || age > 100) {
                 setAgeError('Wrong age')
             } else {
@@ -93,31 +118,64 @@ function AddArtist() {
             } else {
                 setGenderError('')
             }
-        }
-
-    }, [age, ageError, citiesError, classificationsError, countriesError, genderError, selectedCity.value, selectedClassifications.length, selectedCountry.value, selectedGender.value])
-
-    const clickButton = () => {
-        dispatch(setArtistInfo({
-            gender: selectedGender.label.toUpperCase().split(' ').join('_'),
-            age: Number(age),
-            profileDescription: profileDescription ?? null,
-            artClassifications: selectedClassifications.map(el => Number(el.value)),
-            lat: Number(selectedCity.lat),
-            lng: Number(selectedCity.lng),
-            createdUserId: null
-        }))
-        createProfile({
-            role: 'ARTIST',
-            gender: selectedGender.label.toUpperCase().split(' ').join('_'),
-            age: Number(age),
-            profileDescription,
-            classifications: selectedClassifications.map(el => Number(el.value)),
-            lat: Number(selectedCity.lat),
-            lng: Number(selectedCity.lng),
-        })
+        } else { clickButton() }
 
     }
+
+    useEffect(() => {
+        if (genderError !== null) {
+            if (selectedGender.value === '0') {
+                setGenderError('Choose gender')
+            } else {
+                setGenderError('')
+            }
+        }
+    }, [selectedGender.value, setGenderError])
+
+    useEffect(() => {
+        if (countriesError !== null) {
+            if (selectedCountry.value === '0') {
+                setCountriesError('Choose country')
+            } else {
+                setCountriesError('')
+            }
+        }
+    }, [selectedCountry.value, setCountriesError])
+
+
+    useEffect(() => {
+        if (classificationsError !== null) {
+            if (selectedClassifications.length === 0) {
+                setErrorClassification('Choose at least 1 item!')
+            } else if (selectedClassifications.length > configJson.standard.maxClassifications) {
+                setErrorClassification(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
+            } else {
+                setErrorClassification('')
+            }
+        }
+    }, [selectedClassifications.length, setErrorClassification])
+
+    useEffect(() => {
+        if (citiesError !== null) {
+            if (selectedCity.value === '0') {
+                setCitiesError('Choose city')
+            } else {
+                setCitiesError('')
+            }
+        }
+    }, [selectedCity.value, setCitiesError])
+
+    useEffect(() => {
+
+        if (ageError !== null) {
+            if (!age || age < 18 || age > 100) {
+                setAgeError('Wrong age')
+            } else {
+                setAgeError('')
+            }
+        }
+    }, [age, setAgeError])
+
 
     useEffect(() => {
         if (cretedProfileData) {
@@ -148,7 +206,7 @@ function AddArtist() {
                 <div className={styles.input_col_container} onClick={() => { setActiveDropdownNumber(6) }}><ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} /></div>
 
             </div>
-            <NavigationSteps disabled={!(!ageError && !citiesError && !classificationsError && !countriesError && !genderError && ageError !== null && citiesError !== null && classificationsError !== null && countriesError !== null && genderError !== null)} onContinue={clickButton} stepNumber={4} totalAmountSteps={6} />
+            <NavigationSteps disabled={!(!ageError && !citiesError && !classificationsError && !countriesError && !genderError && ageError !== null && citiesError !== null && classificationsError !== null && countriesError !== null && genderError !== null)} onContinue={checkFields} stepNumber={4} totalAmountSteps={6} />
 
 
 

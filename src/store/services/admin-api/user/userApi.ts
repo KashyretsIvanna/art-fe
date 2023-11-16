@@ -7,6 +7,7 @@ import {
 import { WhoamiRes } from '../../../types/whoami.types';
 import { UserListRes } from '../../../types/user/user-list.dto';
 import { emptySplitAdminApi } from '../../../emptySplitAdminApi';
+import { redirectOnUnAuthorized } from '../../../helpers/redirect-401.helper';
 
 const serviceRoute = ApiRoutes.ADMIN;
 
@@ -29,6 +30,8 @@ export const userApi =
           method: 'GET',
         }),
         keepUnusedDataFor: 0.0001,
+        transformErrorResponse:
+          redirectOnUnAuthorized,
         providesTags: [apiTags.user],
       }),
 
@@ -45,6 +48,8 @@ export const userApi =
             `?take=${body.take}&page=${body.page}`,
           method: 'GET',
         }),
+        transformErrorResponse:
+          redirectOnUnAuthorized,
         keepUnusedDataFor: 0.0001,
         providesTags: [apiTags.user],
       }),
@@ -59,6 +64,8 @@ export const userApi =
             `/${body.userId}`,
           method: 'DELETE',
         }),
+        transformErrorResponse:
+          redirectOnUnAuthorized,
         invalidatesTags: [apiTags.user],
       }),
     }),

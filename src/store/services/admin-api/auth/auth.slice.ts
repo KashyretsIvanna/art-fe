@@ -27,7 +27,7 @@ const authSlice = createSlice({
       }>,
     ) {
       state.access_token =
-        action.payload.access_token;
+        action.payload?.access_token;
     },
     logout: (state) => {
       state.access_token = '';
@@ -54,4 +54,4 @@ export const authReducer = authSlice.reducer;
 
 export const selectAuthToken = (
   state: RootState,
-) => state.user.access_token;
+) => state.user?.access_token;

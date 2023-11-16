@@ -99,9 +99,9 @@ function AddGallery() {
         })
 
     }
-    useEffect(() => {
-        if (!(selectedCity.value === '0' && selectedClassifications.length === 0 && selectedOrientations.length === 0 && selectedGalleryTypes.length === 0 && !galleryName && selectedCountry.value === '0')) {
 
+    const checkFields = () => {
+        if (selectedCity.value === '0' || selectedClassifications.length === 0 || selectedClassifications.length > configJson.standard.maxClassifications || selectedOrientations.length === 0 || selectedOrientations.length > configJson.standard.maxClassifications || selectedGalleryTypes.length === 0 || selectedGalleryTypes.length > configJson.standard.maxClassifications || !galleryName || galleryName.length > 40 || selectedCountry.value === '0') {
 
             if (selectedCity.value === '0') {
                 setCitiesError('Choose city')
@@ -150,11 +150,96 @@ function AddGallery() {
             } else {
                 setCountriesError('')
             }
+        } else {
+            console.log('c')
+            clickButton()
         }
 
+    }
+
+    useEffect(() => {
+        if (countriesError !== null) {
+            if (selectedCountry.value === '0') {
+                setCountriesError('Choose country')
+            } else {
+                setCountriesError('')
+            }
+        }
+    }, [selectedCountry.value, setCountriesError])
+
+    useEffect(() => {
+
+        if (galleryNameError !== null) {
+            if (!galleryName) {
+                setGalleryNameError("Gallery name shouldn't be empty!")
+            } else if (galleryName.length > 40) {
+                setGalleryNameError('Max length is 40!')
+            }
+            else {
+                setGalleryNameError('')
+            }
+        }
+    }, [galleryName, setGalleryNameError])
+
+    useEffect(() => {
+
+        if (typesError !== null) {
+            if (selectedGalleryTypes.length === 0) {
+                setTypesError('Choose at least 1 item!')
+            } else if (selectedGalleryTypes.length > configJson.standard.maxClassifications) {
+                setTypesError(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
+            } else {
+                setTypesError('')
+            }
+        }
+
+    }, [selectedGalleryTypes.length, typesError])
+
+    useEffect(() => {
+
+        if (orientationsError !== null) {
+            if (selectedOrientations.length === 0) {
+                setOrientationsError('Choose at least 1 item!')
+            } else if (
+                selectedOrientations.length > configJson.standard.maxClassifications
+            ) {
+                setOrientationsError(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
+            } else {
+                setOrientationsError('')
+            }
+        }
+
+    }, [selectedOrientations.length, setOrientationsError])
 
 
-    }, [galleryName, selectedCity.value, selectedClassifications.length, selectedCountry.value, selectedGalleryTypes.length, selectedOrientations.length])
+    useEffect(() => {
+
+        if (classificationsError !== null) {
+            if (selectedClassifications.length === 0) {
+                setErrorClassification('Choose at least 1 item!')
+            } else if (selectedClassifications.length > configJson.standard.maxClassifications) {
+                setErrorClassification(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
+            } else {
+                setErrorClassification('')
+            }
+        }
+
+    }, [selectedClassifications.length, setErrorClassification])
+
+
+
+    useEffect(() => {
+
+        if (citiesError !== null) {
+            if (selectedCity.value === '0') {
+                setCitiesError('Choose city')
+            } else {
+                setCitiesError('')
+            }
+        }
+
+    }, [selectedCity.value, setCitiesError])
+
 
 
     const [activeDropdownNumber, setActiveDropdownNumber] = useState<number>()
@@ -193,7 +278,7 @@ function AddGallery() {
             <div className={styles.inputs_container__textarea} onClick={() => { setActiveDropdownNumber(7) }}>
                 <ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} />
             </div>
-            <NavigationSteps disabled={!(!citiesError && !classificationsError && !countriesError && !orientationsError && !typesError && !galleryNameError && citiesError !== null && classificationsError !== null && countriesError !== null && orientationsError !== null && typesError !== null && galleryNameError !== null)} onContinue={clickButton} stepNumber={4} totalAmountSteps={6} />
+            <NavigationSteps disabled={false} onContinue={checkFields} stepNumber={4} totalAmountSteps={6} />
         </AdminLayout>
 
 

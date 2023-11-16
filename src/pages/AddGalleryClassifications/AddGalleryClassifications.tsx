@@ -1,6 +1,6 @@
 import AdminLayout from '../../components/layout/AdminLayout/AdminLayout'
 import styles from './AddGalleryClassifications.module.scss'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import MultiSelect from '../../components/inputs/MultiSelect/MultiSelect';
 import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNavigation';
 import { useGetClassificationsQuery, useGetGalleryTypesQuery, useGetOrientationsQuery } from '../../store/services/api/classifications/classifications.api';
@@ -75,8 +75,11 @@ function AddGalleryClassifications() {
 
     }
 
-    useEffect(() => {
-        if (!((selectedClassifications.length === 0 && selectedOrientations.length === 0 && selectedGalleryTypes.length === 0))) {
+
+
+
+    const checkFields = () => {
+        if (selectedClassifications.length === 0 || selectedClassifications.length > 5 || selectedOrientations.length === 0 || selectedOrientations.length > 5 || selectedGalleryTypes.length === 0 || selectedGalleryTypes.length > 5) {
 
             if (selectedClassifications.length === 0) {
                 setErrorClassification('Choose classifications')
@@ -102,46 +105,81 @@ function AddGalleryClassifications() {
                 setTypesError('')
             }
 
+        } else {
+            clickButton()
         }
 
-    }, [selectedClassifications.length, selectedGalleryTypes.length, selectedOrientations.length])
+    }
+    useEffect(() => {
 
+        if (typesError !== null) {
+            if (selectedGalleryTypes.length === 0) {
+                setTypesError('Choose types')
+            } else if (selectedGalleryTypes.length > 5) {
+                setTypesError(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
+            } else {
+                setTypesError('')
+            }
+        }
+    }, [selectedGalleryTypes.length, setTypesError])
 
+    useEffect(() => {
 
+        if (orientationsError !== null) {
+            if (selectedOrientations.length === 0) {
+                setOrientationsError('Choose orientations')
+            } else if (selectedOrientations.length > 5) {
+                setOrientationsError(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
+            } else {
+                setOrientationsError('')
+            }
+        }
+    }, [selectedOrientations.length, setOrientationsError])
+
+    useEffect(() => {
+
+        if (classificationsError !== null) {
+            if (selectedClassifications.length === 0) {
+                setErrorClassification('Choose classifications')
+            } else if (selectedClassifications.length > 5) {
+                setErrorClassification(`You can’t choose more than ${configJson.standard.maxClassifications} items!`)
+            } else {
+                setErrorClassification('')
+            }
+        }
+    }, [selectedClassifications.length, setErrorClassification])
     useEffect(() => {
         if (status === 'fulfilled') {
             dispatch(logoutNewUser())
         }
     }, [status])
 
+    const [activeDropdownNumber, setActiveDropdownNumber] = useState<number>()
 
     return (
         <AdminLayout isBackButtonVisible={true} headerRight={
             null} navigationItems={['Gallery', 'User name', 'Look For']} pageHeader='Gallery'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>
-
-                    <div className={styles.input_row_container}>
-                        <MultiSelect options={types} selectedOption={selectedGalleryTypes} setSelectedOption={setSelectedGalleryTypes} label={'Gallery type'} error={typesError} />
+                    <div className={styles.input_row_container} onClick={() => { setActiveDropdownNumber(1) }}>
+                        <MultiSelect isDropdownOpen={activeDropdownNumber === 1 ? true : false} options={types} selectedOption={selectedGalleryTypes} setSelectedOption={setSelectedGalleryTypes} label={'Gallery type'} error={typesError} />
                     </div>
                 </div>
 
                 <div className={styles.input_col_container}>
-
-                    <div className={styles.input_row_container}>
-                        <MultiSelect error={classificationsError} options={classifications} selectedOption={selectedClassifications} setSelectedOption={setSelectedClassifications} label={'Art Classification type'} />
+                    <div className={styles.input_row_container} onClick={() => { setActiveDropdownNumber(2) }}>
+                        <MultiSelect isDropdownOpen={activeDropdownNumber === 2 ? true : false} error={classificationsError} options={classifications} selectedOption={selectedClassifications} setSelectedOption={setSelectedClassifications} label={'Art Classification type'} />
                     </div>
                 </div>
                 <div className={styles.input_col_container}>
-
-                    <div className={styles.input_row_container}>
-                        <MultiSelect error={orientationsError} options={orientations} selectedOption={selectedOrientations} setSelectedOption={setSelectedOrientations} label={'Art Orientations'} />
+                    <div className={styles.input_row_container} onClick={() => { setActiveDropdownNumber(3) }}>
+                        <MultiSelect isDropdownOpen={activeDropdownNumber === 3 ? true : false} error={orientationsError} options={orientations} selectedOption={selectedOrientations} setSelectedOption={setSelectedOrientations} label={'Art Orientations'} />
                     </div>
                 </div>
 
             </div>
 
-            <NavigationSteps disabled={!(!classificationsError && !orientationsError && !typesError && classificationsError !== null && orientationsError !== null && typesError !== null)} onContinue={clickButton} stepNumber={6} totalAmountSteps={6} />
+            <NavigationSteps disabled={false} onContinue={checkFields} stepNumber={6} totalAmountSteps={6} />
         </AdminLayout>
 
 

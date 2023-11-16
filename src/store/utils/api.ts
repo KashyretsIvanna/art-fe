@@ -44,7 +44,7 @@ export const getAdminHeaders = (): ((
     api: Pick<BaseQueryApi, 'getState'>,
   ): MaybePromise<void | Headers> | undefined => {
     const token = (api.getState() as RootState)
-      .user.access_token;
+      .user?.access_token;
     if (token) {
       headers.set(
         'Authorization',

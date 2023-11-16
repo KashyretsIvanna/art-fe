@@ -14,8 +14,7 @@ export const filesApi = createApi({
     baseUrl:
       baseApiUrl + '/api' + ApiRoutes.FILES,
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).user
-        .access_token;
+      const token = (getState() as RootState).user?.access_token;
       if (token) {
         headers.set(
           'authorization',
