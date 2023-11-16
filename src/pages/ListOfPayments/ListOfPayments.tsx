@@ -103,7 +103,7 @@ function ListOfPayments() {
     return (
         <AdminLayout isBackButtonVisible={true} navigationItems={['List of payments']} pageHeader='Payments' headerRight={<>
         </>}>
-            <CustomizedTabs tabNames={['Overview', 'Remaining balances to payments']} setTab={setTab} active={tab} />
+            <CustomizedTabs tabNames={['Overview', 'Payments']} setTab={setTab} active={tab} />
 
             <div className={styles.user_list__container}>
                 {tab === 0 ? <><TableList isCheckbox={true} columns={columns}
@@ -113,7 +113,7 @@ function ListOfPayments() {
                     :
                     <><TableList isCheckbox={true} columns={payoutsColumns}
                         setSelected={setSelectedPayments} selected={selectedPayments} data={payouts ? payouts.data.map(el => ({
-                            id: el.id, data: [el.amount, el.currency.toUpperCase(), <StatusDesign text={el.status} />, el.customer.email, formatDate(new Date(el.created))]
+                            id: el.id, data: [(el.amount/100).toFixed(2), el.currency.toUpperCase(), <StatusDesign text={el.status} />, el.customer.email, formatDate(new Date(el.created))]
                         })) : []} />
                         <UnknownAmountPag onNextClick={onNextClick} onPrevClick={onPrevClick} isNext={payoutsLoading ? false : data ? data.has_more : false} isPrev={payoutsLoading ? false : pagePayouts === 1 ? false : true} />
                     </>
