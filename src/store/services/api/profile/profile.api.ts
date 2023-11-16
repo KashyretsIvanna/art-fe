@@ -160,6 +160,7 @@ export const profileApi =
             location?: {
               lat: number;
               lng: number;
+              isLocationAuto: boolean;
             };
           };
         }) => {
