@@ -6,6 +6,7 @@ export enum ApiRoutes {
   AUTH = '/auth',
   ADMIN = '/admin',
   PAYMENTS = '/payments',
+  SUBSCRIPTIONS = '/subscriptions',
   ART_CLASSIFICATION = '/art-classification',
   ART_ORIENTATION = '/art-orientation',
   GALLERY_TYPE = '/gallery-type',

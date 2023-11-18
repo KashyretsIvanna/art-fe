@@ -1,0 +1,31 @@
+/** @format */
+
+@import '../../../configs/theme/theme-variables.scss';
+
+.button {
+  cursor: pointer;
+
+  display: flex;
+  width: 189px;
+  padding: 13px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  outline: none;
+
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(
+    93deg,
+    #ff8a00 0%,
+    #f81a92 104.21%
+  );
+  color: #fff;
+  font-family: Oxygen;
+  box-sizing: border-box;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 10px; /* 83.333% */
+  text-transform: uppercase;
+}

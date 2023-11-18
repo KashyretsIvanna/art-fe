@@ -21,7 +21,8 @@ export const getHeaders = (): ((
       api.endpoint !== 'registerNewUser' &&
       api.endpoint !== 'updateUserById' &&
       api.endpoint !== 'updateUserProfileById' &&
-      api.endpoint !== 'getUserById'
+      api.endpoint !== 'getUserById' &&
+      api.endpoint !== 'giveSubscription'
     ) {
       headers.set(
         'Authorization',

@@ -5,22 +5,17 @@ import PhotoPicker from '../../photo-display/PhotoPicker/PhotoPicker';
 import ReusableButton from '../../buttons/ReusableButton/ReusableButton';
 import { useState } from 'react';
 import { useChangePhotosOrderMutation } from '../../../store/services/api/profile/profile.api';
+import GivePremiumModal from '../../modals/GivePremiumModal/GivePremiumModal';
 
-function UserProfileInfoCard({ name, role, plan, imgIds }: { name: string, role: string, plan?: string, imgIds: { id: number, order: number }[] }) {
+function UserProfileInfoCard({ name, userId, role, plan, imgIds, isGivePremiumOpen, setIsGivePremiumOpen }: { setIsGivePremiumOpen: React.Dispatch<React.SetStateAction<boolean>>, userId: number, isGivePremiumOpen: boolean, name: string, role: string, plan?: string, imgIds: { id: number, order: number }[] }) {
     const [currentPosition, setCurrentPosition] = useState(0)
-
-
     const [changeOrderMutation] = useChangePhotosOrderMutation()
 
     const setMainImg = () => {
-
         const imgIdToSetMain = imgIds[currentPosition]
-
         const newArray = imgIds.filter(el => el.id !== imgIdToSetMain.id)
         const resultArray = [imgIdToSetMain.id, ...newArray.map(el => el.id)]
-
         changeOrderMutation(resultArray)
-
     }
 
     return (
@@ -34,6 +29,7 @@ function UserProfileInfoCard({ name, role, plan, imgIds }: { name: string, role:
                     setMainImg()
                 }} /> : <></>}
             </div>
+            {isGivePremiumOpen && <GivePremiumModal userId={userId} onClose={() => { setIsGivePremiumOpen(false) }} name={name} role={role} imgIds={imgIds} />}
 
         </div>
     )

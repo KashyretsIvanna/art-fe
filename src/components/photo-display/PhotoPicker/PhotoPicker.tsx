@@ -8,8 +8,7 @@ import NavRightIcon from '../../../images/icons/nav-right.svg'
 import OnlineStatus from '../../signs/OnlineStatus/OnlineStatus';
 import MainPhoto from '../../signs/MainPhoto/MainPhoto';
 import { useGetProfilePhotoByIdQuery } from '../../../store/services/api/files/files.api';
-
-function PhotoPicker({ imagesIds, currentPosition, setCurrentPosition }: { imagesIds: { id: number, order: number }[], currentPosition: number, setCurrentPosition: React.Dispatch<React.SetStateAction<number>> }) {
+function PhotoPicker({ isPremiumVisible, isStatusVisible, imagesIds, currentPosition, setCurrentPosition }: { isPremiumVisible?: boolean, isStatusVisible?: boolean, imagesIds: { id: number, order: number }[], currentPosition: number, setCurrentPosition: React.Dispatch<React.SetStateAction<number>> }) {
 
     const [file, setFile] = useState<File | null>(null)
     const { data, error, isLoading } = useGetProfilePhotoByIdQuery({ profilePhotoId: imagesIds[currentPosition].id })
@@ -31,8 +30,8 @@ function PhotoPicker({ imagesIds, currentPosition, setCurrentPosition }: { image
                     : avatar} alt='avatar' /></div>
             }
             {!isLoading && currentPosition !== imagesIds.length - 1 ? <img onClick={() => { setCurrentPosition(prev => prev + 1) }} className={styles.image_picker__right} src={NavRightIcon} /> : <div className={styles.image_picker__left}></div>}
-            {!isLoading && < OnlineStatus right='42px' top='85px' />}
-            {imagesIds[currentPosition].order === 1 && < MainPhoto left='120px' top='80px' />}
+            {!isLoading && isStatusVisible !== false && < OnlineStatus right='42px' top='85px' />}
+            {imagesIds[currentPosition].order === 1 && isPremiumVisible !== false && < MainPhoto left='120px' top='80px' />}
 
         </div>
     )

@@ -21,9 +21,7 @@ import useManageProfile from '../../customHooks/useManageProfile';
 import DeleteIcon from '../../images/icons/delete.svg'
 import { useGetUserByIdQuery, useUpdateUserByIdMutation, useUpdateUserProfileByIdMutation } from '../../store/services/api/profile/profile.api';
 
-
 function UserInfo() {
-
     const params = useParams()
     const [lookingFor, setLookingFor] = useState<string[]>([])
     const addedUser = useSelector(selectAddedUserData)
@@ -185,17 +183,25 @@ function UserInfo() {
         resetAllData()
         setError('')
     }
+    const [isGivePremiumOpen, setIsGivePremiumOpen] = useState(false)
 
+
+
+    const onMakePremium = () => {
+        setIsGivePremiumOpen(true)
+
+    }
     return (
         <AdminLayout isBackButtonVisible={true} headerRight={
             <>
                 {isEditTurnOn ? <SectionHeaderButton icon={DeleteIcon} text={'CANCEL'} clickButton={() => { onCancelChanges() }} background={'#EE3143'} color={'#fffff'} /> : <></>}
+                {!isEditTurnOn && !isGivePremiumOpen ? <SectionHeaderButton icon={EditIcon} text={'MAKE PREMIUM'} clickButton={() => { onMakePremium() }} background={'#0077EB'} color={'#fffff'} /> : <></>}
                 {isEditTurnOn ? <SectionHeaderButton icon={EditIcon} text={'SAVE CHANGES'} clickButton={onSaveChanges} background={'#0077EB'} color={'#ffff'} /> : <SectionHeaderButton icon={EditIcon} text={'EDIT PROFILE'} clickButton={() => { setIsEditTurnOn(true) }} background={'#0077EB'} color={'#ffff'} />}
             </>
         } navigationItems={['All clients', data?.user.name || 'Name']} pageHeader='User profile'  >
             {data ? <div className={styles.user_info}>
 
-                <UserProfileInfoCard imgIds={data ? data.user.userPhotos : []} plan={data.user.plan} avatar={logo} name={data.user.name} role={data.user.role} />
+                <UserProfileInfoCard userId={data.user.id} setIsGivePremiumOpen={setIsGivePremiumOpen} isGivePremiumOpen={isGivePremiumOpen} imgIds={data ? data.user.userPhotos : []} plan={data.user.plan} avatar={logo} name={data.user.name} role={data.user.role} />
                 <UserInfoList items={items} isEdit={isEditTurnOn} />
             </div> : <>User not found</>}
 
