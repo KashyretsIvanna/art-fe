@@ -103,7 +103,7 @@ function ListOfPayments() {
     return (
         <AdminLayout isBackButtonVisible={true} navigationItems={['List of payments']} pageHeader='Payments' headerRight={<>
         </>}>
-            <CustomizedTabs tabNames={['Overview', 'Payments']} setTab={setTab} active={tab} />
+            <CustomizedTabs tabNames={['Customers', 'Payments']} setTab={setTab} active={tab} />
 
             <div className={styles.user_list__container}>
                 {tab === 0 ? <><TableList isCheckbox={true} columns={columns}
