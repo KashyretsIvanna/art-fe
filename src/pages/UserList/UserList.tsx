@@ -9,31 +9,25 @@ import { UserListItemRes } from '../../store/types/user/user-list.dto';
 import DeleteIcon from '../../images/icons/delete.svg'
 import PlusImg from '../../images/icons/plus.svg'
 import SectionHeaderButton from '../../components/buttons/SectionHeaderButton/SectionHeaderButton';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function UserList() {
-    const [page, setPage] = useState<number>(1)
+    const location = useLocation()
+
+    const [page, setPage] = useState<number>(location.state?.pageNumber?.pageNumber ||1)
     const [totalPages, setTotalPages] = useState<number>(1)
     const [users, setUsers] = useState<UserListItemRes[]>([])
     const [selectedUsers, setSelectedUsers] = useState<number[]>([])
     const navigate = useNavigate()
+    const { data } = useGetUsersQuery({ page, take: 10 })
+   
+   
 
     const { items } = usePagination({
         count: totalPages,
-        defaultPage: 1
+        defaultPage: location.state?.pageNumber?.pageNumber ||1
     });
 
-    const [deleteUser] = useDeleteUsersMutation()
-
-    useEffect(() => {
-        const pageSelected = items.filter(el => el.selected === true)[0]
-        if (pageSelected.page) {
-            setPage(pageSelected.page)
-
-        }
-    }, [items])
-
-    const { data } = useGetUsersQuery({ page, take: 10 })
     useEffect(() => {
         if (data) {
             setUsers(data.users)
@@ -42,16 +36,29 @@ function UserList() {
 
     }, [data])
 
+    const [deleteUser] = useDeleteUsersMutation()
+
+    useEffect(() => {
+        const pageSelected = items.filter(el => el.selected === true)[0]
+        if (pageSelected?.page) {
+            setPage(pageSelected?.page||1)
+
+        }
+    }, [items])
+
     const onDeleteButtonClick = () => {
         selectedUsers.map(async el => {
             await deleteUser({ userId: el })
         })
         setSelectedUsers([])
     }
+
+    useEffect(() => {
+        if (location.state?.pageNumber?.pageNumber) {
+            setPage(Number(location.state.pageNumber?.pageNumber ||1))
+        }
+    }, [location])
     const columns = ["Name", "Email", "Country", "City", "Gender", "About me", "Status", "I'm looking for"]
-
-
-
 
     return (
         <div className={styles.layout}>
@@ -59,10 +66,7 @@ function UserList() {
                 {selectedUsers.length ? <SectionHeaderButton icon={DeleteIcon} text={'DELETE'} clickButton={() => { onDeleteButtonClick() }} background={'#EE3143'} color={'#fffff'} /> : <></>}
                 {!selectedUsers.length ? <SectionHeaderButton icon={PlusImg} text={'ADD USER'} clickButton={() => { navigate('/clients/registration') }} background={'#FF9700'} color={'#ffff'} /> : <></>}</>}>
                 <div className={styles.user_list__container}>
-                    <TableList columns={columns}
-
-
-
+                    <TableList pageNumber={page} columns={columns}
                         setSelected={setSelectedUsers} selected={selectedUsers} data={users.map(el => ({ id: el.id, data: [el.name, el.email, el.country, el.city, el.gender, el.role, el.plan, el.isLookingForArtist ? 'Artist' : 'Gallery'] }))} isCheckbox={true} />
                     <UsePagination items={items} />
                 </div>

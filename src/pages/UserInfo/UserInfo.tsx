@@ -13,7 +13,7 @@ import StatusImg from '../../images/icons/status.svg'
 import PaintImg from '../../images/icons/paint.svg'
 import AgeImg from '../../images/icons/age.svg'
 import SectionHeaderButton from '../../components/buttons/SectionHeaderButton/SectionHeaderButton';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAddedUserData, setIsCreatedUserViewed } from '../../store/services/admin-api/user/user.slice';
@@ -29,6 +29,7 @@ function UserInfo() {
     const [isEditTurnOn, setIsEditTurnOn] = useState(false)
     const dispatch = useDispatch()
     const [error, setError] = useState('')
+    const location = useLocation()
     const [updateUserById, { status: updatedUserData, isLoading: updatedUserDataLoading, ...updateUserError }] = useUpdateUserByIdMutation()
     const [updateUserProfileById, { status: updatedUserProfileData, isLoading: updatedUserProfileDataLoading, ...updateProfileError }] = useUpdateUserProfileByIdMutation()
     const [isUserPremium, setIsUserPremium] = useState(false)
@@ -192,10 +193,10 @@ function UserInfo() {
 
     }
     return (
-        <AdminLayout isBackButtonVisible={true} headerRight={
+        <AdminLayout backButtonState={{ pageNumber: location?.state?.pageNumber }} isBackButtonVisible={true} headerRight={
             <>
                 {isEditTurnOn ? <SectionHeaderButton icon={DeleteIcon} text={'CANCEL'} clickButton={() => { onCancelChanges() }} background={'#EE3143'} color={'#fffff'} /> : <></>}
-                {!isEditTurnOn && !isGivePremiumOpen && data?.user.plan==='STANDARD' ? <SectionHeaderButton icon={null} text={'MAKE PREMIUM'} clickButton={() => { onMakePremium() }} background={'#0077EB'} color={'#fffff'} /> : <></>}
+                {!isEditTurnOn && !isGivePremiumOpen && data?.user.plan === 'STANDARD' ? <SectionHeaderButton icon={null} text={'MAKE PREMIUM'} clickButton={() => { onMakePremium() }} background={'#0077EB'} color={'#fffff'} /> : <></>}
                 {isEditTurnOn ? <SectionHeaderButton icon={EditIcon} text={'SAVE CHANGES'} clickButton={onSaveChanges} background={'#0077EB'} color={'#ffff'} /> : <SectionHeaderButton icon={EditIcon} text={'EDIT PROFILE'} clickButton={() => { setIsEditTurnOn(true) }} background={'#0077EB'} color={'#ffff'} />}
             </>
         } navigationItems={['All clients', data?.user.name || 'Name']} pageHeader='User profile'  >
