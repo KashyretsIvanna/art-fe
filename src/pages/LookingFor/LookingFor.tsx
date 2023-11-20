@@ -4,11 +4,11 @@ import styles from './LookingFor.module.scss'
 import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNavigation';
 import configJson from '../../../plan-config.json'
 import { useGetNewProfileInfoQuery, useSetLookingForMutation } from '../../store/services/api/profile/profile.api';
-import { logoutNewUser, selectAddedUserData, setLookingFor } from '../../store/services/admin-api/user/user.slice';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { logoutNewUser, setLookingFor } from '../../store/services/admin-api/user/user.slice';
+import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
+import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 
 const LookingFor = () => {
     const [checkedArtist, setCheckedArtist] = useState(false);
@@ -17,13 +17,9 @@ const LookingFor = () => {
     const [allowedRolesToLook, setAllowedRolesToLook] = useState<string[]>([])
     const [postLookingFor, { data: lookingForRes }] = useSetLookingForMutation()
     const { data, isLoading, error } = useGetNewProfileInfoQuery();
-    const navigate = useNavigate()
     const dispatch = useDispatch()
 
-
-    const newUserData = useSelector(selectAddedUserData)
     UseManageStepsNAvigation()
-
 
     useEffect(() => {
         if (data?.role === 'ARTIST') {
@@ -38,7 +34,6 @@ const LookingFor = () => {
             setAllowedRolesToLook(configJson.standard.collector.availableLookFor)
         }
     }, [data, error, isLoading])
-
 
     const handleChangeArtist = () => {
         setCheckedArtist(prev => !prev);
@@ -56,7 +51,7 @@ const LookingFor = () => {
     useEffect(() => {
         if (lookingForRes) {
             dispatch(logoutNewUser())
-            navigate(`/clients/${newUserData.createdUserId}`)
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
         }
     }, [lookingForRes])
 
@@ -77,7 +72,17 @@ const LookingFor = () => {
                 filters: {}
             })
         }
+        
         dispatch(setLookingFor({ roles: lookForRoles }))
+
+        if (checkedGallery && checkedArtist) {
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOOK_FOR_GALLERY_ARTIST }))
+        } else if (checkedGallery) {
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOOK_FOR_GALLERY }))
+        } else {
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOOK_FOR_ARTIST }))
+        }
+
     }
 
 

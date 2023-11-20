@@ -17,6 +17,7 @@ import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { useDispatch } from 'react-redux';
 import { setArtistInfo } from '../../store/services/admin-api/user/user.slice';
+import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 
 const genders = [
     { value: GenderType.FEMALE, label: 'Female' },
@@ -62,7 +63,7 @@ function AddArtist() {
     }, [data])
 
 
-    const clickButton = () => {
+    const clickButton = async () => {
         dispatch(setArtistInfo({
             gender: selectedGender.label.toUpperCase().split(' ').join('_'),
             age: Number(age),
@@ -72,7 +73,7 @@ function AddArtist() {
             lng: Number(selectedCity.lng),
             createdUserId: null
         }))
-        createProfile({
+        await createProfile({
             role: 'ARTIST',
             gender: selectedGender.label.toUpperCase().split(' ').join('_'),
             age: Number(age),
@@ -80,6 +81,7 @@ function AddArtist() {
             classifications: selectedClassifications.map(el => Number(el.value)),
             lat: Number(selectedCity.lat),
             lng: Number(selectedCity.lng),
+            isLocationAuto: false
         })
 
     }
@@ -176,10 +178,10 @@ function AddArtist() {
         }
     }, [age, setAgeError])
 
-
     useEffect(() => {
         if (cretedProfileData) {
-            navigate('/clients/look-for')
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOOK_FOR }))
+
         }
     }, [cretedProfileData])
 
@@ -206,7 +208,7 @@ function AddArtist() {
                 <div className={styles.input_col_container} onClick={() => { setActiveDropdownNumber(6) }}><ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} /></div>
 
             </div>
-            <NavigationSteps disabled={!(!ageError && !citiesError && !classificationsError && !countriesError && !genderError && ageError !== null && citiesError !== null && classificationsError !== null && countriesError !== null && genderError !== null)} onContinue={checkFields} stepNumber={4} totalAmountSteps={6} />
+            <NavigationSteps disabled={false} onContinue={checkFields} stepNumber={4} totalAmountSteps={6} />
 
 
 

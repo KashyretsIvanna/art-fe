@@ -6,11 +6,12 @@ import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNa
 import { useGetClassificationsQuery } from '../../store/services/api/classifications/classifications.api';
 import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
-import { logoutNewUser, selectAddedUserData, setArtistClassifications, setIsCreatedUserViewed } from '../../store/services/admin-api/user/user.slice';
+import { selectAddedUserData, setArtistClassifications, setIsCreatedUserViewed } from '../../store/services/admin-api/user/user.slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSetLookingForMutation } from '../../store/services/api/profile/profile.api';
 import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
+import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 function AddArtistClassifications() {
     const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'ARTIST' })
     const { setClassifications, classifications, selectedClassifications, setSelectedClassifications } = useManageProfile()
@@ -23,7 +24,8 @@ function AddArtistClassifications() {
 
     useEffect(() => {
         if (status === 'fulfilled') {
-            dispatch(logoutNewUser())
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.PROFILE }))
+
         }
     }, [status])
 

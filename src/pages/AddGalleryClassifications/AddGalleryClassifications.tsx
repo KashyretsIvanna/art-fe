@@ -8,9 +8,11 @@ import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useSetLookingForMutation } from '../../store/services/api/profile/profile.api';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutNewUser, selectAddedUserData, setGalleryClassifications } from '../../store/services/admin-api/user/user.slice';
+import { setGalleryClassifications } from '../../store/services/admin-api/user/user.slice';
 import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
+import { ProfileCreationSteps, selectLocationsConfig, setCurrentStep } from '../../store/services/application/location/location.slice';
+import { useNavigate } from 'react-router-dom';
 
 function AddGalleryClassifications() {
     UseManageStepsNAvigation()
@@ -20,7 +22,8 @@ function AddGalleryClassifications() {
     const { data: galleryTypes } = useGetGalleryTypesQuery()
     const { setGalleryTypes, setClassifications, selectedOrientations, selectedGalleryTypes, setSelectedGalleryTypes, setOrientations, setSelectedOrientations, classifications, orientations, selectedClassifications, setSelectedClassifications, types } = useManageProfile()
     const { typesError, orientationsError, setErrorClassification, setOrientationsError, setTypesError, classificationsError } = useManageFormErrors()
-    const newUserData = useSelector(selectAddedUserData)
+    const { currentStep } = useSelector(selectLocationsConfig)
+
     const dispatch = useDispatch()
     const [postLookingFor, { status }] = useSetLookingForMutation()
 
@@ -52,11 +55,9 @@ function AddGalleryClassifications() {
     }, [artOrientations])
 
 
-    const clickButton = () => {
-
-        if (!newUserData.lookFor.includes('ARTIST')) {
-
-            postLookingFor({
+    const clickButton = async () => {
+        if (currentStep !== ProfileCreationSteps.LOOK_FOR_GALLERY_ARTIST) {
+            await postLookingFor({
                 filters: {
                     galleryClassifications: selectedClassifications.map(el => Number(el.value)),
                     galleryTypes: selectedGalleryTypes.map(el => Number(el.value)),
@@ -64,23 +65,18 @@ function AddGalleryClassifications() {
                 },
                 preferences: { isLookingForGallery: true }
             })
-
         }
         dispatch(setGalleryClassifications({
             galleryClassifications: selectedClassifications.map(el => Number(el.value)),
             galleryOrientations: selectedOrientations.map(el => Number(el.value)),
             galleryTypes: selectedGalleryTypes.map(el => Number(el.value))
         }))
-
+        dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOOK_FOR_ARTIST }))
 
     }
 
-
-
-
     const checkFields = () => {
         if (selectedClassifications.length === 0 || selectedClassifications.length > 5 || selectedOrientations.length === 0 || selectedOrientations.length > 5 || selectedGalleryTypes.length === 0 || selectedGalleryTypes.length > 5) {
-
             if (selectedClassifications.length === 0) {
                 setErrorClassification('Choose classifications')
             } else if (selectedClassifications.length > 5) {
@@ -148,9 +144,15 @@ function AddGalleryClassifications() {
             }
         }
     }, [selectedClassifications.length, setErrorClassification])
+
     useEffect(() => {
         if (status === 'fulfilled') {
-            dispatch(logoutNewUser())
+            if (currentStep === ProfileCreationSteps.LOOK_FOR_GALLERY_ARTIST) {
+                dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOOK_FOR_ARTIST }))
+            } else {
+                dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.PROFILE }))
+            }
+
         }
     }, [status])
 
@@ -181,9 +183,6 @@ function AddGalleryClassifications() {
 
             <NavigationSteps disabled={false} onContinue={checkFields} stepNumber={6} totalAmountSteps={6} />
         </AdminLayout>
-
-
-
 
     )
 }

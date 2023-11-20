@@ -5,8 +5,8 @@ import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNa
 import styles from './AddUser.module.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAddedUserData, setRole } from '../../store/services/admin-api/user/user.slice';
-import { useNavigate } from 'react-router-dom';
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
+import { ProfileCreationSteps, selectLocationsConfig, setCurrentStep } from '../../store/services/application/location/location.slice';
 const roles = [
     { value: 'ARTIST', label: 'Artist' },
     { value: 'GALLERY', label: 'Gallery' },
@@ -17,8 +17,9 @@ function AddUser() {
     UseManageStepsNAvigation()
 
     const dispatch = useDispatch()
-    const navigate = useNavigate()
     const addedUserData = useSelector(selectAddedUserData)
+    const { currentStep } = useSelector(selectLocationsConfig)
+
     const [selectedRole, setSelectedRole] = useState<{
         value: string;
         label: string;
@@ -36,16 +37,15 @@ function AddUser() {
     }, [])
 
     useEffect(() => {
-        if (addedUserData.role === 'COLLECTOR') {
+        if (currentStep === ProfileCreationSteps.CHOOSE_ROLE) {
+            if (addedUserData.role === 'COLLECTOR') {
+                dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.COLLECTOR }))
+            } else if (addedUserData.role === 'GALLERY') {
+                dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.GALLERY }))
+            } if (addedUserData.role === 'ARTIST') {
+                dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.ARTIST }))
 
-            navigate('/clients/collector')
-
-        } else if (addedUserData.role === 'GALLERY') {
-            navigate('/clients/gallery')
-
-        } if (addedUserData.role === 'ARTIST') {
-            navigate('/clients/artist')
-
+            }
         }
     }, [addedUserData.role])
 

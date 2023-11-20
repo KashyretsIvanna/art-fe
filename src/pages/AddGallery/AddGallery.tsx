@@ -16,6 +16,7 @@ import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { useDispatch } from 'react-redux';
 import { setGalleryInfo } from '../../store/services/admin-api/user/user.slice';
+import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 
 function AddGallery() {
     const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'GALLERY' })
@@ -24,7 +25,6 @@ function AddGallery() {
     const { selectedCity, cities, setGalleryTypes, setClassifications, countries, profileDescription, selectedCountry, selectedOrientations, selectedGalleryTypes, setCities, setCountries, setProfileDescription, setSelectedCity, setSelectedCountry, setGalleryName, setSelectedGalleryTypes, setOrientations, setSelectedOrientations, classifications, orientations, galleryName, selectedClassifications, setSelectedClassifications, types } = useManageProfile()
     const { setCitiesError, setCountriesError, galleryNameError,
         typesError, orientationsError, profileDescriptionError, setErrorClassification, setGalleryNameError, setGenderError, setOrientationsError, setProfileDescriptionError, setTypesError, genderError, classificationsError, citiesError, countriesError, } = useManageFormErrors()
-    const navigate = useNavigate()
     const [createProfile, { data: cretedProfileData }] = useCreateProfileMutation()
     const parseJson = async () => {
         const regionNames = new Intl.DisplayNames(
@@ -72,11 +72,11 @@ function AddGallery() {
 
     useEffect(() => {
         if (cretedProfileData) {
-            navigate('/clients/look-for')
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOOK_FOR }))
         }
     }, [cretedProfileData])
 
-    const clickButton = () => {
+    const clickButton = async () => {
         dispatch(setGalleryInfo({
             profileDescription: profileDescription ?? null,
             artClassifications: selectedClassifications.map(el => Number(el.value)),
@@ -86,7 +86,7 @@ function AddGallery() {
             lat: Number(selectedCity.lat),
             lng: Number(selectedCity.lng),
         }))
-        createProfile({
+        await createProfile({
             role: 'GALLERY',
             profileDescription,
             classifications: selectedClassifications.map(el => Number(el.value)),
@@ -95,6 +95,8 @@ function AddGallery() {
             galleryTypes: selectedGalleryTypes.map(el => Number(el.value)),
             lat: Number(selectedCity.lat),
             lng: Number(selectedCity.lng),
+            isLocationAuto: false
+
 
         })
 

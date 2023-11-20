@@ -12,8 +12,12 @@ import { useRegisterNewAdminMutation } from '../../store/services/admin-api/admi
 import { useRegisterNewUserMutation } from '../../store/services/api/profile/profile.api';
 import { selectAddedUserData, selectNewUserAuthToken, setNewUser } from '../../store/services/admin-api/user/user.slice';
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
+import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 
 function LoginNewUser() {
+    if (!location.pathname.includes('admin')) {
+        UseManageStepsNAvigation()
+    }
     const [error, setError] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -26,11 +30,6 @@ function LoginNewUser() {
 
     const newUserData = useSelector(selectAddedUserData)
     const authData = useSelector(selectNewUserAuthToken)
-
-
-    if (!location.pathname.includes('admin')) {
-        UseManageStepsNAvigation()
-    }
 
     const [registerNewUser, { data: registerData, isSuccess: isRegisterSuccess, error: registrationError }] =
         useRegisterNewUserMutation();
@@ -75,9 +74,9 @@ function LoginNewUser() {
 
     useEffect(() => {
         if (isRegisterSuccess && authData && newUserData.createdUserId) {
-            navigate('/clients/photos/add')
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.PHOTOS }))
         }
-    },[authData, isRegisterSuccess, navigate, newUserData.createdUserId])
+    }, [authData, isRegisterSuccess, navigate, newUserData.createdUserId])
 
     useEffect(() => {
         if (isAdminRegSuccessful) {

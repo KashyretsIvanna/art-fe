@@ -3,10 +3,11 @@ import AdminLayout from '../../components/layout/AdminLayout/AdminLayout';
 import GridPhotoContainer from '../../components/info-cards/GridPhotoContainer/GridPhotoContainer';
 import styles from './AddPhotos.module.scss'
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAddPhotosMutation } from '../../store/services/api/profile/profile.api';
 import ModalWithPhoto from '../../components/modals/Photo/Photo';
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
+import { useDispatch } from 'react-redux';
+import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 
 
 function AddPhotos() {
@@ -16,15 +17,15 @@ function AddPhotos() {
     const [isButtonDisabled, setButtonDisabled] = useState(true)
     const [photoList, setPhotoList] = useState<{ file: (Blob | MediaSource) | null, order: number }[]>([])
     const [addPhoto] = useAddPhotosMutation()
-    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const clickButton = () => {
         photoList.forEach(async (el) => {
             if (el.file) {
-                addPhoto(el)
+                await addPhoto(el)
             }
         })
-        navigate('/clients/add')
+        dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.CHOOSE_ROLE }))
     }
 
     useEffect(() => {

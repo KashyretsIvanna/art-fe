@@ -13,6 +13,11 @@ import {
   setIsCreatedUserViewed,
 } from '../store/services/admin-api/user/user.slice';
 import { useEffect } from 'react';
+import {
+  ProfileCreationSteps,
+  selectLocationsConfig,
+  setCurrentStep,
+} from '../store/services/application/location/location.slice';
 
 export default function UseManageStepsNAvigation() {
   const { data, isLoading } =
@@ -24,10 +29,26 @@ export default function UseManageStepsNAvigation() {
   const newUserAuthToken = useSelector(
     selectNewUserAuthToken,
   );
+  const { currentStep } = useSelector(
+    selectLocationsConfig,
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
     if (
+      currentStep ===
+        ProfileCreationSteps.PROFILE &&
+      addedUser.isCreatedUserViewed
+    ) {
+      dispatch(
+        setCurrentStep({
+          currentStep: ProfileCreationSteps.LOGIN,
+        }),
+      );
+    }
+    if (
+      currentStep ===
+        ProfileCreationSteps.PROFILE &&
       !addedUser.isCreatedUserViewed &&
       addedUser.createdUserId
     ) {
@@ -53,15 +74,22 @@ export default function UseManageStepsNAvigation() {
       newUserAuthToken
     ) {
       dispatch(logoutNewUser());
+      dispatch(
+        setCurrentStep({
+          currentStep: ProfileCreationSteps.LOGIN,
+        }),
+      );
+
       return;
     }
 
     if (
-      !data &&
-      !isLoading &&
       !location.pathname.includes(
         'clients/registration',
-      )
+      ) &&
+      (currentStep ===
+        ProfileCreationSteps.LOGIN ||
+        (!data && !isLoading))
     ) {
       {
         navigate('/clients/registration', {
@@ -73,8 +101,8 @@ export default function UseManageStepsNAvigation() {
     }
 
     if (
-      data &&
-      !data.steps.isPhotosLoaded &&
+      currentStep ===
+        ProfileCreationSteps.PHOTOS &&
       !location.pathname.includes(
         'clients/photos/add',
       )
@@ -86,28 +114,29 @@ export default function UseManageStepsNAvigation() {
     }
 
     if (
-      data &&
-      !data.steps.isProfileCompleted &&
-      data.steps.isPhotosLoaded
+      currentStep ===
+        ProfileCreationSteps.CHOOSE_ROLE ||
+      currentStep ===
+        ProfileCreationSteps.ARTIST ||
+      currentStep ===
+        ProfileCreationSteps.COLLECTOR ||
+      currentStep === ProfileCreationSteps.GALLERY
     ) {
       if (
-        !addedUser.role &&
-        !location.pathname.includes(
-          '/clients/add',
-        )
+        currentStep ===
+        ProfileCreationSteps.CHOOSE_ROLE
       ) {
         navigate('/clients/add', {
           replace: true,
         });
         return;
       } else if (
-        addedUser.role &&
         !location.pathname.includes(
-          `clients/${addedUser.role.toLowerCase()}`,
+          `clients/${currentStep.toLowerCase()}`,
         )
       ) {
         navigate(
-          `/clients/${addedUser.role.toLowerCase()}`,
+          `/clients/${currentStep.toLowerCase()}`,
           { replace: true },
         );
         return;
@@ -115,13 +144,18 @@ export default function UseManageStepsNAvigation() {
     }
 
     if (
-      data &&
-      !isLoading &&
-      !data.steps.isLookingForCompleted &&
-      data.steps.isProfileCompleted
+      currentStep ===
+        ProfileCreationSteps.LOOK_FOR ||
+      currentStep ===
+        ProfileCreationSteps.LOOK_FOR_GALLERY ||
+      currentStep ===
+        ProfileCreationSteps.LOOK_FOR_ARTIST ||
+      currentStep ===
+        ProfileCreationSteps.LOOK_FOR_GALLERY_ARTIST
     ) {
       if (
-        !addedUser.lookFor.length &&
+        currentStep ===
+          ProfileCreationSteps.LOOK_FOR &&
         !location.pathname.includes(
           `clients/look-for`,
         )
@@ -132,9 +166,10 @@ export default function UseManageStepsNAvigation() {
         return;
       } else {
         if (
-          addedUser.lookFor.includes('GALLERY') &&
-          !addedUser.galleryClassifications
-            .length &&
+          (currentStep ===
+            ProfileCreationSteps.LOOK_FOR_GALLERY ||
+            currentStep ===
+              ProfileCreationSteps.LOOK_FOR_GALLERY_ARTIST) &&
           !location.pathname.includes(
             `clients/gallery/look-for`,
           )
@@ -144,9 +179,8 @@ export default function UseManageStepsNAvigation() {
           });
           return;
         } else if (
-          addedUser.lookFor.includes('ARTIST') &&
-          !addedUser.artistClassifications
-            .length &&
+          currentStep ===
+            ProfileCreationSteps.LOOK_FOR_ARTIST &&
           !location.pathname.includes(
             `clients/artist/look-for`,
           )
@@ -158,12 +192,5 @@ export default function UseManageStepsNAvigation() {
         }
       }
     }
-  }, [
-    addedUser,
-    data,
-    dispatch,
-    isLoading,
-    navigate,
-    newUserAuthToken,
-  ]);
+  }, [currentStep, navigate]);
 }

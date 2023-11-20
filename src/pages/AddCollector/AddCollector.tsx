@@ -14,6 +14,7 @@ import { useCreateProfileMutation } from '../../store/services/api/profile/profi
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { useDispatch } from 'react-redux';
 import { setCollectorInfo } from '../../store/services/admin-api/user/user.slice';
+import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 
 const genders = [
     { value: GenderType.FEMALE, label: 'Female' },
@@ -24,7 +25,6 @@ const genders = [
 
 function AddCollector() {
     UseManageStepsNAvigation()
-    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const { selectedCity, cities, countries, profileDescription, age, selectedCountry, selectedGender, setAge, setCities, setCountries, setProfileDescription, setSelectedCity, setSelectedCountry, setSelectedGender } = useManageProfile()
@@ -47,7 +47,7 @@ function AddCollector() {
     }, [selectedCountry])
 
 
-    const clickButton = () => {
+    const clickButton = async () => {
         dispatch(setCollectorInfo(
             {
                 gender: selectedGender.label.toUpperCase().split(' ').join('_'),
@@ -58,21 +58,21 @@ function AddCollector() {
 
             }
         ))
-        createProfile({
+        await createProfile({
             role: 'COLLECTOR',
             gender: selectedGender.label.toUpperCase().split(' ').join('_'),
             age: Number(age),
             profileDescription,
             lat: Number(selectedCity.lat),
             lng: Number(selectedCity.lng),
-
+            isLocationAuto: false
         })
 
     }
 
     useEffect(() => {
         if (cretedProfileData) {
-            navigate('/clients/look-for')
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOOK_FOR }))
         }
     }, [cretedProfileData])
 

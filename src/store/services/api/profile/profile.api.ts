@@ -105,14 +105,30 @@ export const profileApi =
           galleryTypes?: number[];
           lat: number;
           lng: number;
-        }) => ({
-          url:
-            baseApiUrl +
-            '/api' +
-            ApiRoutes.PROFILE,
-          method: 'POST',
-          body,
-        }),
+          isLocationAuto: boolean;
+        }) => {
+          const {
+            lng,
+            lat,
+            isLocationAuto,
+            ...restProfileData
+          } = body;
+          return {
+            url:
+              baseApiUrl +
+              '/api' +
+              ApiRoutes.PROFILE,
+            method: 'POST',
+            body: {
+              ...restProfileData,
+              location: {
+                lat,
+                lng,
+                isLocationAuto,
+              },
+            },
+          };
+        },
         invalidatesTags: [apiTags.profile],
       }),
       updateUserProfileById: builder.mutation({
