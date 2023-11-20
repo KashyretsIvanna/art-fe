@@ -19,11 +19,6 @@ function UserProfileInfoCard({ name, userId, role, plan, imgIds, isGivePremiumOp
     }
 
 
-    useEffect(() => {
-        if (data===null) {
-            setCurrentPosition(0)
-        }
-    }, [data])
 
     return (
         <div className={styles.profile_card}>

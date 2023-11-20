@@ -5,7 +5,7 @@ function SectionHeaderButton({
 
     return (
         <button style={{ backgroundColor: background }} onClick={clickButton} className={styles.button}>
-            <img src={icon} alt='button' />
+            {icon&&<img src={icon} alt='button' />}
             <div style={{ color }} className={styles.button__text}>{text}</div></button>
 
     )

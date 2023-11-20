@@ -195,7 +195,7 @@ function UserInfo() {
         <AdminLayout isBackButtonVisible={true} headerRight={
             <>
                 {isEditTurnOn ? <SectionHeaderButton icon={DeleteIcon} text={'CANCEL'} clickButton={() => { onCancelChanges() }} background={'#EE3143'} color={'#fffff'} /> : <></>}
-                {!isEditTurnOn && !isGivePremiumOpen ? <SectionHeaderButton icon={EditIcon} text={'MAKE PREMIUM'} clickButton={() => { onMakePremium() }} background={'#0077EB'} color={'#fffff'} /> : <></>}
+                {!isEditTurnOn && !isGivePremiumOpen && data?.user.plan==='STANDARD' ? <SectionHeaderButton icon={null} text={'MAKE PREMIUM'} clickButton={() => { onMakePremium() }} background={'#0077EB'} color={'#fffff'} /> : <></>}
                 {isEditTurnOn ? <SectionHeaderButton icon={EditIcon} text={'SAVE CHANGES'} clickButton={onSaveChanges} background={'#0077EB'} color={'#ffff'} /> : <SectionHeaderButton icon={EditIcon} text={'EDIT PROFILE'} clickButton={() => { setIsEditTurnOn(true) }} background={'#0077EB'} color={'#ffff'} />}
             </>
         } navigationItems={['All clients', data?.user.name || 'Name']} pageHeader='User profile'  >
