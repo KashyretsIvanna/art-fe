@@ -5,7 +5,7 @@ import {
   apiTags,
 } from '../../../constants';
 import {
-  baseAdminUrl,
+  baseAdminApiUrl,
   baseApiUrl,
 } from '../../../constants/api.constants';
 
@@ -132,7 +132,7 @@ export const profileApi =
 
           return {
             url:
-              baseAdminUrl +
+              baseAdminApiUrl +
               '/api' +
               ApiRoutes.USER +
               `/${userId}` +
@@ -171,7 +171,7 @@ export const profileApi =
           const { userId, ...rest } = body;
           return {
             url:
-              baseAdminUrl +
+              baseAdminApiUrl +
               '/api' +
               ApiRoutes.USER +
               `/${userId}`,
@@ -250,7 +250,7 @@ export const profileApi =
 
           return {
             url:
-              baseAdminUrl +
+              baseAdminApiUrl +
               '/api' +
               ApiRoutes.USER,
             method: 'POST',
@@ -272,7 +272,7 @@ export const profileApi =
 
           return {
             url:
-              baseAdminUrl +
+              baseAdminApiUrl +
               '/api' +
               ApiRoutes.USER +
               '/photos' +
@@ -356,7 +356,7 @@ export const profileApi =
 
           return {
             url:
-              baseAdminUrl +
+              baseAdminApiUrl +
               '/api' +
               '/user' +
               `/${body.userId}`,

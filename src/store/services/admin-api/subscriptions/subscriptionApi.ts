@@ -4,7 +4,7 @@ import {
   ApiRoutes,
   apiTags,
 } from '../../../constants';
-import { baseAdminUrl } from '../../../constants/api.constants';
+import { baseAdminApiUrl } from '../../../constants/api.constants';
 import { emptySplitApi } from '../../../emptySplitApi';
 import { redirectOnUnAuthorized } from '../../../helpers/redirect-401.helper';
 
@@ -30,7 +30,7 @@ export const subscriptionApi =
 
           return {
             url:
-              baseAdminUrl +
+              baseAdminApiUrl +
               '/api' +
               serviceRoute +
               `/grant`,

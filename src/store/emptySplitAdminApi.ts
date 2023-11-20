@@ -12,11 +12,11 @@ import {
 import { ApiError } from './types/error.types';
 import { getAdminHeaders } from './utils/api';
 import { apiTags } from './constants';
-import { baseAdminUrl } from './constants/api.constants';
+import { baseAdminApiUrl } from './constants/api.constants';
 export const emptySplitAdminApi = createApi({
   reducerPath: 'emptySplitAdminApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: baseAdminUrl + '/api',
+    baseUrl: baseAdminApiUrl + '/api',
     prepareHeaders: getAdminHeaders(),
     paramsSerializer: (params) => {
       return queryString.stringify(params, {
