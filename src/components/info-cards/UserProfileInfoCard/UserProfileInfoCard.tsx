@@ -9,7 +9,7 @@ import GivePremiumModal from '../../modals/GivePremiumModal/GivePremiumModal';
 
 function UserProfileInfoCard({ name, userId, role, plan, imgIds, isGivePremiumOpen, setIsGivePremiumOpen }: { setIsGivePremiumOpen: React.Dispatch<React.SetStateAction<boolean>>, userId: number, isGivePremiumOpen: boolean, name: string, role: string, plan?: string, imgIds: { id: number, order: number }[] }) {
     const [currentPosition, setCurrentPosition] = useState(0)
-    const [changeOrderMutation, { data }] = useChangePhotosOrderMutation()
+    const [changeOrderMutation, { data, error }] = useChangePhotosOrderMutation()
 
     const setMainImg = () => {
         const imgIdToSetMain = imgIds[currentPosition]
@@ -17,7 +17,16 @@ function UserProfileInfoCard({ name, userId, role, plan, imgIds, isGivePremiumOp
         const resultArray = [imgIdToSetMain.id, ...newArray.map(el => el.id)]
         changeOrderMutation(resultArray)
     }
+    useEffect(() => {
+        console.log(error)
+    }, [error])
 
+
+    useEffect(() => {
+        if (data !== undefined) {
+            setCurrentPosition(0)
+        }
+    }, [data])
 
 
     return (
