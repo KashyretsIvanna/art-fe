@@ -64,6 +64,11 @@ export default function CustomizedTabs({ tabNames, setTab, active }: { tabNames:
         // onSelectedValueChange(newValue)
     };
 
+    React.useEffect(() => {
+        setTab(active)
+        setValue(active)
+    }, [active, setTab])
+
     return (
         <Box sx={{ width: '100%' }}>
 

@@ -2,7 +2,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import CheckBox from '../../inputs/Checkbox/Checkbox'
 import styles from './TableList.module.scss'
-function TableList({ data, setSelected, columns, isCheckbox, pageNumber }: { isCheckbox: boolean, pageNumber: number, setSelected?: React.Dispatch<React.SetStateAction<number[]>>, selected?: number[], data: { id: number, data: string[] }[], columns: string[] }) {
+function TableList({ data, setSelected, locationState, columns, isCheckbox, pageNumber }: { locationState: any, isCheckbox: boolean, pageNumber: number, setSelected?: React.Dispatch<React.SetStateAction<number[]>>, selected?: number[], data: { id: number, data: string[] }[], columns: string[] }) {
 
     const navigate = useNavigate()
     const location = useLocation(
@@ -10,7 +10,7 @@ function TableList({ data, setSelected, columns, isCheckbox, pageNumber }: { isC
 
     const onItemClicked = (el: { id: any; }) => {
         if (location.pathname.includes('client')) { navigate(`/clients/${el.id}`, { state: { pageNumber } }) }
-        if (location.pathname.includes('payment')) { navigate(`/payments/${el.id}`) }
+        if (location.pathname.includes('payment')) { navigate(`/payments/${el.id}`, { state: locationState }) }
 
     }
 
