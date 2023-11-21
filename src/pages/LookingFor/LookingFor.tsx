@@ -87,7 +87,7 @@ const LookingFor = () => {
 
 
     return (
-        <AdminLayout isBackButtonVisible={true} headerRight={
+        <AdminLayout isBackButtonVisible={false} headerRight={
             <></>} navigationItems={['All Clients', 'Name of Client']} pageHeader='Menu' >
             <div className={styles.looking__container}>
                 <p className={styles.looking__header}>I’m Looking for:</p>

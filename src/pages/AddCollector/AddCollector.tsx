@@ -6,14 +6,13 @@ import ReusableTextArea from '../../components/inputs/ReusableTextArea/ReusableT
 import { GenderType } from '../../contants/profile-info.constants';
 import ReusableNumberInput from '../../components/inputs/ReusableNumberInput copy/ReusableTextInput';
 import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNavigation';
-import { useNavigate } from 'react-router-dom';
 import json from '../../shared-data/cities.json'
 import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { useDispatch } from 'react-redux';
-import { setCollectorInfo } from '../../store/services/admin-api/user/user.slice';
+import { setCollectorInfo, setRole } from '../../store/services/admin-api/user/user.slice';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 
 const genders = [
@@ -161,7 +160,12 @@ function AddCollector() {
 
 
     return (
-        <AdminLayout isBackButtonVisible={true} headerRight={
+        <AdminLayout onBackButtonClick={() => {
+            dispatch(setRole({
+                role: null,
+            }))
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.CHOOSE_ROLE }))
+        }} isBackButtonVisible={true} headerRight={
             null} navigationItems={['Collector']} pageHeader='About me( Collector )'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>

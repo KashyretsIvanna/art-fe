@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectLocationsConfig, setIsSidebarOpened } from '../../../store/services/application/location/location.slice';
 
 type ChildrenProp = string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined;
-function AdminLayout(props: { navigationItems: string[], backButtonState: { pageNumber: number | undefined }, pageHeader: string; children: ChildrenProp, headerRight: ChildrenProp, isBackButtonVisible: boolean }) {
+function AdminLayout(props: { onBackButtonClick: () => void, navigationItems: string[], backButtonState: { pageNumber: number | undefined }, pageHeader: string; children: ChildrenProp, headerRight: ChildrenProp, isBackButtonVisible: boolean }) {
     const [search, setSearch] = useState('')
 
     const locationData = useSelector(selectLocationsConfig)
@@ -28,7 +28,11 @@ function AdminLayout(props: { navigationItems: string[], backButtonState: { page
                 <div className={styles.header}>
 
                     <div className={styles.left_side}>
-                        <img onClick={() => { dispatch(setIsSidebarOpened({ isOpened: !locationData.isSidebarOpened })) }} src={MenuImg} alt='menu' className={styles.menu} />
+                        <img onClick={() => {
+
+                          
+                            dispatch(setIsSidebarOpened({ isOpened: !locationData.isSidebarOpened }))
+                        }} src={MenuImg} alt='menu' className={styles.menu} />
                         <InputSearch placeholder='Search...' img={SearchImg} data={search} setData={setSearch} />
                     </div>
                     <div className={styles.header__right_side}>
@@ -42,7 +46,7 @@ function AdminLayout(props: { navigationItems: string[], backButtonState: { page
                     <img className={styles.logo} src={logoImg} alt='logo' />
                 </div>
                 <div className={styles.layout_body}>
-                    <WhiteBoard backButtonState={props.backButtonState} isBackButtonVisible={props.isBackButtonVisible} headerRight={props.headerRight} pageHeader={props.pageHeader} navigationItems={props.navigationItems}>
+                    <WhiteBoard onBackButtonClick={props.onBackButtonClick} backButtonState={props.backButtonState} isBackButtonVisible={props.isBackButtonVisible} headerRight={props.headerRight} pageHeader={props.pageHeader} navigationItems={props.navigationItems}>
                         {props.children}
                     </WhiteBoard>
                 </div>

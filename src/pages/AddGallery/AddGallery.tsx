@@ -11,11 +11,10 @@ import json from '../../shared-data/cities.json'
 import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
-import { useNavigate } from 'react-router-dom';
 import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { useDispatch } from 'react-redux';
-import { setGalleryInfo } from '../../store/services/admin-api/user/user.slice';
+import { setGalleryInfo, setRole } from '../../store/services/admin-api/user/user.slice';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 
 function AddGallery() {
@@ -247,7 +246,12 @@ function AddGallery() {
     const [activeDropdownNumber, setActiveDropdownNumber] = useState<number>()
 
     return (
-        <AdminLayout isBackButtonVisible={true} headerRight={
+        <AdminLayout onBackButtonClick={() => {
+            dispatch(setRole({
+                role: null,
+            }))
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.CHOOSE_ROLE }))
+        }} isBackButtonVisible={true} headerRight={
             null} navigationItems={['Gallery']} pageHeader='About me( Gallery )'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>

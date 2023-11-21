@@ -80,8 +80,16 @@ function AddArtistClassifications() {
     }, [selectedClassifications.length])
 
     return (
-        <AdminLayout isBackButtonVisible={true} headerRight={
-            null} navigationItems={['Artist', 'User name']} pageHeader='Artist'>
+        <AdminLayout
+            onBackButtonClick={() => {
+                if (newUserData.lookFor.some(el => el === 'GALLERY')) {
+                    dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOOK_FOR_GALLERY_ARTIST }))
+                } else {
+                    dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOOK_FOR }))
+                }
+            }}
+            isBackButtonVisible={true} headerRight={
+                null} navigationItems={['Artist', 'User name']} pageHeader='Artist'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>
 

@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { useDispatch } from 'react-redux';
-import { setArtistInfo } from '../../store/services/admin-api/user/user.slice';
+import { setArtistInfo, setRole } from '../../store/services/admin-api/user/user.slice';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 
 const genders = [
@@ -189,7 +189,12 @@ function AddArtist() {
 
 
     return (
-        <AdminLayout isBackButtonVisible={true} headerRight={
+        <AdminLayout onBackButtonClick={() => {
+            dispatch(setRole({
+                role: null,
+            }))
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.CHOOSE_ROLE }))
+        }} isBackButtonVisible={true} headerRight={
             null} navigationItems={['Artist']} pageHeader='About me (Artist)'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>

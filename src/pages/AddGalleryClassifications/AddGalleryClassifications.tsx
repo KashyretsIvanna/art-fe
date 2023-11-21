@@ -12,7 +12,6 @@ import { setGalleryClassifications } from '../../store/services/admin-api/user/u
 import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { ProfileCreationSteps, selectLocationsConfig, setCurrentStep } from '../../store/services/application/location/location.slice';
-import { useNavigate } from 'react-router-dom';
 
 function AddGalleryClassifications() {
     UseManageStepsNAvigation()
@@ -152,14 +151,15 @@ function AddGalleryClassifications() {
             } else {
                 dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.PROFILE }))
             }
-
         }
     }, [status])
 
     const [activeDropdownNumber, setActiveDropdownNumber] = useState<number>()
 
     return (
-        <AdminLayout isBackButtonVisible={true} headerRight={
+        <AdminLayout isBackButtonVisible={true} onBackButtonClick={() => {
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOOK_FOR }))
+        }} headerRight={
             null} navigationItems={['Gallery', 'User name', 'Look For']} pageHeader='Gallery'>
             <div className={styles.inputs_container}>
                 <div className={styles.input_col_container}>

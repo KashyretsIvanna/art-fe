@@ -137,7 +137,7 @@ export default function UseManageStepsNAvigation() {
       ) {
         navigate(
           `/clients/${currentStep.toLowerCase()}`,
-          { replace: true },
+          { replace: false },
         );
         return;
       }
@@ -175,7 +175,7 @@ export default function UseManageStepsNAvigation() {
           )
         ) {
           navigate('/clients/gallery/look-for', {
-            replace: true,
+            replace: false,
           });
           return;
         } else if (
@@ -186,7 +186,7 @@ export default function UseManageStepsNAvigation() {
           )
         ) {
           navigate('/clients/artist/look-for', {
-            replace: true,
+            replace: false,
           });
           return;
         }

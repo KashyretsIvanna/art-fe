@@ -50,7 +50,7 @@ function AddUser() {
     }, [addedUserData.role])
 
     return (
-        <AdminLayout isBackButtonVisible={true} headerRight={
+        <AdminLayout isBackButtonVisible={false} headerRight={
             null} navigationItems={['All clients']} pageHeader='Add user'>
 
             <div className={styles.add_user__container}>
