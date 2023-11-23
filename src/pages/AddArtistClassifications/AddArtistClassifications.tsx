@@ -6,7 +6,7 @@ import NavigationSteps from '../../components/navigation/StepsNavigation/StepsNa
 import { useGetClassificationsQuery } from '../../store/services/api/classifications/classifications.api';
 import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
-import { selectAddedUserData, setArtistClassifications, setIsCreatedUserViewed } from '../../store/services/admin-api/user/user.slice';
+import { logoutNewUser, selectAddedUserData, setArtistClassifications, setIsCreatedUserViewed } from '../../store/services/admin-api/user/user.slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSetLookingForMutation } from '../../store/services/api/profile/profile.api';
 import configJson from '../../../plan-config.json'
@@ -24,7 +24,9 @@ function AddArtistClassifications() {
 
     useEffect(() => {
         if (error) {
+            dispatch(logoutNewUser())
             dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
+
 
         }
     }, [error])
@@ -32,7 +34,6 @@ function AddArtistClassifications() {
     useEffect(() => {
         if (status === 'fulfilled') {
             dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.PROFILE }))
-
         }
     }, [status])
 

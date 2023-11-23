@@ -260,8 +260,7 @@ export const profileApi =
           body,
         }),
         invalidatesTags: [apiTags.profile],
-        transformErrorResponse:
-          redirectOnUnAuthorizedNewProfile,
+       
       }),
       registerNewUser: builder.mutation({
         query: (body: {
@@ -339,8 +338,7 @@ export const profileApi =
             formData: true,
           };
         },
-        transformErrorResponse:
-          redirectOnUnAuthorizedNewProfile,
+       
 
         invalidatesTags: [apiTags.profile],
       }),
@@ -372,8 +370,7 @@ export const profileApi =
           apiTags.profile,
           apiTags.user,
         ],
-        transformErrorResponse:
-          redirectOnUnAuthorizedNewProfile,
+       
         keepUnusedDataFor: 0.0001,
       }),
 
@@ -419,8 +416,7 @@ export const profileApi =
           method: 'GET',
         }),
         providesTags: [apiTags.profile],
-        transformErrorResponse:
-          redirectOnUnAuthorizedNewProfile,
+        
         keepUnusedDataFor: 0.0001,
       }),
     }),

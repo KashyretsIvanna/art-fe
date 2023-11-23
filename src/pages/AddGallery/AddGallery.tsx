@@ -14,7 +14,7 @@ import { useCreateProfileMutation } from '../../store/services/api/profile/profi
 import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { useDispatch } from 'react-redux';
-import { setGalleryInfo, setRole } from '../../store/services/admin-api/user/user.slice';
+import { logoutNewUser, setGalleryInfo, setRole } from '../../store/services/admin-api/user/user.slice';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 
 function AddGallery() {
@@ -35,6 +35,7 @@ function AddGallery() {
 
     useEffect(() => {
         if (error) {
+            dispatch(logoutNewUser())
             dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
 
         }

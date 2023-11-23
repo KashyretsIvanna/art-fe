@@ -8,7 +8,7 @@ import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useSetLookingForMutation } from '../../store/services/api/profile/profile.api';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGalleryClassifications } from '../../store/services/admin-api/user/user.slice';
+import { logoutNewUser, setGalleryClassifications } from '../../store/services/admin-api/user/user.slice';
 import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { ProfileCreationSteps, selectLocationsConfig, setCurrentStep } from '../../store/services/application/location/location.slice';
@@ -24,10 +24,11 @@ function AddGalleryClassifications() {
     const { currentStep } = useSelector(selectLocationsConfig)
 
     const dispatch = useDispatch()
-    const [postLookingFor, { status , error}] = useSetLookingForMutation()
+    const [postLookingFor, { status, error }] = useSetLookingForMutation()
 
     useEffect(() => {
         if (error) {
+            dispatch(logoutNewUser())
             dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
 
         }

@@ -12,7 +12,7 @@ import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { useDispatch } from 'react-redux';
-import { setCollectorInfo, setRole } from '../../store/services/admin-api/user/user.slice';
+import { logoutNewUser, setCollectorInfo, setRole } from '../../store/services/admin-api/user/user.slice';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 
 const genders = [
@@ -38,8 +38,8 @@ function AddCollector() {
     }
     useEffect(() => {
         if (error) {
+            dispatch(logoutNewUser())
             dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
-
         }
     }, [error])
 
@@ -109,8 +109,6 @@ function AddCollector() {
         } else {
             clickButton()
         }
-
-
 
     }
 

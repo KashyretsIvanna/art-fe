@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { useDispatch } from 'react-redux';
-import { setArtistInfo, setRole } from '../../store/services/admin-api/user/user.slice';
+import { logoutNewUser, setArtistInfo, setRole } from '../../store/services/admin-api/user/user.slice';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 
 const genders = [
@@ -188,7 +188,9 @@ function AddArtist() {
 
     useEffect(() => {
         if (error) {
+            dispatch(logoutNewUser())
             dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
+
 
         }
     }, [error])

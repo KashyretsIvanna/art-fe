@@ -39,6 +39,7 @@ function AddUser() {
     useEffect(() => {
         if (currentStep === ProfileCreationSteps.CHOOSE_ROLE) {
             if (addedUserData.role === 'COLLECTOR') {
+
                 dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.COLLECTOR }))
             } else if (addedUserData.role === 'GALLERY') {
                 dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.GALLERY }))

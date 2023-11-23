@@ -16,7 +16,7 @@ import SectionHeaderButton from '../../components/buttons/SectionHeaderButton/Se
 import { useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAddedUserData, setIsCreatedUserViewed } from '../../store/services/admin-api/user/user.slice';
+import { logoutNewUser, selectAddedUserData, setIsCreatedUserViewed } from '../../store/services/admin-api/user/user.slice';
 import useManageProfile from '../../customHooks/useManageProfile';
 import DeleteIcon from '../../images/icons/delete.svg'
 import { useGetUserByIdQuery, useUpdateUserByIdMutation, useUpdateUserProfileByIdMutation } from '../../store/services/api/profile/profile.api';
@@ -143,6 +143,7 @@ function UserInfo() {
             dispatch(setIsCreatedUserViewed({
                 isViewed: true
             }))
+            dispatch(logoutNewUser())
         }
     }, [addedUser.createdUserId, dispatch, params.id])
 

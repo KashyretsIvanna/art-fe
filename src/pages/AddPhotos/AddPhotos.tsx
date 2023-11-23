@@ -8,6 +8,7 @@ import ModalWithPhoto from '../../components/modals/Photo/Photo';
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { useDispatch } from 'react-redux';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
+import { logoutNewUser } from '../../store/services/admin-api/user/user.slice';
 
 
 function AddPhotos() {
@@ -22,6 +23,7 @@ function AddPhotos() {
 
     useEffect(() => {
         if (error) {
+            dispatch(logoutNewUser())
             dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
 
         }

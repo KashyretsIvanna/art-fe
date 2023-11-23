@@ -7,7 +7,6 @@ import {
 import { useGetNewUserInfoQuery } from '../store/services/api/profile/profile.api';
 import { useNavigate } from 'react-router-dom';
 import {
-  logoutNewUser,
   selectAddedUserData,
   selectNewUserAuthToken,
   setIsCreatedUserViewed,
@@ -68,29 +67,10 @@ export default function UseManageStepsNAvigation() {
     }
 
     if (
-      data &&
-      data.steps.isLookingForCompleted &&
-      data.steps.isPhotosLoaded &&
-      data.steps.isProfileCompleted &&
-      newUserAuthToken
-    ) {
-      dispatch(logoutNewUser());
-      dispatch(
-        setCurrentStep({
-          currentStep: ProfileCreationSteps.LOGIN,
-        }),
-      );
-
-      return;
-    }
-
-    if (
       !location.pathname.includes(
         'clients/registration',
       ) &&
-      (currentStep ===
-        ProfileCreationSteps.LOGIN ||
-        (!data && !isLoading))
+      currentStep === ProfileCreationSteps.LOGIN
     ) {
       {
         navigate('/clients/registration', {
@@ -133,13 +113,42 @@ export default function UseManageStepsNAvigation() {
         return;
       } else if (
         !location.pathname.includes(
-          `clients/${currentStep.toLowerCase()}`,
-        )
+          `clients/${ProfileCreationSteps.COLLECTOR.toLowerCase()}`,
+        ) &&
+        currentStep ===
+          ProfileCreationSteps.COLLECTOR
       ) {
         navigate(
-          `/clients/${currentStep.toLowerCase()}`,
+          `/clients/${ProfileCreationSteps.COLLECTOR.toLowerCase()}`,
           { replace: false },
         );
+
+        return;
+      } else if (
+        !location.pathname.includes(
+          `clients/${ProfileCreationSteps.GALLERY.toLowerCase()}`,
+        ) &&
+        currentStep ===
+          ProfileCreationSteps.GALLERY
+      ) {
+        navigate(
+          `/clients/${ProfileCreationSteps.GALLERY.toLowerCase()}`,
+          { replace: false },
+        );
+
+        return;
+      } else if (
+        !location.pathname.includes(
+          `clients/${ProfileCreationSteps.ARTIST.toLowerCase()}`,
+        ) &&
+        currentStep ===
+          ProfileCreationSteps.ARTIST
+      ) {
+        navigate(
+          `/clients/${ProfileCreationSteps.ARTIST.toLowerCase()}`,
+          { replace: false },
+        );
+
         return;
       }
     }
