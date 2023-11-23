@@ -19,15 +19,12 @@ import {
 } from '../store/services/application/location/location.slice';
 
 export default function UseManageStepsNAvigation() {
-  const { data, isLoading } =
-    useGetNewUserInfoQuery();
+  const { data } = useGetNewUserInfoQuery();
   const dispatch = useDispatch();
   const addedUser = useSelector(
     selectAddedUserData,
   );
-  const newUserAuthToken = useSelector(
-    selectNewUserAuthToken,
-  );
+
   const { currentStep } = useSelector(
     selectLocationsConfig,
   );
@@ -36,21 +33,26 @@ export default function UseManageStepsNAvigation() {
   useEffect(() => {
     if (
       currentStep ===
-        ProfileCreationSteps.PROFILE &&
-      addedUser.isCreatedUserViewed
+        ProfileCreationSteps.LOGIN &&
+      data &&
+      addedUser.added_user_access_token?.length &&
+      !data.steps.isPhotosLoaded
     ) {
       dispatch(
         setCurrentStep({
-          currentStep: ProfileCreationSteps.LOGIN,
+          currentStep:
+            ProfileCreationSteps.PHOTOS,
         }),
       );
     }
+  }, [data]);
 
+  useEffect(() => {
     if (
       currentStep ===
         ProfileCreationSteps.PROFILE &&
-      !addedUser.isCreatedUserViewed &&
-      addedUser.createdUserId
+      !Boolean(addedUser.isCreatedUserViewed) &&
+      Number(addedUser.createdUserId)
     ) {
       dispatch(
         setIsCreatedUserViewed({
@@ -64,6 +66,8 @@ export default function UseManageStepsNAvigation() {
           replace: true,
         },
       );
+
+      return;
     }
 
     if (

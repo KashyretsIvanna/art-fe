@@ -326,6 +326,7 @@ export const profileApi =
             'order',
             body.order.toString(),
           );
+
           return {
             url:
               baseApiUrl +

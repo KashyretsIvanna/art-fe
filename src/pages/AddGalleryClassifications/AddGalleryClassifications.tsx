@@ -8,7 +8,7 @@ import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useSetLookingForMutation } from '../../store/services/api/profile/profile.api';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutNewUser, setGalleryClassifications } from '../../store/services/admin-api/user/user.slice';
+import { logoutNewUser, setGalleryClassifications, setIsCreatedUserViewed } from '../../store/services/admin-api/user/user.slice';
 import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { ProfileCreationSteps, selectLocationsConfig, setCurrentStep } from '../../store/services/application/location/location.slice';
@@ -30,7 +30,6 @@ function AddGalleryClassifications() {
         if (error) {
             dispatch(logoutNewUser())
             dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
-
         }
     }, [error])
 
@@ -63,6 +62,14 @@ function AddGalleryClassifications() {
 
 
     const clickButton = async () => {
+        dispatch(setGalleryClassifications({
+            galleryClassifications: selectedClassifications.map(el => Number(el.value)),
+            galleryOrientations: selectedOrientations.map(el => Number(el.value)),
+            galleryTypes: selectedGalleryTypes.map(el => Number(el.value))
+        }))
+
+        dispatch(setIsCreatedUserViewed({ isViewed: false }))
+
         if (currentStep !== ProfileCreationSteps.LOOK_FOR_GALLERY_ARTIST) {
             await postLookingFor({
                 filters: {
@@ -72,13 +79,12 @@ function AddGalleryClassifications() {
                 },
                 preferences: { isLookingForGallery: true }
             })
+        } else {
+           
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOOK_FOR_ARTIST }))
+           
         }
-        dispatch(setGalleryClassifications({
-            galleryClassifications: selectedClassifications.map(el => Number(el.value)),
-            galleryOrientations: selectedOrientations.map(el => Number(el.value)),
-            galleryTypes: selectedGalleryTypes.map(el => Number(el.value))
-        }))
-        dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOOK_FOR_ARTIST }))
+
 
     }
 

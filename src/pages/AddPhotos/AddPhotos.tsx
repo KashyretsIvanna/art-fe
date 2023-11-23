@@ -33,12 +33,14 @@ function AddPhotos() {
         }
     }, [error, status])
 
-    const clickButton = () => {
-        photoList.forEach(async (el) => {
+    const clickButton = async () => {
+
+        for (const el of photoList) {
             if (el.file) {
-                await addPhoto(el)
+                await addPhoto({ file: el.file, order: el.order })
             }
-        })
+        }
+
     }
 
     useEffect(() => {
