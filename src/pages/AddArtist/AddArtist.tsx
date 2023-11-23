@@ -28,12 +28,9 @@ const genders = [
 
 function AddArtist() {
     UseManageStepsNAvigation()
-
-
     const { selectedCity, classifications, cities, countries, profileDescription, age, selectedClassifications, selectedCountry, selectedGender, setAge, setCities, setClassifications, setCountries, setProfileDescription, setSelectedCity, setSelectedClassifications, setSelectedCountry, setSelectedGender } = useManageProfile()
     const { ageError, setAgeError, setCitiesError, setCountriesError, profileDescriptionError, setErrorClassification, setGalleryNameError, setGenderError, setOrientationsError, setProfileDescriptionError, setTypesError, genderError, classificationsError, citiesError, countriesError, } = useManageFormErrors()
-    const [createProfile, { data: cretedProfileData }] = useCreateProfileMutation()
-    const navigate = useNavigate()
+    const [createProfile, { data: cretedProfileData, error }] = useCreateProfileMutation()
     const { data } = useGetClassificationsQuery({ role: 'ARTIST' })
     const dispatch = useDispatch()
 
@@ -188,6 +185,13 @@ function AddArtist() {
     const [activeDropdownNumber, setActiveDropdownNumber] = useState<number>()
 
 
+
+    useEffect(() => {
+        if (error) {
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
+
+        }
+    }, [error])
     return (
         <AdminLayout onBackButtonClick={() => {
             dispatch(setRole({

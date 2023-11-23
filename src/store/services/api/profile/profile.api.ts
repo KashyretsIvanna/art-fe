@@ -10,7 +10,10 @@ import {
 } from '../../../constants/api.constants';
 
 import { emptySplitApi } from '../../../emptySplitApi';
-import { redirectOnUnAuthorized } from '../../../helpers/redirect-401.helper';
+import {
+  redirectOnUnAuthorized,
+  redirectOnUnAuthorizedNewProfile,
+} from '../../../helpers/redirect-401.helper';
 import { UserByIdRes } from '../../../types/user/user-by-id.dto';
 
 interface UserProfileInfo {
@@ -129,7 +132,10 @@ export const profileApi =
             },
           };
         },
-        invalidatesTags: [apiTags.profile],
+        invalidatesTags: [
+          apiTags.profile,
+          apiTags.user,
+        ],
       }),
       updateUserProfileById: builder.mutation({
         query: (body: {
@@ -225,6 +231,7 @@ export const profileApi =
              */
           }
         },
+
         invalidatesTags: [
           apiTags.profile,
           apiTags.user,
@@ -253,6 +260,8 @@ export const profileApi =
           body,
         }),
         invalidatesTags: [apiTags.profile],
+        transformErrorResponse:
+          redirectOnUnAuthorizedNewProfile,
       }),
       registerNewUser: builder.mutation({
         query: (body: {
@@ -330,6 +339,8 @@ export const profileApi =
             formData: true,
           };
         },
+        transformErrorResponse:
+          redirectOnUnAuthorizedNewProfile,
 
         invalidatesTags: [apiTags.profile],
       }),
@@ -357,7 +368,12 @@ export const profileApi =
             '/me',
           method: 'GET',
         }),
-        providesTags: [apiTags.profile],
+        providesTags: [
+          apiTags.profile,
+          apiTags.user,
+        ],
+        transformErrorResponse:
+          redirectOnUnAuthorizedNewProfile,
         keepUnusedDataFor: 0.0001,
       }),
 
@@ -403,6 +419,8 @@ export const profileApi =
           method: 'GET',
         }),
         providesTags: [apiTags.profile],
+        transformErrorResponse:
+          redirectOnUnAuthorizedNewProfile,
         keepUnusedDataFor: 0.0001,
       }),
     }),

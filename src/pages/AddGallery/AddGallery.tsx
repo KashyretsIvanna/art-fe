@@ -24,7 +24,7 @@ function AddGallery() {
     const { selectedCity, cities, setGalleryTypes, setClassifications, countries, profileDescription, selectedCountry, selectedOrientations, selectedGalleryTypes, setCities, setCountries, setProfileDescription, setSelectedCity, setSelectedCountry, setGalleryName, setSelectedGalleryTypes, setOrientations, setSelectedOrientations, classifications, orientations, galleryName, selectedClassifications, setSelectedClassifications, types } = useManageProfile()
     const { setCitiesError, setCountriesError, galleryNameError,
         typesError, orientationsError, profileDescriptionError, setErrorClassification, setGalleryNameError, setGenderError, setOrientationsError, setProfileDescriptionError, setTypesError, genderError, classificationsError, citiesError, countriesError, } = useManageFormErrors()
-    const [createProfile, { data: cretedProfileData }] = useCreateProfileMutation()
+    const [createProfile, { data: cretedProfileData, error }] = useCreateProfileMutation()
     const parseJson = async () => {
         const regionNames = new Intl.DisplayNames(
             ['en'], { type: 'region' }
@@ -32,6 +32,14 @@ function AddGallery() {
         setCountries(Object.keys(json).map(el => ({ label: regionNames.of(el), value: el })))
 
     }
+
+    useEffect(() => {
+        if (error) {
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
+
+        }
+    }, [error])
+    
     const dispatch = useDispatch()
     UseManageStepsNAvigation()
 

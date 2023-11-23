@@ -28,7 +28,7 @@ function AddCollector() {
 
     const { selectedCity, cities, countries, profileDescription, age, selectedCountry, selectedGender, setAge, setCities, setCountries, setProfileDescription, setSelectedCity, setSelectedCountry, setSelectedGender } = useManageProfile()
     const { ageError, setAgeError, setCitiesError, setCountriesError, profileDescriptionError, setGenderError, genderError, citiesError, countriesError, } = useManageFormErrors()
-    const [createProfile, { data: cretedProfileData }] = useCreateProfileMutation()
+    const [createProfile, { data: cretedProfileData, error }] = useCreateProfileMutation()
 
     const parseJson = async () => {
         const regionNames = new Intl.DisplayNames(
@@ -36,6 +36,12 @@ function AddCollector() {
         );
         setCountries(Object.keys(json).map(el => ({ label: regionNames.of(el), value: el })))
     }
+    useEffect(() => {
+        if (error) {
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
+
+        }
+    }, [error])
 
     useEffect(() => { parseJson() }, [])
     useEffect(() => {

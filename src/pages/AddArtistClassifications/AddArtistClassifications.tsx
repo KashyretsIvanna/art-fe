@@ -20,7 +20,14 @@ function AddArtistClassifications() {
     const dispatch = useDispatch()
     UseManageStepsNAvigation()
 
-    const [postLookingFor, { status }] = useSetLookingForMutation()
+    const [postLookingFor, { status, error }] = useSetLookingForMutation()
+
+    useEffect(() => {
+        if (error) {
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
+
+        }
+    }, [error])
 
     useEffect(() => {
         if (status === 'fulfilled') {

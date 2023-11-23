@@ -46,6 +46,7 @@ export default function UseManageStepsNAvigation() {
         }),
       );
     }
+
     if (
       currentStep ===
         ProfileCreationSteps.PROFILE &&

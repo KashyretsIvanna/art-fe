@@ -16,8 +16,20 @@ function AddPhotos() {
     const [openedPhoto, setOpenedPhoto] = useState<string | undefined>()
     const [isButtonDisabled, setButtonDisabled] = useState(true)
     const [photoList, setPhotoList] = useState<{ file: (Blob | MediaSource) | null, order: number }[]>([])
-    const [addPhoto] = useAddPhotosMutation()
+    const [addPhoto, { error, status }] = useAddPhotosMutation()
     const dispatch = useDispatch()
+
+
+    useEffect(() => {
+        if (error) {
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
+
+        }
+
+        if (status === 'fulfilled') {
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.CHOOSE_ROLE }))
+        }
+    }, [error, status])
 
     const clickButton = () => {
         photoList.forEach(async (el) => {
@@ -25,7 +37,6 @@ function AddPhotos() {
                 await addPhoto(el)
             }
         })
-        dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.CHOOSE_ROLE }))
     }
 
     useEffect(() => {

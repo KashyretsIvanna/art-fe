@@ -1,6 +1,6 @@
 /** @format */
 
-import { baseAdminUrl } from "../constants/api.constants";
+import { baseAdminUrl } from '../constants/api.constants';
 
 export const redirectOnUnAuthorized = (data: {
   status: number;
@@ -11,3 +11,12 @@ export const redirectOnUnAuthorized = (data: {
     );
   }
 };
+
+export const redirectOnUnAuthorizedNewProfile =
+  (data: { status: number }) => {
+    localStorage.removeItem('persist:addUser');
+
+    if (data.status == 401) {
+      localStorage.removeItem('persist:location');
+    }
+  };

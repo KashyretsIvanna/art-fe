@@ -49,7 +49,7 @@ function LoginNewUser() {
     }
     useEffect(() => {
         if (registrationError) {
-            setError(registrationError.data.message)
+            setError('Email already exists')
             setIsEmailError(true)
             setIsNameError(true)
             setIsPasswordError(true)

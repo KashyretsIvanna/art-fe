@@ -24,7 +24,14 @@ function AddGalleryClassifications() {
     const { currentStep } = useSelector(selectLocationsConfig)
 
     const dispatch = useDispatch()
-    const [postLookingFor, { status }] = useSetLookingForMutation()
+    const [postLookingFor, { status , error}] = useSetLookingForMutation()
+
+    useEffect(() => {
+        if (error) {
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
+
+        }
+    }, [error])
 
     useEffect(() => {
         if (galleryClassifications) {
