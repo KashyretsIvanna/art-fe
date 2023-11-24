@@ -19,28 +19,31 @@ function AddPhotos() {
     const [photoList, setPhotoList] = useState<{ file: (Blob | MediaSource) | null, order: number }[]>([])
     const [addPhoto, { error, status }] = useAddPhotosMutation()
     const dispatch = useDispatch()
-
-
-    useEffect(() => {
-        if (error) {
-            dispatch(logoutNewUser())
-            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
-
-        }
-
-        if (status === 'fulfilled') {
-            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.CHOOSE_ROLE }))
-        }
-    }, [error, status])
+    const [photosError, setPhotosError] = useState('')
 
     const clickButton = async () => {
-
+        const results: any = []
         for (const el of photoList) {
             if (el.file) {
-                await addPhoto({ file: el.file, order: el.order })
+                const res = await addPhoto({ file: el.file, order: el.order })
+                results.push(res)
             }
         }
 
+        if (results.some(el => el.error && el.error.status === 413)) {
+            if (error && error.status == 413) {
+                setPhotosError('Photos are too large')
+            }
+        }
+
+        if (results.some(el => el.error && el.error.status !== 413)) {
+            dispatch(logoutNewUser())
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
+        }
+
+        if (!results.some(el => el.error)) {
+            dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.CHOOSE_ROLE }))
+        }
     }
 
     useEffect(() => {
@@ -65,7 +68,7 @@ function AddPhotos() {
                 <p className={styles.add_photos__description}>Add at least 1 photo to continue to reorder your photos, use drag&drop</p>
                 <GridPhotoContainer setPhotoToOpen={setOpenedPhoto} setPhotoList={setPhotoList} /></div>
 
-
+            <div className={styles.add_photos__error}>{photosError}</div>
             <NavigationSteps disabled={isButtonDisabled} onContinue={() => {
                 clickButton()
             }} stepNumber={2} totalAmountSteps={6} />
