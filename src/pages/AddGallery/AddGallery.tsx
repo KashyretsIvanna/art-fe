@@ -18,9 +18,9 @@ import { logoutNewUser, setGalleryInfo, setRole } from '../../store/services/adm
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 
 function AddGallery() {
-    const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'GALLERY' })
-    const { data: artOrientations } = useGetOrientationsQuery()
-    const { data: galleryTypes } = useGetGalleryTypesQuery()
+    const { data: galleryClassifications, error: classificationReqError } = useGetClassificationsQuery({ role: 'GALLERY' })
+    const { data: artOrientations, error: orientationsReqErr } = useGetOrientationsQuery()
+    const { data: galleryTypes, error: typesReqError } = useGetGalleryTypesQuery()
     const { selectedCity, cities, setGalleryTypes, setClassifications, countries, profileDescription, selectedCountry, selectedOrientations, selectedGalleryTypes, setCities, setCountries, setProfileDescription, setSelectedCity, setSelectedCountry, setGalleryName, setSelectedGalleryTypes, setOrientations, setSelectedOrientations, classifications, orientations, galleryName, selectedClassifications, setSelectedClassifications, types } = useManageProfile()
     const { setCitiesError, setCountriesError, galleryNameError,
         typesError, orientationsError, profileDescriptionError, setErrorClassification, setGalleryNameError, setGenderError, setOrientationsError, setProfileDescriptionError, setTypesError, genderError, classificationsError, citiesError, countriesError, } = useManageFormErrors()
@@ -33,14 +33,17 @@ function AddGallery() {
 
     }
 
+
+
     useEffect(() => {
-        if (error) {
+
+        if (error || (orientationsReqErr && orientationsReqErr.status === 401) || (classificationReqError && classificationReqError.status === 401) || (typesReqError && typesReqError.status === 401)) {
             dispatch(logoutNewUser())
             dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
 
         }
-    }, [error])
-    
+    }, [classificationReqError, error, orientationsReqErr, typesReqError])
+
     const dispatch = useDispatch()
     UseManageStepsNAvigation()
 

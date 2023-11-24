@@ -31,7 +31,7 @@ function AddArtist() {
     const { selectedCity, classifications, cities, countries, profileDescription, age, selectedClassifications, selectedCountry, selectedGender, setAge, setCities, setClassifications, setCountries, setProfileDescription, setSelectedCity, setSelectedClassifications, setSelectedCountry, setSelectedGender } = useManageProfile()
     const { ageError, setAgeError, setCitiesError, setCountriesError, profileDescriptionError, setErrorClassification, setGalleryNameError, setGenderError, setOrientationsError, setProfileDescriptionError, setTypesError, genderError, classificationsError, citiesError, countriesError, } = useManageFormErrors()
     const [createProfile, { data: cretedProfileData, error }] = useCreateProfileMutation()
-    const { data } = useGetClassificationsQuery({ role: 'ARTIST' })
+    const { data, error: classificationReqError } = useGetClassificationsQuery({ role: 'ARTIST' })
     const dispatch = useDispatch()
 
 
@@ -187,13 +187,13 @@ function AddArtist() {
 
 
     useEffect(() => {
-        if (error) {
+        if (error || classificationReqError && classificationReqError.status === 401) {
             dispatch(logoutNewUser())
             dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
 
 
         }
-    }, [error])
+    }, [classificationReqError, error])
     return (
         <AdminLayout onBackButtonClick={() => {
             dispatch(setRole({

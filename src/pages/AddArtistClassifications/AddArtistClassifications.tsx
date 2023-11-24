@@ -13,7 +13,7 @@ import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 function AddArtistClassifications() {
-    const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'ARTIST' })
+    const { data: galleryClassifications, error: classificationReqError } = useGetClassificationsQuery({ role: 'ARTIST' })
     const { setClassifications, classifications, selectedClassifications, setSelectedClassifications } = useManageProfile()
     const { setErrorClassification, classificationsError } = useManageFormErrors()
     const newUserData = useSelector(selectAddedUserData)
@@ -23,13 +23,13 @@ function AddArtistClassifications() {
     const [postLookingFor, { status, error }] = useSetLookingForMutation()
 
     useEffect(() => {
-        if (error) {
+        if (error || (classificationReqError && classificationReqError.status === 401)) {
             dispatch(logoutNewUser())
             dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
 
 
         }
-    }, [error])
+    }, [classificationReqError, error])
 
     useEffect(() => {
         if (status === 'fulfilled') {

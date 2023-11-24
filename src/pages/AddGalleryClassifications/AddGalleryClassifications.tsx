@@ -16,9 +16,9 @@ import { ProfileCreationSteps, selectLocationsConfig, setCurrentStep } from '../
 function AddGalleryClassifications() {
     UseManageStepsNAvigation()
 
-    const { data: galleryClassifications } = useGetClassificationsQuery({ role: 'GALLERY' })
-    const { data: artOrientations } = useGetOrientationsQuery()
-    const { data: galleryTypes } = useGetGalleryTypesQuery()
+    const { data: galleryClassifications, error: classificationReqError } = useGetClassificationsQuery({ role: 'GALLERY' })
+    const { data: artOrientations, error: orientationsReqErr } = useGetOrientationsQuery()
+    const { data: galleryTypes, error: typesReqError } = useGetGalleryTypesQuery()
     const { setGalleryTypes, setClassifications, selectedOrientations, selectedGalleryTypes, setSelectedGalleryTypes, setOrientations, setSelectedOrientations, classifications, orientations, selectedClassifications, setSelectedClassifications, types } = useManageProfile()
     const { typesError, orientationsError, setErrorClassification, setOrientationsError, setTypesError, classificationsError } = useManageFormErrors()
     const { currentStep } = useSelector(selectLocationsConfig)
@@ -27,11 +27,11 @@ function AddGalleryClassifications() {
     const [postLookingFor, { status, error }] = useSetLookingForMutation()
 
     useEffect(() => {
-        if (error) {
+        if (error || (orientationsReqErr && orientationsReqErr.status === 401) || (classificationReqError && classificationReqError.status === 401) || (typesReqError && typesReqError.status === 401)) {
             dispatch(logoutNewUser())
             dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOGIN }))
         }
-    }, [error])
+    }, [classificationReqError, error, orientationsReqErr, typesReqError])
 
     useEffect(() => {
         if (galleryClassifications) {
@@ -80,9 +80,9 @@ function AddGalleryClassifications() {
                 preferences: { isLookingForGallery: true }
             })
         } else {
-           
+
             dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.LOOK_FOR_ARTIST }))
-           
+
         }
 
 

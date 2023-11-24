@@ -9,6 +9,19 @@
   height: calc(100% - 125px);
 
   box-sizing: border-box;
+  position: relative;
+
+  &__error {
+    color: red;
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Roboto;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    position: relative;
+    bottom: 20px;
+  }
   &__description {
     color: #313131;
     text-align: center;
