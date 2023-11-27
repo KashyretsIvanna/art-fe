@@ -31,9 +31,7 @@ function AddPhotos() {
         }
 
         if (results.some(el => el.error && el.error.status === 413)) {
-            if (error && error.status == 413) {
                 setPhotosError('Photos are too large')
-            }
         }
 
         if (results.some(el => el.error && el.error.status !== 413)) {
