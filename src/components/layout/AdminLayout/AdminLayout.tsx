@@ -1,25 +1,40 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SideBar from '../SideBar/SideBar'
 import styles from './AdminLayout.module.scss'
-import InputSearch from '../../inputs/InputSearch/InputSearch'
 import SearchImg from '../../../images/icons/search.svg'
 import MenuImgMobile from '../../../images/icons/menu-side.svg'
 import MenuImg from '../../../images/icons/menu.svg'
-
 
 import WhiteBoard from '../../layout/WhiteBoard/WhiteBoard'
 import logoImg from '../../../images/logo.svg'
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLocationsConfig, setIsSidebarOpened } from '../../../store/services/application/location/location.slice';
+import { useGetUsersQuery } from '../../../store/services/admin-api/user/userApi';
+import SelectSearch from '../../inputs/SelectSearch/SelectSearch';
+import { useNavigate } from 'react-router-dom';
 
 type ChildrenProp = string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined;
 function AdminLayout(props: { onBackButtonClick: () => void, navigationItems: string[], backButtonState: { pageNumber: number | undefined }, pageHeader: string; children: ChildrenProp, headerRight: ChildrenProp, isBackButtonVisible: boolean }) {
     const [search, setSearch] = useState('')
+    const [filteredUsers, setFilteredUsers] = useState<{
+        value: string;
+        label: string;
+    }[]>([])
+
+    const navigate = useNavigate()
 
     const locationData = useSelector(selectLocationsConfig)
 
     const dispatch = useDispatch()
+
+    const { data } = useGetUsersQuery({ search })
+
+    useEffect(() => {
+        if (data) {
+            setFilteredUsers(data.users.map(el => ({ label: `${el.name} ${el.email} ${el.city ? ' ' + el.city : ''}${el.country ? ' ' + el.country : ''}`, value: el.id.toString() })))
+        }
+    }, [data])
 
     return (
         <>
@@ -30,10 +45,14 @@ function AdminLayout(props: { onBackButtonClick: () => void, navigationItems: st
                     <div className={styles.left_side}>
                         <img onClick={() => {
 
-                          
+
                             dispatch(setIsSidebarOpened({ isOpened: !locationData.isSidebarOpened }))
                         }} src={MenuImg} alt='menu' className={styles.menu} />
-                        <InputSearch placeholder='Search...' img={SearchImg} data={search} setData={setSearch} />
+                        <SelectSearch placeholder='Search...' img={SearchImg} search={search} setSearch={setSearch} options={filteredUsers} onOptionClick={function (value: { value: string; label: string; }): void {
+                            console.log(value)
+                            navigate(`/clients/${value.value}`)
+
+                        }} />
                     </div>
                     <div className={styles.header__right_side}>
 

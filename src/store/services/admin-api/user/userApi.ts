@@ -37,15 +37,31 @@ export const userApi =
 
       getUsers: builder.query<
         UserListRes,
-        { take: number; page: number }
+        {
+          take?: number;
+          page?: number;
+          search?: string;
+        }
       >({
         query: (body: {
-          take: number;
-          page: number;
+          take?: number;
+          page?: number;
+          search?: string;
         }) => ({
           url:
             EndpointsRoutes.getUsers +
-            `?take=${body.take}&page=${body.page}`,
+            '?'+
+            `${
+              body.take ? `take=${body.take}` : ``
+            }${
+              body.page
+                ? `&page=${body.page}`
+                : ``
+            }${
+              body.search
+                ? `&search=${body.search}`
+                : ``
+            }`,
           method: 'GET',
         }),
         transformErrorResponse:
