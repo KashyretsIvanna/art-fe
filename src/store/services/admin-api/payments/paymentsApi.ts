@@ -181,12 +181,14 @@ export const paymentsApi =
           limit: number;
           startAfter?: string;
           endBefore?: string;
+          search?: string;
         }
       >({
         query: (body: {
           limit: number;
           startAfter?: string;
           endBefore?: string;
+          search?: string;
         }) => ({
           url:
             serviceRoute +
@@ -197,6 +199,10 @@ export const paymentsApi =
             }${
               body.endBefore
                 ? `&endBefore=${body.endBefore}`
+                : ''
+            }${
+              body.search
+                ? `&search=${body.search}`
                 : ''
             }`,
           method: 'GET',
