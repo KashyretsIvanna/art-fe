@@ -42,7 +42,7 @@ function AdminLayout(props: { onBackButtonClick: () => void, navigationItems: st
             setFilteredUsers(data.users.map(el => ({ label: `${el.name} ${el.email} ${el.city ? ' ' + el.city : ''}${el.country ? ' ' + el.country : ''}`, value: el.id.toString() })))
         }
         if (data && location.pathname.includes('payments')) {
-            setFilteredPayments(payments ? payments?.data.map(el => ({ label: `${el.customer.name} ${el.customer.email} ${el.currency ? ' ' + el.currency : ''}${el.amount ? ' ' + el.amount : ''}`, value: el.id.toString() })) : [])
+            setFilteredPayments(payments ? payments?.data.map(el => ({ label: `${el.customer.name} ${el.customer.email} ${el.currency ? ' ' + el.currency : ''}${el.amount ? ' ' + Number(el.amount)/100 : ''}`, value: el.id.toString() })) : [])
         }
     }, [data])
 
@@ -50,8 +50,6 @@ function AdminLayout(props: { onBackButtonClick: () => void, navigationItems: st
         <>
             <SideBar />
             <div onClick={(e) => {
-                console.log(e)
-
                 if (e.target?.className !== '_custom_select__option__text_1v1m2_147') {
                     setSearchOpen(false)
                 }
