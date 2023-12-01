@@ -59,7 +59,7 @@ export const userApi =
                 : ``
             }${
               body.search
-                ? `&search=${body.search}`
+                ? `&search=${body.search.replace('+','%2B')}`
                 : ``
             }`,
           method: 'GET',

@@ -22,6 +22,8 @@ function AdminLayout(props: { onBackButtonClick: () => void, navigationItems: st
     const location = useLocation()
 
     const [search, setSearch] = useState('')
+    const [searchPayments, setSearchPayments] = useState('')
+
     const [isSearchOpen, setSearchOpen] = useState(false)
     const [filteredUsers, setFilteredUsers] = useState<{
         value: string;
@@ -33,18 +35,19 @@ function AdminLayout(props: { onBackButtonClick: () => void, navigationItems: st
     }[]>([])
 
     const locationData = useSelector(selectLocationsConfig)
-    const { data } = useGetUsersQuery({ search })
-    const { data: payments } = useGetPaymentsQuery({ search, limit: 100 })
+    const { data } = useGetUsersQuery({ search: search.replace('+', '%2B') })
+    const { data: payments } = useGetPaymentsQuery({ search: searchPayments, limit: 100 })
 
-  
+
     useEffect(() => {
         if (data && location.pathname.includes('clients')) {
             setFilteredUsers(data.users.map(el => ({ label: `${el.name} ${el.email} ${el.city ? ' ' + el.city : ''}${el.country ? ' ' + el.country : ''}`, value: el.id.toString() })))
         }
         if (data && location.pathname.includes('payments')) {
-            setFilteredPayments(payments ? payments?.data.map(el => ({ label: `${el.customer.name} ${el.customer.email} ${el.currency ? ' ' + el.currency : ''}${el.amount ? ' ' + Number(el.amount)/100 : ''}`, value: el.id.toString() })) : [])
+            setFilteredPayments(payments ? payments?.data.map(el => ({ label: `${el.customer.name} ${el.customer.email} ${el.currency ? ' ' + el.currency : ''}${el.amount ? ' ' + Number(el.amount) / 100 : ''}`, value: el.id.toString() })) : [])
         }
     }, [data])
+
 
     return (
         <>
@@ -64,9 +67,8 @@ function AdminLayout(props: { onBackButtonClick: () => void, navigationItems: st
                         }} src={MenuImg} alt='menu' className={styles.menu} />
                         {location.pathname.includes('clients') && <SelectSearch isSearchOpen={isSearchOpen} setSearchOpen={setSearchOpen} placeholder='Search...' img={SearchImg} search={search} setSearch={setSearch} options={filteredUsers} onOptionClick={function (value: { value: string; label: string; }): void {
                             navigate(`/clients/${value.value}`)
-
                         }} />}
-                        {location.pathname.includes('payments') && <SelectSearch isSearchOpen={isSearchOpen} setSearchOpen={setSearchOpen} placeholder='Search...' img={SearchImg} search={search} setSearch={setSearch} options={filteredPayments} onOptionClick={function (value: { value: string; label: string; }): void {
+                        {location.pathname.includes('payments') && <SelectSearch isSearchOpen={isSearchOpen} setSearchOpen={setSearchOpen} placeholder='Search...' img={SearchImg} search={searchPayments} setSearch={setSearchPayments} options={filteredPayments} onOptionClick={function (value: { value: string; label: string; }): void {
                             navigate(`/payments/${value.value}`)
 
                         }} />}
