@@ -36,17 +36,17 @@ function AdminLayout(props: { onBackButtonClick: () => void, navigationItems: st
 
     const locationData = useSelector(selectLocationsConfig)
     const { data } = useGetUsersQuery({ search: search.replace('+', '%2B') })
-    const { data: payments } = useGetPaymentsQuery({ search: searchPayments, limit: 100 })
+    const { data: payments } = useGetPaymentsQuery({ search: searchPayments.replace('+', '%2B'), limit: 100 })
 
 
     useEffect(() => {
         if (data && location.pathname.includes('clients')) {
             setFilteredUsers(data.users.map(el => ({ label: `${el.name} ${el.email} ${el.city ? ' ' + el.city : ''}${el.country ? ' ' + el.country : ''}`, value: el.id.toString() })))
         }
-        if (data && location.pathname.includes('payments')) {
-            setFilteredPayments(payments ? payments?.data.map(el => ({ label: `${el.customer.name} ${el.customer.email} ${el.currency ? ' ' + el.currency : ''}${el.amount ? ' ' + Number(el.amount) / 100 : ''}`, value: el.id.toString() })) : [])
+        if (payments && location.pathname.includes('payments')) {
+            setFilteredPayments(payments?.data.map(el => ({ label: `${el.customer.name} ${el.customer.email} ${el.currency ? ' ' + el.currency : ''}${el.amount ? ' ' + Number(el.amount) / 100 : ''}`, value: el.id.toString() })))
         }
-    }, [data])
+    }, [data, payments])
 
 
     return (
