@@ -65,7 +65,7 @@ function UserList() {
                 {!selectedUsers.length ? <SectionHeaderButton icon={PlusImg} text={'ADD USER'} clickButton={() => { navigate('/clients/registration') }} background={'#FF9700'} color={'#ffff'} /> : <></>}</>}>
                 <div className={styles.user_list__container}>
                     <TableList pageNumber={page} columns={columns}
-                        setSelected={setSelectedUsers} selected={selectedUsers} data={users.map(el => ({ id: el.id, data: [el.name, el.email, el.country, el.city, el.gender, el.role, el.plan, el.isLookingForArtist ? 'Artist' : 'Gallery'] }))} isCheckbox={true} />
+                        setSelected={setSelectedUsers} selected={selectedUsers} data={users.map(el => ({ id: el.id, data: [el.name, el.email, el.country, el.city, el.gender, el.role, el.plan, el.isLookingForArtist ? 'Artist' : el.isLookingForGallery ? 'Gallery' : el.isLookingForCollector ? 'Collector' : ''] }))} isCheckbox={true} />
                     <UsePagination items={items} />
                 </div>
 

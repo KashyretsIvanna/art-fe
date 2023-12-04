@@ -11,7 +11,7 @@ import { useGetProfilePhotoByIdQuery } from '../../../store/services/api/files/f
 function PhotoPicker({ isPremiumVisible, isStatusVisible, imagesIds, currentPosition, setCurrentPosition }: { isPremiumVisible?: boolean, isStatusVisible?: boolean, imagesIds: { id: number, order: number }[], currentPosition: number, setCurrentPosition: React.Dispatch<React.SetStateAction<number>> }) {
 
     const [file, setFile] = useState<File | null>(null)
-    const { data, error, isLoading } = useGetProfilePhotoByIdQuery({ profilePhotoId: imagesIds[currentPosition].id })
+    const { data, error, isLoading } = useGetProfilePhotoByIdQuery({ profilePhotoId: imagesIds[currentPosition]?.id })
 
     useEffect(() => {
         if (data) {
@@ -22,16 +22,16 @@ function PhotoPicker({ isPremiumVisible, isStatusVisible, imagesIds, currentPosi
 
     return (
         <div className={styles.image_picker__container}>
-            {!isLoading && currentPosition !== 0 ? <img onClick={() => { setCurrentPosition(prev => prev - 1) }} className={styles.image_picker__left} src={NavLeftIcon} /> : <div className={styles.image_picker__left}></div>}
+            {!isLoading && currentPosition !== 0 && imagesIds.length ? <img onClick={() => { setCurrentPosition(prev => prev - 1) }} className={styles.image_picker__left} src={NavLeftIcon} /> : <div className={styles.image_picker__left}></div>}
 
             {isLoading ? <div className={styles.image_picker__avatar_container}><CircularProgress color="inherit" /></div>
                 :
-                <div className={styles.image_picker__avatar_container}><img className={styles.image_picker__avatar} src={imagesIds.length && imagesIds[currentPosition] && file ? URL.createObjectURL(file)
-                    : avatar} alt='avatar' /></div>
+                imagesIds.length ? <div className={styles.image_picker__avatar_container}><img className={styles.image_picker__avatar} src={imagesIds.length && imagesIds[currentPosition] && file ? URL.createObjectURL(file)
+                    : avatar} alt='avatar' /></div> : ''
             }
-            {!isLoading && currentPosition !== imagesIds.length - 1 ? <img onClick={() => { setCurrentPosition(prev => prev + 1) }} className={styles.image_picker__right} src={NavRightIcon} /> : <div className={styles.image_picker__left}></div>}
-            {!isLoading && isStatusVisible !== false && < OnlineStatus right='42px' top='85px' />}
-            {imagesIds[currentPosition].order === 1 && isPremiumVisible !== false && < MainPhoto left='120px' top='80px' />}
+            {!isLoading && currentPosition !== imagesIds.length - 1 && imagesIds.length ? <img onClick={() => { setCurrentPosition(prev => prev + 1) }} className={styles.image_picker__right} src={NavRightIcon} /> : <div className={styles.image_picker__left}></div>}
+            {!isLoading && isStatusVisible !== false && imagesIds.length ? < OnlineStatus right='42px' top='85px' /> : ''}
+            {imagesIds[currentPosition]?.order === 1 && isPremiumVisible !== false && < MainPhoto left='120px' top='80px' />}
 
         </div>
     )

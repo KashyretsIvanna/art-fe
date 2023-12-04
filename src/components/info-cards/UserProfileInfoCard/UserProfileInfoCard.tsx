@@ -13,8 +13,8 @@ function UserProfileInfoCard({ name, userId, role, plan, imgIds, isGivePremiumOp
 
     const setMainImg = () => {
         const imgIdToSetMain = imgIds[currentPosition]
-        const newArray = imgIds.filter(el => el.id !== imgIdToSetMain.id)
-        const resultArray = [imgIdToSetMain.id, ...newArray.map(el => el.id)]
+        const newArray = imgIds.filter(el => el?.id !== imgIdToSetMain?.id)
+        const resultArray = [imgIdToSetMain.id, ...newArray.map(el => el?.id)]
         changeOrderMutation(resultArray)
     }
     useEffect(() => {
@@ -36,7 +36,7 @@ function UserProfileInfoCard({ name, userId, role, plan, imgIds, isGivePremiumOp
             <p className={styles.profile_card__name}>{name}</p>
             <p className={styles.profile_card__role}>{role}</p>
             <div className={styles.profile_card__set_main}>
-                {imgIds[currentPosition].order !== 1 ? <ReusableButton text={'Set as main image'} clickButton={function (): void {
+                {imgIds[currentPosition]?.order !== 1 && imgIds.length ? <ReusableButton text={'Set as main image'} clickButton={function (): void {
                     setMainImg()
                 }} /> : <></>}
             </div>
