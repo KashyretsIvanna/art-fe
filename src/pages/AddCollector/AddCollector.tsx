@@ -14,6 +14,7 @@ import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation
 import { useDispatch } from 'react-redux';
 import { logoutNewUser, setCollectorInfo, setRole } from '../../store/services/admin-api/user/user.slice';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
+import MainLoader from '../../components/loaders/AllPageLoader/AllPageLoader';
 
 const genders = [
     { value: GenderType.FEMALE, label: 'Female' },
@@ -28,7 +29,7 @@ function AddCollector() {
 
     const { selectedCity, cities, countries, profileDescription, age, selectedCountry, selectedGender, setAge, setCities, setCountries, setProfileDescription, setSelectedCity, setSelectedCountry, setSelectedGender } = useManageProfile()
     const { ageError, setAgeError, setCitiesError, setCountriesError, profileDescriptionError, setGenderError, genderError, citiesError, countriesError, } = useManageFormErrors()
-    const [createProfile, { data: cretedProfileData, error }] = useCreateProfileMutation()
+    const [createProfile, { data: cretedProfileData, error, isLoading }] = useCreateProfileMutation()
 
     const parseJson = async () => {
         const regionNames = new Intl.DisplayNames(
@@ -184,6 +185,8 @@ function AddCollector() {
                 </div>
                 <div className={styles.input_col_container} onClick={() => { setActiveDropdownNumber(5) }}><ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} /></div>
             </div>
+            <MainLoader isLoading={isLoading} />
+
             <NavigationSteps disabled={false} onContinue={checkFields} stepNumber={4} totalAmountSteps={6} />
         </AdminLayout>
 

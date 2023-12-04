@@ -13,6 +13,7 @@ import SectionHeaderButton from '../../components/buttons/SectionHeaderButton/Se
 import RefundIcon from '../../images/icons/refund.svg'
 import ModalLayout from '../../components/modals/ModalLaout/ModalLaout';
 import RefundInfoModal from '../../components/info-cards/RefundInfoModal/RefundInfoModal';
+import MainLoader from '../../components/loaders/AllPageLoader/AllPageLoader';
 
 export default function PaymentInfo() {
 
@@ -21,8 +22,8 @@ export default function PaymentInfo() {
     const { state } = useLocation()
 
     const [payouts, setPayouts] = useState<PaymentByIdData>()
-    const { data } = useGetPaymentByIdQuery({ payoutId: id })
-    const [refundPayment, { data: refundData }] = useRefundPaymentByIdMutation()
+    const { data, isLoading } = useGetPaymentByIdQuery({ payoutId: id })
+    const [refundPayment, { data: refundData, isLoading: isLoadingRefund }] = useRefundPaymentByIdMutation()
     const [isRefundOpen, setOsRefundOpen] = useState(false)
     useEffect(() => {
         if (refundData) {
@@ -108,6 +109,9 @@ export default function PaymentInfo() {
                 setOsRefundOpen(false)
             }} />
             }
+
+            <MainLoader isLoading={isLoading || isLoadingRefund} />
+
 
         </AdminLayout >
     )

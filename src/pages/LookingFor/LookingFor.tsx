@@ -9,13 +9,14 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
+import MainLoader from '../../components/loaders/AllPageLoader/AllPageLoader';
 
 const LookingFor = () => {
     const [checkedArtist, setCheckedArtist] = useState(false);
     const [checkedGallery, setCheckedGallery] = useState(false);
     const [checkedCollector, setCheckedCollector] = useState(false);
     const [allowedRolesToLook, setAllowedRolesToLook] = useState<string[]>([])
-    const [postLookingFor, { data: lookingForRes }] = useSetLookingForMutation()
+    const [postLookingFor, { data: lookingForRes, isLoading: isLoadingLookFor }] = useSetLookingForMutation()
     const { data, isLoading, error } = useGetNewProfileInfoQuery();
     const dispatch = useDispatch()
 
@@ -72,7 +73,7 @@ const LookingFor = () => {
                 filters: {}
             })
         }
-        
+
         dispatch(setLookingFor({ roles: lookForRoles }))
 
         if (checkedGallery && checkedArtist) {
@@ -103,6 +104,7 @@ const LookingFor = () => {
                     label="Art Dealer"
                     onChange={handleChangeCollector} error={''} />}
             </div>
+            <MainLoader isLoading={isLoading || isLoadingLookFor} />
             <NavigationSteps disabled={!checkedArtist && !checkedCollector && !checkedGallery} onContinue={() => {
                 clickButton()
             }} stepNumber={5} totalAmountSteps={6} />

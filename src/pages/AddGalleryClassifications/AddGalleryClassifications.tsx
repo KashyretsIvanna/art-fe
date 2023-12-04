@@ -12,19 +12,20 @@ import { logoutNewUser, setGalleryClassifications, setIsCreatedUserViewed } from
 import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { ProfileCreationSteps, selectLocationsConfig, setCurrentStep } from '../../store/services/application/location/location.slice';
+import MainLoader from '../../components/loaders/AllPageLoader/AllPageLoader';
 
 function AddGalleryClassifications() {
     UseManageStepsNAvigation()
 
-    const { data: galleryClassifications, error: classificationReqError } = useGetClassificationsQuery({ role: 'GALLERY' })
-    const { data: artOrientations, error: orientationsReqErr } = useGetOrientationsQuery()
-    const { data: galleryTypes, error: typesReqError } = useGetGalleryTypesQuery()
+    const { data: galleryClassifications, error: classificationReqError, isLoading: isClassificationsLoading } = useGetClassificationsQuery({ role: 'GALLERY' })
+    const { data: artOrientations, error: orientationsReqErr, isLoading: isOrientationsLoading } = useGetOrientationsQuery()
+    const { data: galleryTypes, error: typesReqError, isLoading: isGalleryTypesLoading } = useGetGalleryTypesQuery()
     const { setGalleryTypes, setClassifications, selectedOrientations, selectedGalleryTypes, setSelectedGalleryTypes, setOrientations, setSelectedOrientations, classifications, orientations, selectedClassifications, setSelectedClassifications, types } = useManageProfile()
     const { typesError, orientationsError, setErrorClassification, setOrientationsError, setTypesError, classificationsError } = useManageFormErrors()
     const { currentStep } = useSelector(selectLocationsConfig)
 
     const dispatch = useDispatch()
-    const [postLookingFor, { status, error }] = useSetLookingForMutation()
+    const [postLookingFor, { status, error, isLoading }] = useSetLookingForMutation()
 
     useEffect(() => {
         if (error || (orientationsReqErr && orientationsReqErr.status === 401) || (classificationReqError && classificationReqError.status === 401) || (typesReqError && typesReqError.status === 401)) {
@@ -194,6 +195,8 @@ function AddGalleryClassifications() {
                 </div>
 
             </div>
+            <MainLoader isLoading={isLoading || isClassificationsLoading || isGalleryTypesLoading || isOrientationsLoading} />
+
 
             <NavigationSteps disabled={false} onContinue={checkFields} stepNumber={6} totalAmountSteps={6} />
         </AdminLayout>

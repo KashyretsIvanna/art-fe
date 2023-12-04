@@ -12,15 +12,16 @@ import { useSetLookingForMutation } from '../../store/services/api/profile/profi
 import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
+import MainLoader from '../../components/loaders/AllPageLoader/AllPageLoader';
 function AddArtistClassifications() {
-    const { data: galleryClassifications, error: classificationReqError } = useGetClassificationsQuery({ role: 'ARTIST' })
+    const { data: galleryClassifications, error: classificationReqError, isLoading } = useGetClassificationsQuery({ role: 'ARTIST' })
     const { setClassifications, classifications, selectedClassifications, setSelectedClassifications } = useManageProfile()
     const { setErrorClassification, classificationsError } = useManageFormErrors()
     const newUserData = useSelector(selectAddedUserData)
     const dispatch = useDispatch()
     UseManageStepsNAvigation()
 
-    const [postLookingFor, { status, error }] = useSetLookingForMutation()
+    const [postLookingFor, { status, error, isLoading: lookingForLoading }] = useSetLookingForMutation()
 
     useEffect(() => {
         if (error || (classificationReqError && classificationReqError.status === 401)) {
@@ -106,6 +107,8 @@ function AddArtistClassifications() {
                     </div>
                 </div>
             </div>
+            <MainLoader isLoading={isLoading || lookingForLoading} />
+
 
             <NavigationSteps disabled={selectedClassifications.length === 0 || selectedClassifications.length > configJson.standard.maxClassifications} onContinue={clickButton} stepNumber={6} totalAmountSteps={6} />
         </AdminLayout>

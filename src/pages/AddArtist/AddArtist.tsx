@@ -12,12 +12,12 @@ import json from '../../shared-data/cities.json'
 import useManageProfile from '../../customHooks/useManageProfile';
 import useManageFormErrors from '../../customHooks/useManageFormErrors';
 import { useCreateProfileMutation } from '../../store/services/api/profile/profile.api';
-import { useNavigate } from 'react-router-dom';
 import configJson from '../../../plan-config.json'
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { useDispatch } from 'react-redux';
 import { logoutNewUser, setArtistInfo, setRole } from '../../store/services/admin-api/user/user.slice';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
+import MainLoader from '../../components/loaders/AllPageLoader/AllPageLoader';
 
 const genders = [
     { value: GenderType.FEMALE, label: 'Female' },
@@ -30,8 +30,8 @@ function AddArtist() {
     UseManageStepsNAvigation()
     const { selectedCity, classifications, cities, countries, profileDescription, age, selectedClassifications, selectedCountry, selectedGender, setAge, setCities, setClassifications, setCountries, setProfileDescription, setSelectedCity, setSelectedClassifications, setSelectedCountry, setSelectedGender } = useManageProfile()
     const { ageError, setAgeError, setCitiesError, setCountriesError, profileDescriptionError, setErrorClassification, setGalleryNameError, setGenderError, setOrientationsError, setProfileDescriptionError, setTypesError, genderError, classificationsError, citiesError, countriesError, } = useManageFormErrors()
-    const [createProfile, { data: cretedProfileData, error }] = useCreateProfileMutation()
-    const { data, error: classificationReqError } = useGetClassificationsQuery({ role: 'ARTIST' })
+    const [createProfile, { data: cretedProfileData, error, isLoading }] = useCreateProfileMutation()
+    const { data, error: classificationReqError, isLoading: classificationsLoading } = useGetClassificationsQuery({ role: 'ARTIST' })
     const dispatch = useDispatch()
 
 
@@ -221,6 +221,7 @@ function AddArtist() {
             </div>
             <NavigationSteps disabled={false} onContinue={checkFields} stepNumber={4} totalAmountSteps={6} />
 
+            <MainLoader isLoading={isLoading || classificationsLoading} />
 
 
         </AdminLayout>

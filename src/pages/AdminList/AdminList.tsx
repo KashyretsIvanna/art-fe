@@ -9,6 +9,7 @@ import PlusImg from '../../images/icons/plus.svg'
 import SectionHeaderButton from '../../components/buttons/SectionHeaderButton/SectionHeaderButton';
 import { useNavigate } from 'react-router-dom';
 import { useDeleteAdminMutation, useGetAdminsQuery } from '../../store/services/admin-api/admins/adminApi';
+import MainLoader from '../../components/loaders/AllPageLoader/AllPageLoader';
 
 function AdminList() {
     const [page, setPage] = useState<number>(1)
@@ -22,7 +23,7 @@ function AdminList() {
         defaultPage: 1
     });
 
-    const [deleteAdmin] = useDeleteAdminMutation()
+    const [deleteAdmin, { isLoadin: deleteIsLoading }] = useDeleteAdminMutation()
 
     useEffect(() => {
         const pageSelected = items.filter(el => el.selected === true)[0]
@@ -32,7 +33,7 @@ function AdminList() {
         }
     }, [items])
 
-    const { data } = useGetAdminsQuery({ page, take: 10 })
+    const { data, isLoading } = useGetAdminsQuery({ page, take: 10 })
     useEffect(() => {
         if (data) {
             setAdmins(data.admins)
@@ -59,9 +60,11 @@ function AdminList() {
                 {!selectedUsers.length ? <SectionHeaderButton icon={PlusImg} text={'ADD ADMIN'} clickButton={() => { navigate('/admins/registration') }} background={'#FF9700'} color={'#ffff'} /> : <></>}</>}>
                 <div className={styles.user_list__container}>
                     <TableList isCheckbox={true} columns={columns}
-                        setSelected={setSelectedUsers} selected={selectedUsers} data={admins.map(el => ({ id: el.id, data: [el.name, el.email,''] }))} />
+                        setSelected={setSelectedUsers} selected={selectedUsers} data={admins.map(el => ({ id: el.id, data: [el.name, el.email, ''] }))} />
                     <UsePagination items={items} />
                 </div>
+                <MainLoader isLoading={isLoading || deleteIsLoading} />
+
 
             </AdminLayout>
 

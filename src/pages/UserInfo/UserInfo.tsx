@@ -20,6 +20,7 @@ import { logoutNewUser, selectAddedUserData, setIsCreatedUserViewed } from '../.
 import useManageProfile from '../../customHooks/useManageProfile';
 import DeleteIcon from '../../images/icons/delete.svg'
 import { useGetUserByIdQuery, useUpdateUserByIdMutation, useUpdateUserProfileByIdMutation } from '../../store/services/api/profile/profile.api';
+import MainLoader from '../../components/loaders/AllPageLoader/AllPageLoader';
 
 function UserInfo() {
     const params = useParams()
@@ -208,7 +209,7 @@ function UserInfo() {
             </div> : <>User not found</>}
 
             <div style={{ color: 'red' }}>{error}</div>
-
+            <MainLoader isLoading={isLoading || updatedUserDataLoading || updatedUserProfileDataLoading} />
         </AdminLayout>
 
     )

@@ -8,6 +8,7 @@ import { PaymentListRes, useGetPaymentsQuery } from '../../store/services/admin-
 import UnknownAmountPag from '../../components/pagination/UnknownAmountPagination/UnknownAmountPagination';
 import StatusDesign from '../../components/badges/StatusDesign/StatusDesign';
 import { useLocation } from 'react-router-dom';
+import MainLoader from '../../components/loaders/AllPageLoader/AllPageLoader';
 
 
 function ListOfPayments() {
@@ -19,10 +20,11 @@ function ListOfPayments() {
     const [selectedUsers, setSelectedUsers] = useState<number[]>([])
     const [selectedPayments, setSelectedPayments] = useState<number[]>([])
     const location = useLocation()
-    const { data } = useGetPaymentsQuery({ limit: 10, startAfter: startAfter && startAfter.length ? startAfter[startAfter?.length - 1] : undefined })
+    const { data, isLoading } = useGetPaymentsQuery({ limit: 10, startAfter: startAfter && startAfter.length ? startAfter[startAfter?.length - 1] : undefined })
 
     useEffect(() => {
         if (data) {
+            
             const res = data.data.map(el => {
                 const firstLetter = el.status.charAt(0)
 
@@ -92,7 +94,7 @@ function ListOfPayments() {
         }
 
     }, [location.state?.startAfter, location.state?.tab, location.state?.pagePayouts])
-    
+
     return (
         <AdminLayout isBackButtonVisible={true} navigationItems={['List of payments']} pageHeader='Payments' headerRight={<>
         </>}>
@@ -112,6 +114,8 @@ function ListOfPayments() {
                     </>
                 }
             </div>
+            <MainLoader isLoading={isLoading ||payoutsLoading} />
+
 
         </AdminLayout>
     )

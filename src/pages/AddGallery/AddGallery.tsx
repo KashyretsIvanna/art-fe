@@ -16,15 +16,16 @@ import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation
 import { useDispatch } from 'react-redux';
 import { logoutNewUser, setGalleryInfo, setRole } from '../../store/services/admin-api/user/user.slice';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
+import MainLoader from '../../components/loaders/AllPageLoader/AllPageLoader';
 
 function AddGallery() {
-    const { data: galleryClassifications, error: classificationReqError } = useGetClassificationsQuery({ role: 'GALLERY' })
-    const { data: artOrientations, error: orientationsReqErr } = useGetOrientationsQuery()
-    const { data: galleryTypes, error: typesReqError } = useGetGalleryTypesQuery()
+    const { data: galleryClassifications, error: classificationReqError, isLoading: isClassificationsLoading } = useGetClassificationsQuery({ role: 'GALLERY' })
+    const { data: artOrientations, error: orientationsReqErr, isLoading: isOrientationsLoading } = useGetOrientationsQuery()
+    const { data: galleryTypes, error: typesReqError, isLoading: isTypesLoading } = useGetGalleryTypesQuery()
     const { selectedCity, cities, setGalleryTypes, setClassifications, countries, profileDescription, selectedCountry, selectedOrientations, selectedGalleryTypes, setCities, setCountries, setProfileDescription, setSelectedCity, setSelectedCountry, setGalleryName, setSelectedGalleryTypes, setOrientations, setSelectedOrientations, classifications, orientations, galleryName, selectedClassifications, setSelectedClassifications, types } = useManageProfile()
     const { setCitiesError, setCountriesError, galleryNameError,
         typesError, orientationsError, profileDescriptionError, setErrorClassification, setGalleryNameError, setGenderError, setOrientationsError, setProfileDescriptionError, setTypesError, genderError, classificationsError, citiesError, countriesError, } = useManageFormErrors()
-    const [createProfile, { data: cretedProfileData, error }] = useCreateProfileMutation()
+    const [createProfile, { data: cretedProfileData, error, isLoading }] = useCreateProfileMutation()
     const parseJson = async () => {
         const regionNames = new Intl.DisplayNames(
             ['en'], { type: 'region' }
@@ -296,6 +297,8 @@ function AddGallery() {
             <div className={styles.inputs_container__textarea} onClick={() => { setActiveDropdownNumber(7) }}>
                 <ReusableTextArea error={profileDescriptionError} label={'Profile description'} data={profileDescription} setData={setProfileDescription} placeholder={'Text here...'} />
             </div>
+            <MainLoader isLoading={isLoading || isClassificationsLoading || isOrientationsLoading || isTypesLoading} />
+
             <NavigationSteps disabled={false} onContinue={checkFields} stepNumber={4} totalAmountSteps={6} />
         </AdminLayout>
 

@@ -9,6 +9,7 @@ import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation
 import { useDispatch } from 'react-redux';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
 import { logoutNewUser } from '../../store/services/admin-api/user/user.slice';
+import MainLoader from '../../components/loaders/AllPageLoader/AllPageLoader';
 
 
 function AddPhotos() {
@@ -17,11 +18,13 @@ function AddPhotos() {
     const [openedPhoto, setOpenedPhoto] = useState<string | undefined>()
     const [isButtonDisabled, setButtonDisabled] = useState(true)
     const [photoList, setPhotoList] = useState<{ file: (Blob | MediaSource) | null, order: number }[]>([])
-    const [addPhoto, { error, status }] = useAddPhotosMutation()
+    const [addPhoto] = useAddPhotosMutation()
     const dispatch = useDispatch()
+    const [isLoading, setIsLoading] = useState(false)
     const [photosError, setPhotosError] = useState('')
 
     const clickButton = async () => {
+        setIsLoading(true)
         const results: any = []
         for (const el of photoList) {
             if (el.file) {
@@ -31,7 +34,7 @@ function AddPhotos() {
         }
 
         if (results.some(el => el.error && el.error.status === 413)) {
-                setPhotosError('Photos are too large')
+            setPhotosError('Photos are too large')
         }
 
         if (results.some(el => el.error && el.error.status !== 413)) {
@@ -42,6 +45,8 @@ function AddPhotos() {
         if (!results.some(el => el.error)) {
             dispatch(setCurrentStep({ currentStep: ProfileCreationSteps.CHOOSE_ROLE }))
         }
+
+        setIsLoading(false)
     }
 
     useEffect(() => {
@@ -67,6 +72,8 @@ function AddPhotos() {
                 <GridPhotoContainer setPhotoToOpen={setOpenedPhoto} setPhotoList={setPhotoList} /></div>
 
             <div className={styles.add_photos__error}>{photosError}</div>
+            <MainLoader isLoading={isLoading} />
+
             <NavigationSteps disabled={isButtonDisabled} onContinue={() => {
                 clickButton()
             }} stepNumber={2} totalAmountSteps={6} />

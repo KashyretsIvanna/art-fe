@@ -10,13 +10,14 @@ import { useLoginUserMutation } from '../../store/services/admin-api/auth/auth.a
 import { setUser } from '../../store/services/admin-api/auth/auth.slice';
 import { routes } from '../../store/constants';
 import logo from '../../images/logo_2.svg'
+import MainLoader from '../../components/loaders/AllPageLoader/AllPageLoader';
 function Login() {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [loginUser, { data: loginData, isSuccess: isLoginSuccess, isError }] =
+    const [loginUser, { data: loginData, isSuccess: isLoginSuccess, isLoading, isError }] =
         useLoginUserMutation();
 
     const clickButton = async () => {
@@ -52,6 +53,8 @@ function Login() {
                 <BigButton text='Log in' clickButton={() => clickButton()} />
             </div>
             <div className={styles.login__footer}><div className={styles.login__footer_text}>Copyright © 2023 ART Dating Company S.L. All rights reserved.</div></div>
+
+            <MainLoader isLoading={isLoading} />
 
         </div>
 

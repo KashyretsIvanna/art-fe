@@ -13,6 +13,7 @@ import { useRegisterNewUserMutation } from '../../store/services/api/profile/pro
 import { selectAddedUserData, selectNewUserAuthToken, setNewUser } from '../../store/services/admin-api/user/user.slice';
 import UseManageStepsNAvigation from '../../customHooks/useManageStepsNavigation';
 import { ProfileCreationSteps, setCurrentStep } from '../../store/services/application/location/location.slice';
+import MainLoader from '../../components/loaders/AllPageLoader/AllPageLoader';
 
 function LoginNewUser() {
     if (!location.pathname.includes('admin')) {
@@ -31,9 +32,9 @@ function LoginNewUser() {
     const newUserData = useSelector(selectAddedUserData)
     const authData = useSelector(selectNewUserAuthToken)
 
-    const [registerNewUser, { data: registerData, isSuccess: isRegisterSuccess, error: registrationError }] =
+    const [registerNewUser, { data: registerData, isLoading, isSuccess: isRegisterSuccess, error: registrationError }] =
         useRegisterNewUserMutation();
-    const [registerNewAdmin, { data: registerAdminData, isSuccess: isAdminRegSuccessful, error: adminRegistrationError }] =
+    const [registerNewAdmin, { data: registerAdminData, isLoading: isLoadingAdmin, isSuccess: isAdminRegSuccessful, error: adminRegistrationError }] =
         useRegisterNewAdminMutation();
 
 
@@ -94,6 +95,7 @@ function LoginNewUser() {
                 <InputWithImage type='password' isError={isPasswordError} imgHEight='16px' imgWidth='16px' data={password} setData={setPassword} placeholder='Password' img={passwordIcon} marginTop={'22px'} marginLeft={'11px'} />
                 <p className={styles.login__error_massage}>{error}</p>
             </div>
+            <MainLoader isLoading={isLoading || isLoadingAdmin} />
 
             <NavigationSteps onContinue={() => {
                 clickButton()
