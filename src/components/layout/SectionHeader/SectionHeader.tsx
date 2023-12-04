@@ -7,8 +7,8 @@ function SectionHeader({ text }: { text: string }) {
 
     return (
         <div className={styles.section_header}>
-            <img src={SectionRectangle} className={styles.section_header__rectangular} alt='rectangular' />
-            <div className={styles.section_header__text}>{text}</div>
+            {text ? <><img src={SectionRectangle} className={styles.section_header__rectangular} alt='rectangular' />
+                <div className={styles.section_header__text}>{text}</div></> : <></>}
 
         </div>
 
