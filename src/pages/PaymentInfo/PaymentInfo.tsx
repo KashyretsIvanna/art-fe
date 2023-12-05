@@ -69,12 +69,12 @@ export default function PaymentInfo() {
         }} isBackButtonVisible={true} navigationItems={['List of payments']} pageHeader='Payment' headerRight={<>
         </>}>
 
-            <div className={styles.payment_details__header}>          <div><span className={styles.payment_details__amount}>{`US$ ` + (payouts?.amount / 100).toFixed(2)}</span><div className={styles.payment_details__currency}>{payouts?.currency.toUpperCase()}</div><div className={styles.payment_details__status}> <StatusDesign text={payouts ? payouts.status : ''} /></div></div>             {payouts && payouts.amount / 100 - payouts.latest_charge.amount_refunded / 100 > 0 ? <SectionHeaderButton icon={RefundIcon} text={'Refund'} clickButton={() => { setOsRefundOpen(true) }} background={'#399CFF'} color={'#fffff'} /> : <></>}
+            <div className={styles.payment_details__header}>          <div><span className={styles.payment_details__amount}>{`US$ ` + (payouts?.amount / 100).toFixed(2)}</span><div className={styles.payment_details__currency}>{payouts?.currency.toUpperCase()}</div><div className={styles.payment_details__status}> <StatusDesign text={payouts ? payouts.status : ''} /></div></div>             {payouts && payouts.amount / 100 - payouts.latest_charge?.amount_refunded / 100 > 0 ? <SectionHeaderButton icon={RefundIcon} text={'Refund'} clickButton={() => { setOsRefundOpen(true) }} background={'#399CFF'} color={'#fffff'} /> : <></>}
 
             </div>
             <div className={styles.user_list__container}>
                 {payouts ? <TableList isCheckbox={false} columns={columns}
-                    data={[{ id: payouts.id, data: ['', formatDate(new Date(payouts.created * 1000)), payouts?.customer?.name, <><img src={visaIcon} />****{payouts.payment_method.card.last4}</>, payouts?.customer?.email] }]} /> : <></>}
+                    data={[{ id: payouts.id, data: ['', formatDate(new Date(payouts.created * 1000)), payouts?.customer?.name, <><img src={visaIcon} />****{payouts.payment_method?.card.last4}</>, payouts?.customer?.email] }]} /> : <></>}
 
                 <div className={styles.payment_details}>
                     <SectionLine />
