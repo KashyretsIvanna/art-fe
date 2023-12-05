@@ -10,10 +10,12 @@ import { RootState } from '../../../store';
 
 export interface AuthState {
   access_token: string;
+  refresh_token: string;
 }
 
 const initialState: AuthState = {
   access_token: '',
+  refresh_token: '',
 };
 
 const authSlice = createSlice({
@@ -24,13 +26,17 @@ const authSlice = createSlice({
       state,
       action: PayloadAction<{
         access_token: string;
+        refresh_token: string;
       }>,
     ) {
       state.access_token =
         action.payload?.access_token;
+      state.refresh_token =
+        action.payload?.refresh_token;
     },
     logout: (state) => {
       state.access_token = '';
+      state.refresh_token = '';
     },
   },
 });
@@ -38,7 +44,7 @@ const authSlice = createSlice({
 const authPersistConfig = {
   key: 'user',
   storage,
-  whitelist: ['access_token'],
+  whitelist: ['access_token', 'refresh_token'],
 };
 
 export const persistedAuthReducer =
@@ -55,3 +61,7 @@ export const authReducer = authSlice.reducer;
 export const selectAuthToken = (
   state: RootState,
 ) => state.user?.access_token;
+
+export const selectAuthRefreshToken = (
+  state: RootState,
+) => state.user?.refresh_token;

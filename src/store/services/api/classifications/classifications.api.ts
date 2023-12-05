@@ -1,30 +1,13 @@
 /** @format */
 
-import {
-  createApi,
-  fetchBaseQuery,
-} from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { ApiRoutes } from '../../../constants';
-import { RootState } from '../../../store';
 import { baseApiUrl } from '../../../constants/api.constants';
+import customFetchApiBase from '../../../middlewares/customFetchBaseQueryApi';
 
 export const classificationsApi = createApi({
   reducerPath: 'classificationsApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: baseApiUrl + '/api',
-    prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).user
-        ?.access_token;
-      if (token) {
-        headers.set(
-          'authorization',
-          `Bearer ${token}`,
-        );
-      }
-
-      return headers;
-    },
-  }),
+  baseQuery: customFetchApiBase,
   endpoints: (builder) => ({
     getClassifications: builder.query<
       {
@@ -34,7 +17,10 @@ export const classificationsApi = createApi({
       { role: string }
     >({
       query: (body: { role: string }) => ({
-        url: ApiRoutes.ART_CLASSIFICATION,
+        url:
+          baseApiUrl +
+          '/api' +
+          ApiRoutes.ART_CLASSIFICATION,
         method: 'POST',
         body,
       }),
@@ -48,7 +34,10 @@ export const classificationsApi = createApi({
       void
     >({
       query: () => ({
-        url: ApiRoutes.ART_ORIENTATION,
+        url:
+          baseApiUrl +
+          '/api' +
+          ApiRoutes.ART_ORIENTATION,
         method: 'GET',
       }),
       keepUnusedDataFor: 0.0001,
@@ -61,7 +50,10 @@ export const classificationsApi = createApi({
       void
     >({
       query: () => ({
-        url: ApiRoutes.GALLERY_TYPE,
+        url:
+          baseApiUrl +
+          '/api' +
+          ApiRoutes.GALLERY_TYPE,
         method: 'GET',
       }),
       keepUnusedDataFor: 0.0001,

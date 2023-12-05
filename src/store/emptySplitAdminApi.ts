@@ -1,33 +1,12 @@
 /** @format */
 
-import queryString from 'query-string';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-import {
-  BaseQueryFn,
-  createApi,
-  FetchArgs,
-  fetchBaseQuery,
-} from '@reduxjs/toolkit/query/react';
-
-import { ApiError } from './types/error.types';
-import { getAdminHeaders } from './utils/api';
 import { apiTags } from './constants';
-import { baseAdminApiUrl } from './constants/api.constants';
+import customFetchBase from './middlewares/customFetchBaseQuery';
 export const emptySplitAdminApi = createApi({
   reducerPath: 'emptySplitAdminApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: baseAdminApiUrl + '/api',
-    prepareHeaders: getAdminHeaders(),
-    paramsSerializer: (params) => {
-      return queryString.stringify(params, {
-        arrayFormat: 'bracket',
-      });
-    },
-  }) as BaseQueryFn<
-    string | FetchArgs,
-    unknown,
-    ApiError
-  >,
+  baseQuery: customFetchBase,
   endpoints: () => ({}),
   tagTypes: Object.values(apiTags),
 });

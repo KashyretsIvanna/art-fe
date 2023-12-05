@@ -28,6 +28,7 @@ export interface AddUserState {
   createdUserId: number | null;
   isCreatedUserViewed: boolean;
   added_user_access_token: null | string;
+  added_user_refresh_token: null | string;
 }
 
 export interface ArtistInfo {
@@ -90,6 +91,7 @@ const initialState: AddUserState = {
   createdUserId: null,
   isCreatedUserViewed: true,
   added_user_access_token: null,
+  added_user_refresh_token: null,
 };
 
 const userSlice = createSlice({
@@ -186,16 +188,22 @@ const userSlice = createSlice({
       state,
       action: PayloadAction<{
         added_user_access_token: string;
-        createdUserId: number;
+        createdUserId?: number;
+        added_user_refresh_token: string;
       }>,
     ) {
       state.added_user_access_token =
         action.payload.added_user_access_token;
-      state.createdUserId =
-        action.payload.createdUserId;
+      state.added_user_refresh_token =
+        action.payload.added_user_refresh_token;
+      if (action.payload.createdUserId) {
+        state.createdUserId =
+          action.payload.createdUserId;
+      }
     },
     logoutNewUser: (state) => {
       state.added_user_access_token = '';
+      state.added_user_refresh_token = '';
       state.role = null;
       state.lat = null;
       state.lng = null;

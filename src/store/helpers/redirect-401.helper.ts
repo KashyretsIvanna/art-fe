@@ -6,9 +6,9 @@ export const redirectOnUnAuthorized = (data: {
   status: number;
 }) => {
   if (data.status == 401) {
-    window.location.replace(
-      `${baseAdminUrl}/login`,
-    );
+    // window.location.replace(
+    //   `${baseAdminUrl}/login`,
+    // );
   }
 };
 

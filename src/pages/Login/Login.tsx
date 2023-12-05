@@ -26,7 +26,7 @@ function Login() {
 
     useEffect(() => {
         if (isLoginSuccess) {
-            dispatch(setUser({ access_token: loginData.accessToken }));
+            dispatch(setUser({ access_token: loginData.accessToken, refresh_token: loginData.refreshToken }));
             navigate(routes.listOfUsers);
         }
     })

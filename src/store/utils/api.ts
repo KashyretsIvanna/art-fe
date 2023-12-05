@@ -16,6 +16,10 @@ export const getHeaders = (): ((
   ): MaybePromise<void | Headers> | undefined => {
     const token = (api.getState() as RootState)
       .addedUser.added_user_access_token;
+
+    const token2 = (api.getState() as RootState)
+      .user.access_token;
+
     if (
       token &&
       api.endpoint !== 'registerNewUser' &&
@@ -27,6 +31,11 @@ export const getHeaders = (): ((
       headers.set(
         'Authorization',
         `Bearer ${token}`,
+      );
+    } else {
+      headers.set(
+        'Authorization',
+        `Bearer ${token2}`,
       );
     }
 
@@ -46,6 +55,7 @@ export const getAdminHeaders = (): ((
   ): MaybePromise<void | Headers> | undefined => {
     const token = (api.getState() as RootState)
       .user?.access_token;
+
     if (token) {
       headers.set(
         'Authorization',

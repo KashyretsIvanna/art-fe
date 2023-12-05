@@ -1,35 +1,12 @@
 /** @format */
 
-import queryString from 'query-string';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-import {
-  BaseQueryFn,
-  createApi,
-  FetchArgs,
-  fetchBaseQuery,
-} from '@reduxjs/toolkit/query/react';
-
-import { ApiError } from './types/error.types';
-import { getHeaders } from './utils/api';
 import { apiTags } from './constants';
+import customFetchApiBase from './middlewares/customFetchBaseQueryApi';
 export const emptySplitApi = createApi({
   reducerPath: 'emptySplitApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: '',
-    prepareHeaders: getHeaders(),
-    paramsSerializer: (params) => {
-      return queryString.stringify(params, {
-        arrayFormat: 'bracket',
-      });
-    },
-  }) as BaseQueryFn<
-    string | FetchArgs,
-    unknown,
-    ApiError
-  >,
+  baseQuery: customFetchApiBase,
   tagTypes: Object.values(apiTags),
-  endpoints: () => ({
-    
-  }),
-  
+  endpoints: () => ({}),
 });

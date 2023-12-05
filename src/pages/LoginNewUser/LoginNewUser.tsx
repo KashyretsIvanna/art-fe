@@ -69,7 +69,7 @@ function LoginNewUser() {
 
     useEffect(() => {
         if (isRegisterSuccess) {
-            dispatch(setNewUser({ added_user_access_token: registerData.tokens.accessToken, createdUserId: registerData.id }));
+            dispatch(setNewUser({ added_user_access_token: registerData.tokens.accessToken, createdUserId: registerData.id , added_user_refresh_token:registerData.tokens.refreshToken}));
         }
 
     }, [isRegisterSuccess, registerData])

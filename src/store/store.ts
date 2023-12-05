@@ -29,7 +29,6 @@ export const store = configureStore({
       userAuthApi.reducer,
     [classificationsApi.reducerPath]:
       classificationsApi.reducer,
-    [filesApi.reducerPath]: filesApi.reducer,
     user: persistedAuthReducer,
     location: persistedLocationReducer,
     addedUser: persistedAddUserReducer,
@@ -52,7 +51,6 @@ export const store = configureStore({
       },
     }).concat(
       userAuthApi.middleware,
-      filesApi.middleware,
       emptySplitAdminApi.middleware,
       emptySplitApi.middleware,
       classificationsApi.middleware,
